@@ -28,49 +28,49 @@ export const StepCard: React.FC<StepCardProps> = ({
 
   const badgeColor =
     badgeType === "success"
-      ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/30"
+      ? "bg-[#1c2420] text-emerald-400 border-emerald-800/60"
       : badgeType === "warning"
-      ? "bg-amber-500/10 text-amber-400 border-amber-500/30"
+      ? "bg-[#252219] text-amber-400 border-amber-800/60"
       : badgeType === "purple"
-      ? "bg-purple-500/10 text-purple-400 border-purple-500/30"
-      : "bg-indigo-500/10 text-indigo-400 border-indigo-500/30";
+      ? "bg-[#211e28] text-purple-300 border-purple-800/60"
+      : "bg-[#1e232b] text-neutral-300 border-neutral-700";
 
   return (
-    <div className="border border-slate-800 rounded-xl bg-slate-900/70 overflow-hidden shadow-md transition-all hover:border-slate-700/80">
+    <div className="border border-[#262c36] bg-[#15191f] rounded">
       {/* Header */}
       <div
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center justify-between p-4 cursor-pointer select-none bg-slate-900/90 hover:bg-slate-800/60 transition-colors border-b border-slate-800/60"
+        className="flex items-center justify-between p-3.5 cursor-pointer select-none bg-[#111418] hover:bg-[#181c22] transition-colors border-b border-[#262c36]"
       >
-        <div className="flex items-center gap-3">
-          <div className="w-7 h-7 rounded-lg bg-indigo-600/20 text-indigo-400 border border-indigo-500/30 flex items-center justify-center font-bold text-xs font-mono">
+        <div className="flex items-center gap-2.5">
+          <div className="w-6 h-6 rounded bg-[#1e232b] text-neutral-300 border border-[#2a313d] flex items-center justify-center font-bold text-xs font-mono">
             {stepNumber}
           </div>
           <div>
             <div className="flex items-center gap-2 flex-wrap">
-              <h4 className="text-sm font-bold text-white tracking-tight">{title}</h4>
+              <h4 className="text-xs font-bold text-white tracking-tight">{title}</h4>
               {formula && (
-                <span className="font-mono text-xs px-2 py-0.5 rounded bg-slate-950 border border-slate-800 text-slate-300">
+                <span className="font-mono text-[11px] px-1.5 py-0.2 rounded bg-[#181c22] border border-[#2e3542] text-neutral-300">
                   {formula}
                 </span>
               )}
               {badge && (
-                <span className={`text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded border ${badgeColor}`}>
+                <span className={`text-[10px] font-mono uppercase tracking-wider px-1.5 py-0.2 rounded border ${badgeColor}`}>
                   {badge}
                 </span>
               )}
             </div>
-            {subtitle && <p className="text-xs text-slate-400 mt-0.5">{subtitle}</p>}
+            {subtitle && <p className="text-[11px] text-neutral-400 mt-0.5">{subtitle}</p>}
           </div>
         </div>
 
-        <button className="text-slate-400 hover:text-white p-1 rounded transition-colors">
+        <button className="text-neutral-400 hover:text-white p-0.5 transition-colors">
           {isOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
         </button>
       </div>
 
       {/* Body */}
-      {isOpen && <div className="p-4 sm:p-5 space-y-4">{children}</div>}
+      {isOpen && <div className="p-4 space-y-3.5">{children}</div>}
     </div>
   );
 };

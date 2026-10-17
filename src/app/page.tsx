@@ -15,7 +15,7 @@ export default function Home() {
   const [isAboutOpen, setIsAboutOpen] = useState<boolean>(false);
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-950 text-slate-100">
+    <div className="min-h-screen flex flex-col bg-[#111418] text-neutral-100">
       {/* Top Navigation Bar with Embedded Author Metadata */}
       <Navbar
         activeTab={activeTab}
@@ -24,7 +24,7 @@ export default function Home() {
       />
 
       {/* Main Dynamic Workspace Area */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 py-8">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 py-6">
         {activeTab === "spl-adjoin" && <TabSPLAdjoin />}
         {activeTab === "hill-cipher" && <TabHillCipher />}
         {activeTab === "live-challenge" && <TabLiveChallenge />}

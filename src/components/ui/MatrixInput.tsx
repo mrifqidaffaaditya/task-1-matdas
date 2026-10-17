@@ -20,7 +20,6 @@ export const MatrixInput: React.FC<MatrixInputProps> = ({
   const n = matrix.length;
 
   const handleCellChange = (rowIndex: number, colIndex: number, valueStr: string) => {
-    // Allow empty string or minus sign during typing
     const val = valueStr === "" || valueStr === "-" ? 0 : parseFloat(valueStr) || 0;
     const newMatrix = matrix.map((row, r) =>
       row.map((cell, c) => (r === rowIndex && c === colIndex ? val : cell))
@@ -29,20 +28,20 @@ export const MatrixInput: React.FC<MatrixInputProps> = ({
   };
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-1.5">
       <div className="flex items-center justify-between">
         <div>
-          <span className="text-xs font-bold text-slate-200 tracking-wide">{label}</span>
-          {subLabel && <span className="ml-2 text-[11px] text-slate-400">({subLabel})</span>}
+          <span className="text-xs font-bold text-neutral-200 tracking-wide">{label}</span>
+          {subLabel && <span className="ml-2 text-[11px] text-neutral-400 font-sans">({subLabel})</span>}
         </div>
-        <span className="text-[11px] font-mono text-indigo-400 bg-indigo-950/60 border border-indigo-800/40 px-2 py-0.5 rounded">
+        <span className="text-[10px] font-mono text-neutral-300 bg-[#1e232b] border border-[#2a313d] px-1.5 py-0.5 rounded-sm">
           {n} × {n}
         </span>
       </div>
 
-      <div className="matrix-bracket bg-slate-900/80 rounded-lg border border-slate-800/80 p-3 shadow-inner inline-block w-full">
+      <div className="matrix-bracket bg-[#111418] border border-[#262c36] p-2.5 inline-block w-full">
         <div
-          className="grid gap-2"
+          className="grid gap-1.5"
           style={{
             gridTemplateColumns: `repeat(${n}, minmax(0, 1fr))`,
           }}
@@ -50,7 +49,7 @@ export const MatrixInput: React.FC<MatrixInputProps> = ({
           {matrix.map((row, r) =>
             row.map((val, c) => (
               <div key={`${r}-${c}`} className="relative group">
-                <div className="absolute -top-1.5 left-2 text-[9px] font-mono text-slate-500 pointer-events-none">
+                <div className="absolute -top-1.5 left-1 text-[8px] font-mono text-neutral-500 pointer-events-none">
                   [{r + 1},{c + 1}]
                 </div>
                 <input
@@ -58,7 +57,7 @@ export const MatrixInput: React.FC<MatrixInputProps> = ({
                   value={val}
                   disabled={disabled}
                   onChange={(e) => handleCellChange(r, c, e.target.value)}
-                  className="w-full text-center bg-slate-950/90 hover:bg-slate-950 text-white font-mono text-sm border border-slate-700/80 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 rounded-md py-2 px-1 transition-all outline-none disabled:opacity-50"
+                  className="w-full text-center bg-[#181c22] text-white font-mono text-xs border border-[#2e3542] hover:border-neutral-500 focus:border-neutral-300 py-1.5 px-1 outline-none disabled:opacity-50 transition-colors"
                 />
               </div>
             ))

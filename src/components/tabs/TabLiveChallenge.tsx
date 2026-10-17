@@ -11,9 +11,7 @@ import {
   RotateCcw,
   Sparkles,
   CheckCircle2,
-  AlertTriangle,
   Clock,
-  Layers,
 } from "lucide-react";
 import { MatrixInput } from "../ui/MatrixInput";
 import { VectorInput } from "../ui/VectorInput";
@@ -29,7 +27,6 @@ export const TabLiveChallenge: React.FC = () => {
   ]);
   const [vectorB, setVectorB] = useState<number[]>([9, 6, 8]);
 
-  // Reveal step indices: 0 = none, 1 = det, 2 = minor, 3 = cofactor, 4 = adjoin, 5 = inv, 6 = solution
   const [revealStep, setRevealStep] = useState<number>(0);
 
   // Stopwatch for the 25-minute challenge session
@@ -77,7 +74,7 @@ export const TabLiveChallenge: React.FC = () => {
 
     setMatrixA(newA);
     setVectorB(newB);
-    setRevealStep(0); // Reset reveal on new matrix
+    setRevealStep(0);
   };
 
   const handleDimensionChange = (n: number) => {
@@ -115,64 +112,64 @@ export const TabLiveChallenge: React.FC = () => {
   ];
 
   return (
-    <div className="space-y-6 animate-fade-in">
+    <div className="space-y-4">
       {/* Header Banner */}
-      <div className="p-5 rounded-2xl bg-gradient-to-r from-slate-900 via-amber-950/40 to-slate-900 border border-slate-800 shadow-lg">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="p-4 rounded bg-[#15191f] border border-[#262c36]">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
           <div>
-            <div className="flex items-center gap-2 text-amber-400 text-xs font-semibold uppercase tracking-wider mb-1">
-              <Dices className="w-4 h-4" />
+            <div className="flex items-center gap-1.5 text-neutral-400 text-xs font-semibold uppercase tracking-wider mb-1">
+              <Dices className="w-3.5 h-3.5 text-neutral-400" />
               <span>Simulasi Ujian Lisan & Rubrik Penilaian (25 Menit)</span>
             </div>
-            <h2 className="text-xl font-bold text-white tracking-tight">
+            <h2 className="text-base font-bold text-white tracking-tight">
               Mode &quot;Live Challenge&quot; Dosen (Real-Time Arena)
             </h2>
-            <p className="text-xs text-slate-400 mt-1">
+            <p className="text-xs text-neutral-400 mt-0.5">
               Dirancang untuk menguji matriks acak secara interaktif dengan kontrol buka-tutup bertahap (*reveal mode*) saat menghitung di papan tulis.
             </p>
           </div>
 
           {/* 25-Minute Session Timer */}
-          <div className="flex items-center gap-3 bg-slate-950 p-2.5 rounded-xl border border-slate-800">
-            <Clock className="w-5 h-5 text-amber-400" />
+          <div className="flex items-center gap-2.5 bg-[#111418] p-2 rounded border border-[#262c36]">
+            <Clock className="w-4 h-4 text-neutral-400" />
             <div className="text-center font-mono">
-              <div className="text-lg font-bold text-white">{formatTimer(timerSeconds)}</div>
-              <div className="text-[9px] uppercase tracking-wider text-slate-500">Sisa Waktu Sesi</div>
+              <div className="text-base font-bold text-white">{formatTimer(timerSeconds)}</div>
+              <div className="text-[9px] uppercase tracking-wider text-neutral-500">Sisa Sesi</div>
             </div>
-            <div className="flex items-center gap-1 pl-2 border-l border-slate-800">
+            <div className="flex items-center gap-1 pl-2 border-l border-[#262c36]">
               <button
                 onClick={() => setIsTimerRunning(!isTimerRunning)}
-                className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 transition-colors"
-                title={isTimerRunning ? "Pause Timer" : "Start Timer"}
+                className="p-1 rounded bg-[#181c22] hover:bg-[#202630] text-neutral-300 transition-colors"
+                title={isTimerRunning ? "Pause" : "Start"}
               >
-                {isTimerRunning ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
+                {isTimerRunning ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
               </button>
               <button
                 onClick={() => {
                   setIsTimerRunning(false);
                   setTimerSeconds(25 * 60);
                 }}
-                className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors"
-                title="Reset 25 Menit"
+                className="p-1 rounded bg-[#181c22] hover:bg-[#202630] text-neutral-400 hover:text-white transition-colors"
+                title="Reset"
               >
-                <RotateCcw className="w-4 h-4" />
+                <RotateCcw className="w-3.5 h-3.5" />
               </button>
             </div>
           </div>
         </div>
 
         {/* Action Controls Toolbar */}
-        <div className="mt-4 pt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-3">
-          <div className="flex items-center gap-2">
-            <span className="text-xs text-slate-400">Dimensi:</span>
+        <div className="mt-3 pt-3 border-t border-[#262c36] flex flex-wrap items-center justify-between gap-2.5">
+          <div className="flex items-center gap-1.5">
+            <span className="text-xs text-neutral-400">Dimensi:</span>
             {[3, 4].map((n) => (
               <button
                 key={n}
                 onClick={() => handleDimensionChange(n)}
-                className={`px-3 py-1 rounded-lg text-xs font-mono font-bold transition-all ${
+                className={`px-2.5 py-1 rounded text-xs font-mono font-bold transition-colors ${
                   dimension === n
-                    ? "bg-amber-600 text-white"
-                    : "bg-slate-950 border border-slate-800 text-slate-400 hover:text-white"
+                    ? "bg-[#252c38] text-white border border-neutral-600"
+                    : "bg-[#111418] border border-[#262c36] text-neutral-400 hover:text-white"
                 }`}
               >
                 {n} × {n}
@@ -181,35 +178,35 @@ export const TabLiveChallenge: React.FC = () => {
 
             <button
               onClick={handleGenerateRandomMatrix}
-              className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-amber-500/10 text-amber-400 hover:bg-amber-500/20 border border-amber-500/30 text-xs font-medium transition-all ml-2"
+              className="flex items-center gap-1 px-2.5 py-1 rounded bg-[#111418] text-neutral-200 hover:text-white border border-[#262c36] text-xs font-medium transition-colors ml-1.5"
             >
-              <Sparkles className="w-3.5 h-3.5" />
-              Acak Matriks Non-Singular
+              <Sparkles className="w-3 h-3 text-amber-400" />
+              Acak Matriks
             </button>
           </div>
 
           {/* Reveal Controls */}
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1">
             <button
               onClick={() => setRevealStep((prev) => Math.min(stepNames.length, prev + 1))}
               disabled={revealStep >= stepNames.length}
-              className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-500 disabled:opacity-40 text-white text-xs font-medium transition-all"
+              className="flex items-center gap-1 px-2.5 py-1 rounded bg-[#252c38] hover:bg-[#303846] disabled:opacity-40 text-white text-xs font-medium border border-neutral-600 transition-colors"
             >
-              <FastForward className="w-3.5 h-3.5" />
+              <FastForward className="w-3 h-3" />
               Buka Langkah ({revealStep}/{stepNames.length})
             </button>
             <button
               onClick={() => setRevealStep(stepNames.length)}
-              className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs transition-colors"
+              className="flex items-center gap-1 px-2 py-1 rounded bg-[#181c22] hover:bg-[#202630] text-neutral-300 text-xs border border-[#262c36] transition-colors"
             >
-              <Eye className="w-3.5 h-3.5" />
+              <Eye className="w-3 h-3" />
               Buka Semua
             </button>
             <button
               onClick={() => setRevealStep(0)}
-              className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white text-xs transition-colors"
+              className="flex items-center gap-1 px-2 py-1 rounded bg-[#181c22] hover:bg-[#202630] text-neutral-400 hover:text-white text-xs border border-[#262c36] transition-colors"
             >
-              <EyeOff className="w-3.5 h-3.5" />
+              <EyeOff className="w-3 h-3" />
               Sembunyikan
             </button>
           </div>
@@ -217,8 +214,8 @@ export const TabLiveChallenge: React.FC = () => {
       </div>
 
       {/* Interactive Input Grids */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        <div className="lg:col-span-3 bg-slate-900/60 p-5 rounded-2xl border border-slate-800">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
+        <div className="lg:col-span-3 bg-[#15191f] p-4 rounded border border-[#262c36]">
           <MatrixInput
             label="Matriks Soal Tantangan Dosen A"
             subLabel="Ubah elemen langsung di grid"
@@ -226,7 +223,7 @@ export const TabLiveChallenge: React.FC = () => {
             onChange={setMatrixA}
           />
         </div>
-        <div className="lg:col-span-1 bg-slate-900/60 p-5 rounded-2xl border border-slate-800">
+        <div className="lg:col-span-1 bg-[#15191f] p-4 rounded border border-[#262c36]">
           <VectorInput
             label="Vektor b"
             subLabel="Target SPL"
@@ -237,19 +234,19 @@ export const TabLiveChallenge: React.FC = () => {
       </div>
 
       {/* Step Progress Bar */}
-      <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 flex flex-wrap items-center justify-between gap-3 text-xs">
-        <span className="font-semibold text-slate-300">Tahapan Solusi Terbuka:</span>
-        <div className="flex flex-wrap items-center gap-1.5">
+      <div className="p-3 rounded bg-[#111418] border border-[#262c36] flex flex-wrap items-center justify-between gap-2.5 text-xs">
+        <span className="font-semibold text-neutral-300">Tahapan Solusi Terbuka:</span>
+        <div className="flex flex-wrap items-center gap-1">
           {stepNames.map((name, idx) => {
             const isUnlocked = revealStep > idx;
             return (
               <button
                 key={name}
                 onClick={() => setRevealStep(idx + 1)}
-                className={`px-2.5 py-1 rounded-md text-[11px] font-mono transition-all ${
+                className={`px-2 py-0.5 rounded text-[10px] font-mono transition-colors border ${
                   isUnlocked
-                    ? "bg-emerald-500/10 text-emerald-300 border border-emerald-500/30"
-                    : "bg-slate-900 text-slate-500 border border-slate-800 hover:border-slate-700"
+                    ? "bg-[#1c2420] text-emerald-400 border-emerald-800"
+                    : "bg-[#15191f] text-neutral-500 border-[#262c36] hover:border-neutral-600"
                 }`}
               >
                 {idx + 1}. {name} {isUnlocked && "✓"}
@@ -260,28 +257,28 @@ export const TabLiveChallenge: React.FC = () => {
       </div>
 
       {/* REVEALABLE CONTENT BLOCKS */}
-      <div className="space-y-4">
+      <div className="space-y-3">
         {/* Step 1: Determinan */}
         <div
-          className={`border rounded-xl transition-all ${
+          className={`border rounded transition-colors ${
             revealStep >= 1
-              ? "bg-slate-900/80 border-slate-700 p-5"
-              : "bg-slate-950/40 border-slate-800/60 p-4 border-dashed"
+              ? "bg-[#15191f] border-[#262c36] p-4"
+              : "bg-[#111418] border-[#262c36] p-3 border-dashed"
           }`}
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <span className="w-6 h-6 rounded-md bg-indigo-600/20 text-indigo-400 flex items-center justify-center font-mono text-xs font-bold">
+              <span className="w-5 h-5 rounded bg-[#1e232b] text-neutral-300 flex items-center justify-center font-mono text-xs font-bold border border-[#2a313d]">
                 1
               </span>
-              <span className="text-sm font-bold text-white">Langkah 1: Determinan Matriks A</span>
+              <span className="text-xs font-bold text-white">Langkah 1: Determinan Matriks A</span>
             </div>
             {revealStep < 1 ? (
               <button
                 onClick={() => setRevealStep(1)}
                 className="text-xs text-amber-400 hover:underline flex items-center gap-1 font-mono"
               >
-                <Eye className="w-3.5 h-3.5" /> Klik untuk Membuka Kunci
+                <Eye className="w-3 h-3" /> Buka Kunci
               </button>
             ) : (
               <span className="font-mono text-xs text-emerald-400 font-bold">Terbuka</span>
@@ -289,11 +286,11 @@ export const TabLiveChallenge: React.FC = () => {
           </div>
 
           {revealStep >= 1 && (
-            <div className="mt-4 pt-4 border-t border-slate-800/80 space-y-3 text-xs">
-              <div className="flex items-center justify-between p-3 rounded-lg bg-slate-950 border border-slate-800">
-                <span className="text-slate-400 font-mono">Nilai Determinan det(A):</span>
+            <div className="mt-3 pt-3 border-t border-[#262c36] space-y-2.5 text-xs">
+              <div className="flex items-center justify-between p-2.5 rounded bg-[#111418] border border-[#262c36]">
+                <span className="text-neutral-400 font-mono">Nilai Determinan det(A):</span>
                 <span
-                  className={`text-lg font-bold font-mono ${
+                  className={`text-base font-bold font-mono ${
                     trace.isSingular ? "text-rose-400" : "text-emerald-400"
                   }`}
                 >
@@ -301,7 +298,7 @@ export const TabLiveChallenge: React.FC = () => {
                 </span>
               </div>
               {trace.isSingular && (
-                <div className="p-3 rounded-lg bg-rose-950/50 border border-rose-600 text-rose-300">
+                <div className="p-2.5 rounded bg-[#201518] border border-rose-900 text-rose-300">
                   Matriks singular (det = 0): Metode adjoin berhenti di sini.
                 </div>
               )}
@@ -312,25 +309,25 @@ export const TabLiveChallenge: React.FC = () => {
         {/* Step 2: Minor */}
         {!trace.isSingular && (
           <div
-            className={`border rounded-xl transition-all ${
+            className={`border rounded transition-colors ${
               revealStep >= 2
-                ? "bg-slate-900/80 border-slate-700 p-5"
-                : "bg-slate-950/40 border-slate-800/60 p-4 border-dashed"
+                ? "bg-[#15191f] border-[#262c36] p-4"
+                : "bg-[#111418] border-[#262c36] p-3 border-dashed"
             }`}
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <span className="w-6 h-6 rounded-md bg-indigo-600/20 text-indigo-400 flex items-center justify-center font-mono text-xs font-bold">
+                <span className="w-5 h-5 rounded bg-[#1e232b] text-neutral-300 flex items-center justify-center font-mono text-xs font-bold border border-[#2a313d]">
                   2
                 </span>
-                <span className="text-sm font-bold text-white">Langkah 2: Determinan Minor M_ij</span>
+                <span className="text-xs font-bold text-white">Langkah 2: Determinan Minor M_ij</span>
               </div>
               {revealStep < 2 ? (
                 <button
                   onClick={() => setRevealStep(2)}
                   className="text-xs text-amber-400 hover:underline flex items-center gap-1 font-mono"
                 >
-                  <Eye className="w-3.5 h-3.5" /> Klik untuk Membuka Kunci
+                  <Eye className="w-3 h-3" /> Buka Kunci
                 </button>
               ) : (
                 <span className="font-mono text-xs text-emerald-400 font-bold">Terbuka</span>
@@ -338,16 +335,16 @@ export const TabLiveChallenge: React.FC = () => {
             </div>
 
             {revealStep >= 2 && (
-              <div className="mt-4 pt-4 border-t border-slate-800/80 space-y-3 text-xs">
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              <div className="mt-3 pt-3 border-t border-[#262c36] space-y-2.5 text-xs">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
                   {trace.minors.flatMap((row) =>
                     row.map((m) => (
                       <div
                         key={`${m.row}-${m.col}`}
-                        className="p-2 rounded bg-slate-950 border border-slate-800 font-mono text-[11px] flex justify-between"
+                        className="p-1.5 rounded bg-[#111418] border border-[#262c36] font-mono text-[10px] flex justify-between"
                       >
-                        <span className="text-slate-400">M_{m.row}{m.col}:</span>
-                        <span className="font-bold text-indigo-300">{m.detMinor}</span>
+                        <span className="text-neutral-400">M_{m.row}{m.col}:</span>
+                        <span className="font-bold text-white">{m.detMinor}</span>
                       </div>
                     ))
                   )}
@@ -360,25 +357,25 @@ export const TabLiveChallenge: React.FC = () => {
         {/* Step 3: Kofaktor */}
         {!trace.isSingular && (
           <div
-            className={`border rounded-xl transition-all ${
+            className={`border rounded transition-colors ${
               revealStep >= 3
-                ? "bg-slate-900/80 border-slate-700 p-5"
-                : "bg-slate-950/40 border-slate-800/60 p-4 border-dashed"
+                ? "bg-[#15191f] border-[#262c36] p-4"
+                : "bg-[#111418] border-[#262c36] p-3 border-dashed"
             }`}
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <span className="w-6 h-6 rounded-md bg-indigo-600/20 text-indigo-400 flex items-center justify-center font-mono text-xs font-bold">
+                <span className="w-5 h-5 rounded bg-[#1e232b] text-neutral-300 flex items-center justify-center font-mono text-xs font-bold border border-[#2a313d]">
                   3
                 </span>
-                <span className="text-sm font-bold text-white">Langkah 3: Matriks Kofaktor C_ij</span>
+                <span className="text-xs font-bold text-white">Langkah 3: Matriks Kofaktor C_ij</span>
               </div>
               {revealStep < 3 ? (
                 <button
                   onClick={() => setRevealStep(3)}
                   className="text-xs text-amber-400 hover:underline flex items-center gap-1 font-mono"
                 >
-                  <Eye className="w-3.5 h-3.5" /> Klik untuk Membuka Kunci
+                  <Eye className="w-3 h-3" /> Buka Kunci
                 </button>
               ) : (
                 <span className="font-mono text-xs text-emerald-400 font-bold">Terbuka</span>
@@ -386,7 +383,7 @@ export const TabLiveChallenge: React.FC = () => {
             </div>
 
             {revealStep >= 3 && (
-              <div className="mt-4 pt-4 border-t border-slate-800/80 space-y-3 text-xs">
+              <div className="mt-3 pt-3 border-t border-[#262c36] space-y-2.5 text-xs">
                 <MatrixDisplay matrix={trace.cofactorMatrix} size="md" />
               </div>
             )}
@@ -396,25 +393,25 @@ export const TabLiveChallenge: React.FC = () => {
         {/* Step 4: Adjoin */}
         {!trace.isSingular && (
           <div
-            className={`border rounded-xl transition-all ${
+            className={`border rounded transition-colors ${
               revealStep >= 4
-                ? "bg-slate-900/80 border-slate-700 p-5"
-                : "bg-slate-950/40 border-slate-800/60 p-4 border-dashed"
+                ? "bg-[#15191f] border-[#262c36] p-4"
+                : "bg-[#111418] border-[#262c36] p-3 border-dashed"
             }`}
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <span className="w-6 h-6 rounded-md bg-indigo-600/20 text-indigo-400 flex items-center justify-center font-mono text-xs font-bold">
+                <span className="w-5 h-5 rounded bg-[#1e232b] text-neutral-300 flex items-center justify-center font-mono text-xs font-bold border border-[#2a313d]">
                   4
                 </span>
-                <span className="text-sm font-bold text-white">Langkah 4: Matriks Adjoin adj(A) = Cᵀ</span>
+                <span className="text-xs font-bold text-white">Langkah 4: Matriks Adjoin adj(A) = Cᵀ</span>
               </div>
               {revealStep < 4 ? (
                 <button
                   onClick={() => setRevealStep(4)}
                   className="text-xs text-amber-400 hover:underline flex items-center gap-1 font-mono"
                 >
-                  <Eye className="w-3.5 h-3.5" /> Klik untuk Membuka Kunci
+                  <Eye className="w-3 h-3" /> Buka Kunci
                 </button>
               ) : (
                 <span className="font-mono text-xs text-emerald-400 font-bold">Terbuka</span>
@@ -422,10 +419,10 @@ export const TabLiveChallenge: React.FC = () => {
             </div>
 
             {revealStep >= 4 && (
-              <div className="mt-4 pt-4 border-t border-slate-800/80 space-y-3 text-xs">
-                <div className="flex flex-col sm:flex-row items-center gap-6">
+              <div className="mt-3 pt-3 border-t border-[#262c36] space-y-2.5 text-xs">
+                <div className="flex flex-col sm:flex-row items-center gap-4">
                   <MatrixDisplay matrix={trace.adjMatrix} size="md" />
-                  <div className="p-3 rounded-lg bg-slate-950 border border-slate-800 font-mono text-slate-300">
+                  <div className="p-2.5 rounded bg-[#111418] border border-[#262c36] font-mono text-neutral-300 text-xs">
                     adj(A) · b = [{trace.adjTimesB.join(", ")}]ᵀ
                   </div>
                 </div>
@@ -437,25 +434,25 @@ export const TabLiveChallenge: React.FC = () => {
         {/* Step 5: Invers */}
         {!trace.isSingular && (
           <div
-            className={`border rounded-xl transition-all ${
+            className={`border rounded transition-colors ${
               revealStep >= 5
-                ? "bg-slate-900/80 border-slate-700 p-5"
-                : "bg-slate-950/40 border-slate-800/60 p-4 border-dashed"
+                ? "bg-[#15191f] border-[#262c36] p-4"
+                : "bg-[#111418] border-[#262c36] p-3 border-dashed"
             }`}
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <span className="w-6 h-6 rounded-md bg-indigo-600/20 text-indigo-400 flex items-center justify-center font-mono text-xs font-bold">
+                <span className="w-5 h-5 rounded bg-[#1e232b] text-neutral-300 flex items-center justify-center font-mono text-xs font-bold border border-[#2a313d]">
                   5
                 </span>
-                <span className="text-sm font-bold text-white">Langkah 5: Matriks Invers A⁻¹ = (1/d) · adj(A)</span>
+                <span className="text-xs font-bold text-white">Langkah 5: Matriks Invers A⁻¹ = (1/d) · adj(A)</span>
               </div>
               {revealStep < 5 ? (
                 <button
                   onClick={() => setRevealStep(5)}
                   className="text-xs text-amber-400 hover:underline flex items-center gap-1 font-mono"
                 >
-                  <Eye className="w-3.5 h-3.5" /> Klik untuk Membuka Kunci
+                  <Eye className="w-3 h-3" /> Buka Kunci
                 </button>
               ) : (
                 <span className="font-mono text-xs text-emerald-400 font-bold">Terbuka</span>
@@ -463,7 +460,7 @@ export const TabLiveChallenge: React.FC = () => {
             </div>
 
             {revealStep >= 5 && (
-              <div className="mt-4 pt-4 border-t border-slate-800/80 space-y-3 text-xs">
+              <div className="mt-3 pt-3 border-t border-[#262c36] space-y-2.5 text-xs">
                 <MatrixDisplay matrix={trace.invMatrixFraction} isFraction size="sm" />
               </div>
             )}
@@ -473,25 +470,25 @@ export const TabLiveChallenge: React.FC = () => {
         {/* Step 6: Vektor Solusi x */}
         {!trace.isSingular && (
           <div
-            className={`border rounded-xl transition-all ${
+            className={`border rounded transition-colors ${
               revealStep >= 6
-                ? "bg-slate-900/80 border-slate-700 p-5"
-                : "bg-slate-950/40 border-slate-800/60 p-4 border-dashed"
+                ? "bg-[#15191f] border-[#262c36] p-4"
+                : "bg-[#111418] border-[#262c36] p-3 border-dashed"
             }`}
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <span className="w-6 h-6 rounded-md bg-emerald-600/20 text-emerald-400 flex items-center justify-center font-mono text-xs font-bold">
+                <span className="w-5 h-5 rounded bg-[#1c2420] text-emerald-400 flex items-center justify-center font-mono text-xs font-bold border border-emerald-900/60">
                   6
                 </span>
-                <span className="text-sm font-bold text-white">Langkah 6: Vektor Solusi x = A⁻¹ · b</span>
+                <span className="text-xs font-bold text-white">Langkah 6: Vektor Solusi x = A⁻¹ · b</span>
               </div>
               {revealStep < 6 ? (
                 <button
                   onClick={() => setRevealStep(6)}
                   className="text-xs text-amber-400 hover:underline flex items-center gap-1 font-mono"
                 >
-                  <Eye className="w-3.5 h-3.5" /> Klik untuk Membuka Kunci
+                  <Eye className="w-3 h-3" /> Buka Kunci
                 </button>
               ) : (
                 <span className="font-mono text-xs text-emerald-400 font-bold">Terbuka</span>
@@ -499,26 +496,26 @@ export const TabLiveChallenge: React.FC = () => {
             </div>
 
             {revealStep >= 6 && (
-              <div className="mt-4 pt-4 border-t border-slate-800/80 space-y-4 text-xs">
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div className="mt-3 pt-3 border-t border-[#262c36] space-y-3 text-xs">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                   {trace.x.map((val, idx) => (
                     <div
                       key={idx}
-                      className="p-4 rounded-xl bg-slate-950 border border-emerald-500/30 text-center"
+                      className="p-3 rounded bg-[#111418] border border-[#2a313d] text-center"
                     >
-                      <div className="text-[11px] text-slate-400 font-mono">x_{idx + 1}</div>
-                      <div className="text-2xl font-bold font-mono text-emerald-400 mt-1">
+                      <div className="text-[10px] text-neutral-400 font-mono">x_{idx + 1}</div>
+                      <div className="text-xl font-bold font-mono text-emerald-400 mt-0.5">
                         {Number.isInteger(val) ? val : val.toFixed(4)}
                       </div>
-                      <div className="text-[11px] text-amber-300 font-mono mt-0.5">
+                      <div className="text-[10px] text-amber-300 font-mono mt-0.5">
                         {trace.xFraction[idx].formatted}
                       </div>
                     </div>
                   ))}
                 </div>
 
-                <div className="p-3 rounded-lg bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                <div className="p-2.5 rounded bg-[#1c2420] border border-emerald-900 text-emerald-300 flex items-center gap-1.5 font-mono">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
                   <span>Verifikasi Residual: r = A · x - b ≈ 0 ({trace.isVerified ? "Cocok 100%" : "Periksa Pembulatan"})</span>
                 </div>
               </div>

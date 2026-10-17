@@ -6,10 +6,6 @@ import {
   Cpu,
   HardDrive,
   Scale,
-  Sparkles,
-  Layers,
-  ArrowRight,
-  Info,
 } from "lucide-react";
 import {
   getComplexityTable,
@@ -24,72 +20,72 @@ export const TabComplexityAnalysis: React.FC = () => {
   const selectedRow = tableData.find((r) => r.n === selectedN) || tableData[3];
 
   return (
-    <div className="space-y-6 animate-fade-in">
+    <div className="space-y-4">
       {/* Header Banner */}
-      <div className="p-5 rounded-2xl bg-gradient-to-r from-slate-900 via-emerald-950/40 to-slate-900 border border-slate-800 shadow-lg">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="p-4 rounded bg-[#15191f] border border-[#262c36]">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
           <div>
-            <div className="flex items-center gap-2 text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-1">
-              <TrendingUp className="w-4 h-4" />
+            <div className="flex items-center gap-1.5 text-neutral-400 text-xs font-semibold uppercase tracking-wider mb-1">
+              <TrendingUp className="w-3.5 h-3.5 text-neutral-400" />
               <span>Analisis Algoritma Asimtotik Formal (Big-O)</span>
             </div>
-            <h2 className="text-xl font-bold text-white tracking-tight">
+            <h2 className="text-base font-bold text-white tracking-tight">
               Analisis Kompleksitas Waktu $T(n) = O(n \times n!)$ & Ruang $S(n) = O(n^3)$
             </h2>
-            <p className="text-xs text-slate-400 mt-1">
+            <p className="text-xs text-neutral-400 mt-0.5">
               Pembuktian matematis formal penurunan kompleksitas asimtotik serta perbandingan laju pertumbuhan operasi terhadap eliminasi Gauss $O(n^3)$.
             </p>
           </div>
 
-          <div className="flex items-center gap-3">
-            <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 text-center">
-              <div className="text-[10px] text-slate-400 font-mono">Waktu Asimtotik</div>
-              <div className="text-base font-bold font-mono text-indigo-400">O(n × n!)</div>
+          <div className="flex items-center gap-2">
+            <div className="p-2 rounded bg-[#111418] border border-[#262c36] text-center min-w-[100px]">
+              <div className="text-[9px] text-neutral-400 font-mono">Waktu Asimtotik</div>
+              <div className="text-sm font-bold font-mono text-white">O(n × n!)</div>
             </div>
-            <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 text-center">
-              <div className="text-[10px] text-slate-400 font-mono">Ruang Asimtotik</div>
-              <div className="text-base font-bold font-mono text-emerald-400">O(n³)</div>
+            <div className="p-2 rounded bg-[#111418] border border-[#262c36] text-center min-w-[100px]">
+              <div className="text-[9px] text-neutral-400 font-mono">Ruang Asimtotik</div>
+              <div className="text-sm font-bold font-mono text-white">O(n³)</div>
             </div>
           </div>
         </div>
       </div>
 
       {/* DERIVATION CARDS (TIME & SPACE) */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Time Complexity Derivation */}
-        <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4">
-          <div className="flex items-center justify-between border-b border-slate-800/80 pb-3">
-            <div className="flex items-center gap-2 text-sm font-bold text-white">
-              <Cpu className="w-4 h-4 text-indigo-400" />
+        <div className="p-4 rounded bg-[#15191f] border border-[#262c36] space-y-3">
+          <div className="flex items-center justify-between border-b border-[#262c36] pb-2">
+            <div className="flex items-center gap-1.5 text-xs font-bold text-white">
+              <Cpu className="w-3.5 h-3.5 text-neutral-400" />
               <span>1. Penurunan Kompleksitas Waktu T(n)</span>
             </div>
-            <span className="font-mono text-xs px-2 py-0.5 rounded bg-indigo-950/60 border border-indigo-800/40 text-indigo-300 font-bold">
+            <span className="font-mono text-xs px-1.5 py-0.2 rounded bg-[#181c22] border border-[#2a313d] text-neutral-200 font-bold">
               T(n) = O(n × n!)
             </span>
           </div>
 
-          <div className="space-y-3 text-xs">
+          <div className="space-y-2 text-xs">
             {TIME_COMPLEXITY_DERIVATION.map((item, idx) => (
               <div
                 key={idx}
-                className="p-3 rounded-xl bg-slate-950 border border-slate-800/80 space-y-1.5"
+                className="p-2.5 rounded bg-[#111418] border border-[#262c36] space-y-1"
               >
                 <div className="flex items-center justify-between font-semibold">
-                  <span className="text-slate-200">{item.step}</span>
-                  <span className="font-mono text-[11px] text-indigo-400 px-1.5 py-0.5 rounded bg-indigo-950/40 border border-indigo-900/40">
+                  <span className="text-neutral-200 text-xs">{item.step}</span>
+                  <span className="font-mono text-[10px] text-neutral-300 px-1 py-0.2 rounded bg-[#181c22] border border-[#262c36]">
                     {item.bigO}
                   </span>
                 </div>
-                <p className="text-slate-400 leading-relaxed text-[11px]">
+                <p className="text-neutral-400 leading-relaxed text-[11px]">
                   {item.detail}
                 </p>
               </div>
             ))}
 
-            <div className="p-3.5 rounded-xl bg-indigo-950/30 border border-indigo-500/30 text-indigo-200 font-mono text-xs space-y-1">
-              <div className="font-bold">Rumus Gabungan Waktu:</div>
+            <div className="p-2.5 rounded bg-[#111418] border border-[#262c36] text-neutral-200 font-mono text-xs space-y-0.5">
+              <div className="font-bold text-neutral-300">Rumus Gabungan Waktu:</div>
               <div>T(n) = O(n!) + O(n × n!) + O(n²) + O(n²)</div>
-              <div className="text-emerald-400 font-bold pt-1">
+              <div className="text-emerald-400 font-bold pt-0.5">
                 ⟹ Suku Dominan Tertinggi: T(n) = O(n × n!)
               </div>
             </div>
@@ -97,39 +93,39 @@ export const TabComplexityAnalysis: React.FC = () => {
         </div>
 
         {/* Space Complexity Derivation */}
-        <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4">
-          <div className="flex items-center justify-between border-b border-slate-800/80 pb-3">
-            <div className="flex items-center gap-2 text-sm font-bold text-white">
-              <HardDrive className="w-4 h-4 text-emerald-400" />
+        <div className="p-4 rounded bg-[#15191f] border border-[#262c36] space-y-3">
+          <div className="flex items-center justify-between border-b border-[#262c36] pb-2">
+            <div className="flex items-center gap-1.5 text-xs font-bold text-white">
+              <HardDrive className="w-3.5 h-3.5 text-neutral-400" />
               <span>2. Penurunan Kompleksitas Ruang S(n)</span>
             </div>
-            <span className="font-mono text-xs px-2 py-0.5 rounded bg-emerald-950/60 border border-emerald-800/40 text-emerald-300 font-bold">
+            <span className="font-mono text-xs px-1.5 py-0.2 rounded bg-[#181c22] border border-[#2a313d] text-neutral-200 font-bold">
               S(n) = O(n³)
             </span>
           </div>
 
-          <div className="space-y-3 text-xs">
+          <div className="space-y-2 text-xs">
             {SPACE_COMPLEXITY_DERIVATION.map((item, idx) => (
               <div
                 key={idx}
-                className="p-3 rounded-xl bg-slate-950 border border-slate-800/80 space-y-1.5"
+                className="p-2.5 rounded bg-[#111418] border border-[#262c36] space-y-1"
               >
                 <div className="flex items-center justify-between font-semibold">
-                  <span className="text-slate-200">{item.step}</span>
-                  <span className="font-mono text-[11px] text-emerald-400 px-1.5 py-0.5 rounded bg-emerald-950/40 border border-emerald-900/40">
+                  <span className="text-neutral-200 text-xs">{item.step}</span>
+                  <span className="font-mono text-[10px] text-neutral-300 px-1 py-0.2 rounded bg-[#181c22] border border-[#262c36]">
                     {item.bigO}
                   </span>
                 </div>
-                <p className="text-slate-400 leading-relaxed text-[11px]">
+                <p className="text-neutral-400 leading-relaxed text-[11px]">
                   {item.detail}
                 </p>
               </div>
             ))}
 
-            <div className="p-3.5 rounded-xl bg-emerald-950/30 border border-emerald-500/30 text-emerald-200 font-mono text-xs space-y-1">
-              <div className="font-bold">Rumus Gabungan Ruang:</div>
+            <div className="p-2.5 rounded bg-[#111418] border border-[#262c36] text-neutral-200 font-mono text-xs space-y-0.5">
+              <div className="font-bold text-neutral-300">Rumus Gabungan Ruang:</div>
               <div>S(n) = O(n²) [Matriks Utama] + O(n³) [Tumpukan Rekursi]</div>
-              <div className="text-emerald-400 font-bold pt-1">
+              <div className="text-emerald-400 font-bold pt-0.5">
                 ⟹ Suku Dominan Tertinggi: S(n) = O(n³)
               </div>
             </div>
@@ -138,28 +134,28 @@ export const TabComplexityAnalysis: React.FC = () => {
       </div>
 
       {/* INTERACTIVE COMPARISON TABLE (n = 1 .. 10) */}
-      <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4">
+      <div className="p-4 rounded bg-[#15191f] border border-[#262c36] space-y-3">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
-            <h3 className="text-sm font-bold text-white flex items-center gap-2">
-              <Scale className="w-4 h-4 text-amber-400" />
+            <h3 className="text-xs font-bold text-white flex items-center gap-1.5">
+              <Scale className="w-3.5 h-3.5 text-neutral-400" />
               Tabel Pertumbuhan Operasi Komputasi (n = 1 sampai 10)
             </h3>
-            <p className="text-xs text-slate-400 mt-0.5">
-              Memperlihatkan lonjakan eksponensial/faktorial metode adjoin dibandingkan metode Eliminasi Gauss.
+            <p className="text-[11px] text-neutral-400 mt-0.5">
+              Memperlihatkan perbandingan laju faktorial adjoin vs kuadratik/kubik Gauss.
             </p>
           </div>
 
           <div className="flex items-center gap-1 text-xs">
-            <span className="text-slate-400 mr-1">Pilih Sorotan n:</span>
+            <span className="text-neutral-400 mr-1 text-[11px]">Sorotan n:</span>
             {[2, 3, 4, 5, 8, 10].map((n) => (
               <button
                 key={n}
                 onClick={() => setSelectedN(n)}
-                className={`px-2 py-1 rounded font-mono font-bold text-xs transition-all ${
+                className={`px-2 py-0.5 rounded font-mono font-bold text-xs transition-colors ${
                   selectedN === n
-                    ? "bg-amber-600 text-white"
-                    : "bg-slate-950 border border-slate-800 text-slate-400 hover:text-white"
+                    ? "bg-[#252c38] text-white border border-neutral-600"
+                    : "bg-[#111418] border border-[#262c36] text-neutral-400 hover:text-white"
                 }`}
               >
                 n={n}
@@ -171,16 +167,16 @@ export const TabComplexityAnalysis: React.FC = () => {
         <div className="overflow-x-auto">
           <table className="w-full text-left font-mono text-xs border-collapse">
             <thead>
-              <tr className="border-b border-slate-800 bg-slate-950/80 text-slate-400">
-                <th className="py-2.5 px-3">Ukuran n</th>
-                <th className="py-2.5 px-3">n! (Faktorial)</th>
-                <th className="py-2.5 px-3 text-indigo-400">Waktu Adjoin: n × n!</th>
-                <th className="py-2.5 px-3 text-emerald-400">Waktu Gauss: ~ 2/3 n³</th>
-                <th className="py-2.5 px-3 text-amber-400">Rasio (Adjoin / Gauss)</th>
-                <th className="py-2.5 px-3 text-slate-400">Ruang S(n): n³</th>
+              <tr className="border-b border-[#262c36] bg-[#111418] text-neutral-400">
+                <th className="py-2 px-2.5">Ukuran n</th>
+                <th className="py-2 px-2.5">n! (Faktorial)</th>
+                <th className="py-2 px-2.5 text-neutral-200">Waktu Adjoin: n × n!</th>
+                <th className="py-2 px-2.5 text-emerald-400">Waktu Gauss: ~ 2/3 n³</th>
+                <th className="py-2 px-2.5 text-amber-300">Rasio (Adjoin / Gauss)</th>
+                <th className="py-2 px-2.5 text-neutral-400">Ruang S(n): n³</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/60">
+            <tbody className="divide-y divide-[#202630]">
               {tableData.map((row) => {
                 const isSelected = row.n === selectedN;
                 const ratio =
@@ -191,27 +187,27 @@ export const TabComplexityAnalysis: React.FC = () => {
                   <tr
                     key={row.n}
                     className={`transition-colors ${
-                      isSelected ? "bg-indigo-950/40 border-l-2 border-indigo-500" : "hover:bg-slate-900/40"
+                      isSelected ? "bg-[#181c22] border-l-2 border-neutral-400" : "hover:bg-[#181c22]"
                     }`}
                   >
-                    <td className="py-2.5 px-3 font-bold text-white">
+                    <td className="py-2 px-2.5 font-bold text-white">
                       n = {row.n}
                     </td>
-                    <td className="py-2.5 px-3 text-slate-300">
+                    <td className="py-2 px-2.5 text-neutral-300">
                       {row.factorial.toLocaleString()}
                     </td>
-                    <td className="py-2.5 px-3 font-bold text-indigo-300">
+                    <td className="py-2 px-2.5 font-bold text-white">
                       {row.timeAdjoin.toLocaleString()}
                     </td>
-                    <td className="py-2.5 px-3 font-bold text-emerald-300">
+                    <td className="py-2 px-2.5 font-bold text-emerald-400">
                       {row.timeGauss.toLocaleString()}
                     </td>
-                    <td className="py-2.5 px-3 text-amber-300 font-semibold">
+                    <td className="py-2 px-2.5 text-amber-300 font-semibold">
                       {Number(ratio) > 1000
                         ? `${Number(ratio).toExponential(2)} ×`
                         : `${ratio} ×`}
                     </td>
-                    <td className="py-2.5 px-3 text-slate-400">
+                    <td className="py-2 px-2.5 text-neutral-400">
                       {row.spaceAdjoin.toLocaleString()}
                     </td>
                   </tr>
@@ -222,14 +218,14 @@ export const TabComplexityAnalysis: React.FC = () => {
         </div>
 
         {/* Selected N Analysis Box */}
-        <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs space-y-2">
-          <div className="flex items-center justify-between font-semibold text-slate-200">
-            <span>Analisis Operasi untuk Matriks Ukuran n = {selectedRow.n}:</span>
-            <span className="font-mono text-amber-400">
-              Metode Adjoin: {selectedRow.timeAdjoin.toLocaleString()} Operasi vs Gauss: {selectedRow.timeGauss.toLocaleString()} Operasi
+        <div className="p-3 rounded bg-[#111418] border border-[#262c36] text-xs space-y-1">
+          <div className="flex items-center justify-between font-semibold text-neutral-200">
+            <span>Analisis Operasi Matriks Ukuran n = {selectedRow.n}:</span>
+            <span className="font-mono text-neutral-300">
+              Adjoin: {selectedRow.timeAdjoin.toLocaleString()} ops vs Gauss: {selectedRow.timeGauss.toLocaleString()} ops
             </span>
           </div>
-          <p className="text-slate-400 leading-relaxed">
+          <p className="text-neutral-400 leading-relaxed text-[11px]">
             {selectedRow.n <= 4 ? (
               <>
                 Pada ukuran kecil ($n = {selectedRow.n}$), metode matriks adjoin sangat praktis dan memberikan ekspresi analitik pecahan eksak secara transparan tanpa akumulasi galat pembulatan. Jumlah operasinya ({selectedRow.timeAdjoin}) dieksekusi oleh mesin dalam fraksi milidetik.
