@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.2.0] - 2026-10-18
+
+### Changed & Improved
+- **Clean Mathematical Notation & Typography:**
+  - Eliminated all raw unrendered LaTeX syntax (e.g. `$\mathbb{Z}_{26}$` and `$T(n) = O(n \times n!)$`) from UI components.
+  - Replaced with standard, beautiful Unicode typography: `ℤ₂₆`, `x = A⁻¹ · b`, `det(A)`, `K⁻¹ ≡ det(K)⁻¹ · adj(K) (mod 26)`, `adj(A) = Cᵀ`, `Cᵢⱼ = (-1)ⁱ⁺ʲ · Det(Mᵢⱼ)`, `T(n) = O(n × n!)`, `S(n) = O(n³)`.
+  - Added clean Unicode subscripts for variables across all tabs: `x₍1₎, x₍2₎, x₍3₎, x₍4₎`, `M₍ij₎`, and `Cᵢⱼ`.
+- **Comprehensive Mobile Responsiveness & Gap Refinements:**
+  - **`MatrixInput` & `VectorInput`:** Added responsive `overflow-x-auto` wrappers with comfortable cell touch targets (`minmax(48px, 1fr)`), clean subscript positioning `[{r+1},{c+1}]`, and tight, clear gap spacing for phone viewports (320px–375px).
+  - **`MatrixDisplay`:** Wrapped tables in `max-w-full overflow-x-auto` with responsive cell padding (`px-1.5 sm:px-2.5 py-0.5 sm:py-1`), preventing horizontal clipping on narrow mobile screens.
+  - **`StepCard`:** Refactored header layout to `items-start justify-between gap-2.5` with responsive flex-wrapping for titles, formula badges, and status chips; fixed invalid `py-0.2` classes to `py-0.5`.
+  - **`Navbar`:** Top identity banner now wraps gracefully on mobile (`flex-col sm:flex-row`), and tabs container supports smooth horizontal swiping (`-mx-3 px-3 overflow-x-auto`).
+  - **Tables & Grids:** Added horizontal scroll wrappers with `min-w-[500px]` (SPL verification table) and `min-w-[620px]` (complexity table), ensuring columns never collapse or squish on mobile devices.
+  - Added `-webkit-overflow-scrolling: touch` momentum scrolling for all mobile overflow containers in `globals.css`.
+
+---
+
 ## [1.1.0] - 2026-10-18
 
 ### Changed & Refactored

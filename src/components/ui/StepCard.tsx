@@ -40,37 +40,37 @@ export const StepCard: React.FC<StepCardProps> = ({
       {/* Header */}
       <div
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center justify-between p-3.5 cursor-pointer select-none bg-[#111418] hover:bg-[#181c22] transition-colors border-b border-[#262c36]"
+        className="flex items-start justify-between p-3 sm:p-3.5 cursor-pointer select-none bg-[#111418] hover:bg-[#181c22] transition-colors border-b border-[#262c36] gap-2.5"
       >
-        <div className="flex items-center gap-2.5">
-          <div className="w-6 h-6 rounded bg-[#1e232b] text-neutral-300 border border-[#2a313d] flex items-center justify-center font-bold text-xs font-mono">
+        <div className="flex items-start gap-2.5 flex-1 min-w-0">
+          <div className="w-6 h-6 rounded bg-[#1e232b] text-neutral-300 border border-[#2a313d] flex items-center justify-center font-bold text-xs font-mono flex-shrink-0 mt-0.5">
             {stepNumber}
           </div>
-          <div>
-            <div className="flex items-center gap-2 flex-wrap">
-              <h4 className="text-xs font-bold text-white tracking-tight">{title}</h4>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+              <h4 className="text-xs sm:text-sm font-bold text-white tracking-tight">{title}</h4>
               {formula && (
-                <span className="font-mono text-[11px] px-1.5 py-0.2 rounded bg-[#181c22] border border-[#2e3542] text-neutral-300">
+                <span className="font-mono text-[10px] sm:text-[11px] px-1.5 py-0.5 rounded bg-[#181c22] border border-[#2e3542] text-neutral-300">
                   {formula}
                 </span>
               )}
               {badge && (
-                <span className={`text-[10px] font-mono uppercase tracking-wider px-1.5 py-0.2 rounded border ${badgeColor}`}>
+                <span className={`text-[9px] sm:text-[10px] font-mono uppercase tracking-wider px-1.5 py-0.5 rounded border ${badgeColor}`}>
                   {badge}
                 </span>
               )}
             </div>
-            {subtitle && <p className="text-[11px] text-neutral-400 mt-0.5">{subtitle}</p>}
+            {subtitle && <p className="text-[11px] text-neutral-400 mt-1 leading-normal">{subtitle}</p>}
           </div>
         </div>
 
-        <button className="text-neutral-400 hover:text-white p-0.5 transition-colors">
+        <button className="text-neutral-400 hover:text-white p-1 transition-colors flex-shrink-0 mt-0.5" aria-label="Toggle step card">
           {isOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
         </button>
       </div>
 
       {/* Body */}
-      {isOpen && <div className="p-4 space-y-3.5">{children}</div>}
+      {isOpen && <div className="p-3 sm:p-4 space-y-3 sm:space-y-3.5">{children}</div>}
     </div>
   );
 };

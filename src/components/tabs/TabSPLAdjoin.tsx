@@ -50,23 +50,23 @@ export const TabSPLAdjoin: React.FC = () => {
   return (
     <div className="space-y-4">
       {/* Tab Header Banner */}
-      <div className="p-4 rounded bg-[#15191f] border border-[#262c36]">
+      <div className="p-3.5 sm:p-4 rounded bg-[#15191f] border border-[#262c36]">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
           <div>
-            <div className="flex items-center gap-1.5 text-neutral-400 text-xs font-semibold uppercase tracking-wider mb-1">
+            <div className="flex items-center gap-1.5 text-neutral-400 text-[11px] sm:text-xs font-semibold uppercase tracking-wider mb-1">
               <Layers className="w-3.5 h-3.5 text-neutral-400" />
-              <span>Modul 1 - 6 Algoritma Utama</span>
+              <span>Modul 1 – 6 Algoritma Utama</span>
             </div>
-            <h2 className="text-base font-bold text-white tracking-tight">
-              Simulasi SPL Berbasis Metode Matriks Adjoin ($x = A^{-1}b$)
+            <h2 className="text-sm sm:text-base font-bold text-white tracking-tight">
+              Simulasi SPL Berbasis Metode Matriks Adjoin (x = A⁻¹ · b)
             </h2>
-            <p className="text-xs text-neutral-400 mt-0.5">
+            <p className="text-xs text-neutral-400 mt-0.5 leading-relaxed">
               Menghitung solusi eksak sistem persamaan linier dengan penelusuran minor, kofaktor, adjoin, dan invers analitik.
             </p>
           </div>
 
           {/* Dimension Selector */}
-          <div className="flex items-center gap-1.5 bg-[#111418] p-1 rounded border border-[#262c36]">
+          <div className="flex items-center gap-1.5 bg-[#111418] p-1 rounded border border-[#262c36] self-start md:self-auto">
             <span className="text-xs text-neutral-400 px-2 font-medium">Ukuran:</span>
             {[2, 3, 4].map((n) => (
               <button
@@ -107,8 +107,8 @@ export const TabSPLAdjoin: React.FC = () => {
       </div>
 
       {/* Input Matrix & Vector Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
-        <div className="lg:col-span-3 bg-[#15191f] p-4 rounded border border-[#262c36]">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-3.5 sm:gap-4">
+        <div className="lg:col-span-3 bg-[#15191f] p-3.5 sm:p-4 rounded border border-[#262c36]">
           <MatrixInput
             label="Matriks Koefisien A"
             subLabel="Ukuran n × n"
@@ -117,7 +117,7 @@ export const TabSPLAdjoin: React.FC = () => {
           />
         </div>
 
-        <div className="lg:col-span-1 bg-[#15191f] p-4 rounded border border-[#262c36] flex flex-col justify-between">
+        <div className="lg:col-span-1 bg-[#15191f] p-3.5 sm:p-4 rounded border border-[#262c36] flex flex-col justify-between gap-3">
           <VectorInput
             label="Vektor Konstanta b"
             subLabel="Ukuran n × 1"
@@ -125,14 +125,14 @@ export const TabSPLAdjoin: React.FC = () => {
             onChange={setVectorB}
           />
 
-          <div className="mt-3 pt-3 border-t border-[#262c36] flex items-center justify-between text-xs text-neutral-400">
-            <span>Sistem: Ax = b</span>
+          <div className="pt-2 border-t border-[#262c36] flex items-center justify-between text-xs text-neutral-400">
+            <span className="font-mono">Sistem: A · x = b</span>
             <button
               onClick={() => {
                 const p = SPL_PRESETS.find((pr) => pr.n === dimension) || SPL_PRESETS[0];
                 handleApplyPreset(p);
               }}
-              className="flex items-center gap-1 text-neutral-300 hover:text-white"
+              className="flex items-center gap-1 text-neutral-300 hover:text-white transition-colors"
             >
               <RotateCcw className="w-3 h-3" />
               Reset Preset
@@ -175,12 +175,12 @@ export const TabSPLAdjoin: React.FC = () => {
             <p className="text-neutral-300 leading-relaxed">
               Determinan dihitung melalui ekspansi kofaktor sepanjang baris pertama:
               <br />
-              <code className="text-neutral-200 font-mono">
-                det(A) = ∑ ((-1)^(1+j) · A[1][j] · Det(Minor(A, n, 1, j))) untuk j = 1..{dimension}
+              <code className="text-neutral-200 font-mono text-[11px] sm:text-xs">
+                det(A) = ∑ⱼ₌₁ⁿ [ (-1)¹⁺ʲ · A[1][j] · Det(Minor(A, n, 1, j)) ]
               </code>
             </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
               {trace.detExpansionRow1.map((term) => (
                 <div
                   key={term.col}
@@ -190,18 +190,18 @@ export const TabSPLAdjoin: React.FC = () => {
                     <span className="font-mono font-bold text-neutral-200">
                       Kolom {term.col} (A[1][{term.col}] = {term.element})
                     </span>
-                    <span className="text-[10px] font-mono px-1 py-0.2 rounded bg-[#1e232b] text-neutral-300">
+                    <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-[#1e232b] text-neutral-300">
                       Tanda: {term.sign > 0 ? "+1" : "-1"}
                     </span>
                   </div>
 
                   <div className="space-y-1">
-                    <div className="text-[10px] text-neutral-400">Sub-matriks Minor M₁_{term.col}:</div>
+                    <div className="text-[10px] text-neutral-400">Sub-matriks Minor M₁₍{term.col}₎:</div>
                     <MatrixDisplay matrix={term.subMatrix} size="sm" />
                   </div>
 
                   <div className="pt-1.5 border-t border-[#262c36] font-mono text-neutral-300">
-                    <div>det(M₁_{term.col}) = <strong className="text-white">{term.minorDet}</strong></div>
+                    <div>det(M₁₍{term.col}₎) = <strong className="text-white">{term.minorDet}</strong></div>
                     <div className="text-neutral-300 mt-0.5">
                       Suku = ({term.sign > 0 ? "+1" : "-1"}) × {term.element} × {term.minorDet} ={" "}
                       <strong className="text-white">{term.termValue}</strong>
@@ -213,14 +213,14 @@ export const TabSPLAdjoin: React.FC = () => {
 
             {/* Determinant Summation Result */}
             <div className="p-3 rounded bg-[#111418] border border-[#262c36] flex flex-wrap items-center justify-between gap-2.5">
-              <div className="font-mono text-neutral-200">
+              <div className="font-mono text-neutral-200 text-xs sm:text-sm">
                 det(A) ={" "}
                 {trace.detExpansionRow1
                   .map((t) => `${t.termValue < 0 ? `- ${Math.abs(t.termValue)}` : `+ ${t.termValue}`}`)
                   .join(" ")
                   .replace(/^\+\s*/, "")}{" "}
                 ={" "}
-                <strong className={`text-sm ${trace.isSingular ? "text-rose-400" : "text-emerald-400"}`}>
+                <strong className={`text-sm sm:text-base ${trace.isSingular ? "text-rose-400" : "text-emerald-400"}`}>
                   {trace.detA}
                 </strong>
               </div>
@@ -237,23 +237,23 @@ export const TabSPLAdjoin: React.FC = () => {
             <StepCard
               stepNumber="2"
               title="Menentukan Matriks Kofaktor C"
-              formula="C[i][j] = (-1)^(i+j) · Det(Minor(A, n, i, j))"
-              subtitle="Menghitung kofaktor setiap elemen berdasarkan minor sub-matriks (n-1) x (n-1)"
+              formula="Cᵢⱼ = (-1)ⁱ⁺ʲ · Det(Mᵢⱼ)"
+              subtitle="Menghitung kofaktor setiap elemen berdasarkan minor sub-matriks (n-1) × (n-1)"
             >
               <div className="space-y-3 text-xs">
-                <p className="text-neutral-300">
-                  Matriks kofaktor berukuran {dimension} × {dimension} yang diperoleh dari perkalian tanda selang-seling <code className="text-neutral-200 font-mono">(-1)^(i+j)</code> dengan determinan minor masing-masing:
+                <p className="text-neutral-300 leading-relaxed">
+                  Matriks kofaktor berukuran {dimension} × {dimension} yang diperoleh dari perkalian tanda selang-seling <code className="text-neutral-200 font-mono">(-1)ⁱ⁺ʲ</code> dengan determinan minor masing-masing:
                 </p>
 
-                <div className="flex flex-col lg:flex-row items-start gap-4">
-                  <div className="p-3 rounded bg-[#111418] border border-[#262c36] space-y-1.5">
+                <div className="flex flex-col lg:flex-row items-stretch lg:items-start gap-3.5 sm:gap-4">
+                  <div className="p-3 rounded bg-[#111418] border border-[#262c36] space-y-1.5 flex-shrink-0">
                     <span className="text-xs font-semibold text-neutral-300">Matriks Kofaktor C:</span>
                     <MatrixDisplay matrix={trace.cofactorMatrix} size="md" />
                   </div>
 
-                  <div className="flex-1 space-y-1.5">
+                  <div className="flex-1 space-y-1.5 min-w-0">
                     <div className="text-xs font-semibold text-neutral-300">Rincian Nilai Kofaktor Tiap Sel:</div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 max-h-44 overflow-y-auto pr-1">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 max-h-48 overflow-y-auto pr-1">
                       {trace.cofactorSteps.flatMap((row) =>
                         row.map((step) => (
                           <div
@@ -279,17 +279,17 @@ export const TabSPLAdjoin: React.FC = () => {
             <StepCard
               stepNumber="3"
               title="Menentukan Matriks Adjoin adj(A)"
-              formula="adj(A) = C^T (Transpos Matriks Kofaktor)"
+              formula="adj(A) = Cᵀ (Transpos Matriks Kofaktor)"
               subtitle="Menukar baris menjadi kolom: adj[j][i] = C[i][j]"
             >
               <div className="space-y-3 text-xs">
-                <p className="text-neutral-300">
+                <p className="text-neutral-300 leading-relaxed">
                   Adjoin diperoleh dengan mentranspos matriks kofaktor C. Baris ke-i dari kofaktor menjadi kolom ke-i dari matriks adjoin:
                 </p>
 
-                <div className="flex flex-col sm:flex-row items-center gap-4">
-                  <div className="p-3 rounded bg-[#111418] border border-[#262c36] space-y-1.5">
-                    <span className="text-xs font-semibold text-neutral-300">Matriks Adjoin adj(A) = C^T:</span>
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-start gap-3.5 sm:gap-4">
+                  <div className="p-3 rounded bg-[#111418] border border-[#262c36] space-y-1.5 flex-shrink-0">
+                    <span className="text-xs font-semibold text-neutral-300">Matriks Adjoin adj(A) = Cᵀ:</span>
                     <MatrixDisplay matrix={trace.adjMatrix} size="md" />
                   </div>
 
@@ -300,12 +300,12 @@ export const TabSPLAdjoin: React.FC = () => {
                     <p className="text-neutral-400 text-xs">
                       Mengalikan matriks adjoin bulat dengan vektor b menghasilkan vektor kelipatan determinan:
                     </p>
-                    <div className="font-mono text-xs bg-[#181c22] p-2.5 rounded border border-[#2e3542] text-emerald-400 font-bold">
-                      adj(A) · b = [{trace.adjTimesB.join(", ")}]^T
+                    <div className="font-mono text-xs bg-[#181c22] p-2.5 rounded border border-[#2e3542] text-emerald-400 font-bold overflow-x-auto">
+                      adj(A) · b = [{trace.adjTimesB.join(", ")}]ᵀ
                     </div>
                     {dimension === 4 && trace.detA === -72 && (
                       <p className="text-[11px] text-neutral-400">
-                        Sesuai hitungan manual: [-72, 72, -144, -72]^T
+                        Sesuai hitungan manual: [-72, 72, -144, -72]ᵀ
                       </p>
                     )}
                   </div>
@@ -317,16 +317,16 @@ export const TabSPLAdjoin: React.FC = () => {
             <StepCard
               stepNumber="4"
               title="Tahap 1: Menentukan Matriks Invers A⁻¹"
-              formula="A⁻¹ = (1 / d) · adj(A)"
+              formula="A⁻¹ = (1/d) · adj(A)"
               subtitle="Membagi setiap elemen matriks adjoin dengan nilai determinan d"
             >
               <div className="space-y-3 text-xs">
-                <p className="text-neutral-300">
+                <p className="text-neutral-300 leading-relaxed">
                   Setiap elemen <code className="text-neutral-200 font-mono">adj[i][j]</code> dibagi dengan determinan <code className="text-neutral-200 font-mono">d = {trace.detA}</code>. Disajikan dalam bentuk pecahan eksak dan desimal:
                 </p>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  <div className="p-3 rounded bg-[#111418] border border-[#262c36] space-y-1.5">
+                  <div className="p-3 rounded bg-[#111418] border border-[#262c36] space-y-1.5 overflow-hidden">
                     <div className="flex items-center justify-between">
                       <span className="text-xs font-semibold text-amber-300">Bentuk Pecahan Eksak:</span>
                       <span className="text-[10px] text-neutral-500 font-mono">Tanpa pembulatan</span>
@@ -334,7 +334,7 @@ export const TabSPLAdjoin: React.FC = () => {
                     <MatrixDisplay matrix={trace.invMatrixFraction} isFraction size="sm" />
                   </div>
 
-                  <div className="p-3 rounded bg-[#111418] border border-[#262c36] space-y-1.5">
+                  <div className="p-3 rounded bg-[#111418] border border-[#262c36] space-y-1.5 overflow-hidden">
                     <div className="flex items-center justify-between">
                       <span className="text-xs font-semibold text-neutral-300">Bentuk Desimal:</span>
                       <span className="text-[10px] text-neutral-500 font-mono">Presisi komputasi</span>
@@ -354,13 +354,13 @@ export const TabSPLAdjoin: React.FC = () => {
             <StepCard
               stepNumber="5"
               title="Tahap 2: Menentukan Vektor Solusi x"
-              formula="x = A⁻¹ · b = (1 / det(A)) · (adj(A) · b)"
+              formula="x = A⁻¹ · b = (1/det(A)) · (adj(A) · b)"
               subtitle="Mengalikan matriks invers dengan vektor konstanta b"
               badge="Solusi Akhir SPL"
               badgeType="success"
             >
               <div className="space-y-3 text-xs">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 items-center">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 items-stretch">
                   <div className="p-3 rounded bg-[#111418] border border-[#262c36] space-y-1.5">
                     <span className="text-xs font-semibold text-neutral-300">Vektor Pecahan:</span>
                     <div className="space-y-1 font-mono">
@@ -369,7 +369,7 @@ export const TabSPLAdjoin: React.FC = () => {
                           key={idx}
                           className="flex items-center justify-between p-1.5 rounded bg-[#181c22] border border-[#262c36]"
                         >
-                          <span className="text-neutral-400">x_{idx + 1} =</span>
+                          <span className="text-neutral-400">x₍{idx + 1}₎ =</span>
                           <span className="font-bold text-amber-300 font-mono">
                             {frac.formatted}
                           </span>
@@ -388,8 +388,8 @@ export const TabSPLAdjoin: React.FC = () => {
                           key={idx}
                           className="p-2.5 rounded bg-[#181c22] border border-[#2a313d] text-center"
                         >
-                          <div className="text-[10px] text-neutral-400 font-mono">Variabel x_{idx + 1}</div>
-                          <div className="text-lg font-bold font-mono text-emerald-400 mt-0.5">
+                          <div className="text-[10px] text-neutral-400 font-mono">Variabel x₍{idx + 1}₎</div>
+                          <div className="text-base sm:text-lg font-bold font-mono text-emerald-400 mt-0.5">
                             {Number.isInteger(val) ? val : val.toFixed(4)}
                           </div>
                         </div>
@@ -397,7 +397,7 @@ export const TabSPLAdjoin: React.FC = () => {
                     </div>
                     {dimension === 4 && JSON.stringify(trace.x) === JSON.stringify([1, -1, 2, 1]) && (
                       <p className="text-xs text-emerald-400 pt-1 flex items-center gap-1.5 font-mono">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
                         Sesuai 100% hasil laporan: x = [1, -1, 2, 1]ᵀ
                       </p>
                     )}
@@ -415,11 +415,11 @@ export const TabSPLAdjoin: React.FC = () => {
               badge={trace.isVerified ? "Terverifikasi Valid" : "Galat Terdeteksi"}
               badgeType={trace.isVerified ? "success" : "warning"}
             >
-              <div className="space-y-2.5 text-xs">
-                <div className="overflow-x-auto">
-                  <table className="w-full text-left font-mono border-collapse">
+              <div className="space-y-2 text-xs">
+                <div className="overflow-x-auto -mx-1">
+                  <table className="w-full text-left font-mono border-collapse min-w-[500px]">
                     <thead>
-                      <tr className="border-b border-[#262c36] text-neutral-400">
+                      <tr className="border-b border-[#262c36] text-neutral-400 bg-[#111418]">
                         <th className="py-2 px-2.5">Persamaan</th>
                         <th className="py-2 px-2.5">Substitusi (A[i] · x)</th>
                         <th className="py-2 px-2.5">Hasil Evaluasi</th>
@@ -436,7 +436,7 @@ export const TabSPLAdjoin: React.FC = () => {
                         const isMatch = Math.abs(calculatedRowVal - vectorB[i]) < 1e-6;
                         return (
                           <tr key={i} className="hover:bg-[#181c22]">
-                            <td className="py-2 px-2.5 font-semibold text-neutral-300">
+                            <td className="py-2 px-2.5 font-semibold text-neutral-300 whitespace-nowrap">
                               Baris {i + 1}
                             </td>
                             <td className="py-2 px-2.5 text-neutral-400 text-[10px]">
@@ -444,15 +444,15 @@ export const TabSPLAdjoin: React.FC = () => {
                                 .map((c, j) => `(${c})(${Number.isInteger(trace.x[j]) ? trace.x[j] : trace.x[j].toFixed(2)})`)
                                 .join(" + ")}
                             </td>
-                            <td className="py-2 px-2.5 text-white font-bold">
+                            <td className="py-2 px-2.5 text-white font-bold whitespace-nowrap">
                               {Number.isInteger(calculatedRowVal)
                                 ? calculatedRowVal
                                 : calculatedRowVal.toFixed(4)}
                             </td>
-                            <td className="py-2 px-2.5 text-neutral-300 font-bold">
+                            <td className="py-2 px-2.5 text-neutral-300 font-bold whitespace-nowrap">
                               {vectorB[i]}
                             </td>
-                            <td className="py-2 px-2.5">
+                            <td className="py-2 px-2.5 whitespace-nowrap">
                               {isMatch ? (
                                 <span className="inline-flex items-center gap-1 text-emerald-400 font-semibold text-[11px]">
                                   <CheckCircle2 className="w-3.5 h-3.5" /> Cocok

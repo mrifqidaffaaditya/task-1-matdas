@@ -47,22 +47,22 @@ export const TabHillCipher: React.FC = () => {
   return (
     <div className="space-y-4">
       {/* Tab Header Banner */}
-      <div className="p-4 rounded bg-[#15191f] border border-[#262c36]">
+      <div className="p-3.5 sm:p-4 rounded bg-[#15191f] border border-[#262c36]">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
           <div>
-            <div className="flex items-center gap-1.5 text-neutral-400 text-xs font-semibold uppercase tracking-wider mb-1">
+            <div className="flex items-center gap-1.5 text-neutral-400 text-[11px] sm:text-xs font-semibold uppercase tracking-wider mb-1">
               <KeyRound className="w-3.5 h-3.5 text-neutral-400" />
-              <span>Studi Kasus Sistem Informasi — Topik A (Modul 7 - 8)</span>
+              <span>Studi Kasus Sistem Informasi — Topik A (Modul 7 – 8)</span>
             </div>
-            <h2 className="text-base font-bold text-white tracking-tight">
-              Dekripsi Hill Cipher Matriks 3 × 3 dalam Gelanggang $\mathbb&#123;Z&#125;_{'{26}'}$
+            <h2 className="text-sm sm:text-base font-bold text-white tracking-tight">
+              Dekripsi Hill Cipher Matriks 3 × 3 dalam Gelanggang ℤ₂₆
             </h2>
-            <p className="text-xs text-neutral-400 mt-0.5">
-              Penerapan invers matriks adjoin modulo 26: $K^{'{ -1 }'} \equiv \det(K)^{'{ -1 }'} \cdot \text&#123;adj&#125;(K) \pmod&#123;26&#125;$
+            <p className="text-xs text-neutral-400 mt-0.5 leading-relaxed">
+              Penerapan invers matriks adjoin modulo 26: K⁻¹ ≡ det(K)⁻¹ · adj(K) (mod 26)
             </p>
           </div>
 
-          <div className="flex items-center gap-1.5">
+          <div className="flex flex-wrap items-center gap-1.5 self-start md:self-auto">
             <span className="text-xs text-neutral-400 font-medium mr-1 flex items-center gap-1">
               <Sparkles className="w-3 h-3 text-amber-400" />
               Preset:
@@ -85,8 +85,8 @@ export const TabHillCipher: React.FC = () => {
       </div>
 
       {/* Input Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        <div className="lg:col-span-2 bg-[#15191f] p-4 rounded border border-[#262c36] space-y-3">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-3.5 sm:gap-4">
+        <div className="lg:col-span-2 bg-[#15191f] p-3.5 sm:p-4 rounded border border-[#262c36] space-y-3">
           <MatrixInput
             label="Matriks Kunci K (Ukuran 3 × 3)"
             subLabel="Elemen bilangan bulat integer"
@@ -95,13 +95,13 @@ export const TabHillCipher: React.FC = () => {
           />
         </div>
 
-        <div className="bg-[#15191f] p-4 rounded border border-[#262c36] flex flex-col justify-between space-y-3">
+        <div className="bg-[#15191f] p-3.5 sm:p-4 rounded border border-[#262c36] flex flex-col justify-between gap-3">
           <div className="space-y-1.5">
             <div className="flex items-center justify-between">
               <label className="text-xs font-bold text-neutral-200">
                 Teks Sandi (Ciphertext)
               </label>
-              <span className="text-[10px] font-mono text-neutral-300 bg-[#1e232b] border border-[#2a313d] px-1.5 py-0.2 rounded-sm">
+              <span className="text-[10px] font-mono text-neutral-300 bg-[#1e232b] border border-[#2a313d] px-1.5 py-0.5 rounded-sm">
                 Panjang: {trace.ciphertext.length} ({(trace.ciphertext.length / 3).toFixed(0)} Blok)
               </span>
             </div>
@@ -118,14 +118,14 @@ export const TabHillCipher: React.FC = () => {
           </div>
 
           {/* Quick Alphabet Reference Strip */}
-          <div className="p-2 rounded bg-[#111418] border border-[#262c36] text-[10px] font-mono text-neutral-400">
-            <span className="text-neutral-300 font-semibold block mb-1">
-              Pemetaan Huruf ke Angka (Z₂₆):
+          <div className="p-2.5 rounded bg-[#111418] border border-[#262c36] text-[10px] font-mono text-neutral-400">
+            <span className="text-neutral-300 font-semibold block mb-1.5">
+              Pemetaan Huruf ke Angka (ℤ₂₆):
             </span>
             <div className="flex flex-wrap gap-1 text-[9px] text-neutral-300">
               {["A:0", "B:1", "C:2", "E:4", "G:6", "I:8", "K:10", "M:12", "O:14", "P:15", "R:17", "S:18", "T:19", "W:22", "Y:24", "Z:25"].map(
                 (item) => (
-                  <span key={item} className="px-1 py-0.2 bg-[#181c22] rounded-sm border border-[#262c36]">
+                  <span key={item} className="px-1.5 py-0.5 bg-[#181c22] rounded-sm border border-[#262c36]">
                     {item}
                   </span>
                 )
@@ -137,13 +137,13 @@ export const TabHillCipher: React.FC = () => {
 
       {/* FINAL PLAINTEXT HERO CARD */}
       {trace.isValidKey && (
-        <div className="p-4 rounded bg-[#111418] border border-emerald-900 flex flex-col md:flex-row items-center justify-between gap-3">
-          <div className="space-y-0.5 text-center md:text-left">
-            <div className="flex items-center gap-1.5 justify-center md:justify-start text-[11px] font-semibold text-emerald-400 uppercase tracking-wider font-mono">
+        <div className="p-3.5 sm:p-4 rounded bg-[#111418] border border-emerald-900 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div className="space-y-0.5 text-center sm:text-left">
+            <div className="flex items-center gap-1.5 justify-center sm:justify-start text-[11px] font-semibold text-emerald-400 uppercase tracking-wider font-mono">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
               <span>Hasil Dekripsi Teks Asli (Plaintext)</span>
             </div>
-            <div className="text-2xl font-bold font-mono tracking-widest text-white">
+            <div className="text-xl sm:text-2xl font-bold font-mono tracking-widest text-white">
               {trace.plaintext}
             </div>
             {trace.plaintext === "SISTEMINFORMASI" && (
@@ -174,12 +174,12 @@ export const TabHillCipher: React.FC = () => {
                 <h3 className="text-sm font-bold text-rose-100 font-mono">
                   &quot;Kunci tidak valid (tidak koprima dengan 26)&quot;
                 </h3>
-                <p className="text-xs text-rose-300/90 mt-0.5">
-                  Determinan d = {trace.detKMod26} tidak saling prima (koprima) dengan 26 karena gcd({trace.detKMod26}, 26) = {trace.gcdVal} ≠ 1. Invers modular d⁻¹ tidak ada dalam Z₂₆, sehingga matriks kunci tidak dapat dibalik.
+                <p className="text-xs text-rose-300/90 mt-0.5 leading-relaxed">
+                  Determinan d = {trace.detKMod26} tidak saling prima (koprima) dengan 26 karena gcd({trace.detKMod26}, 26) = {trace.gcdVal} ≠ 1. Invers modular d⁻¹ tidak ada dalam ℤ₂₆, sehingga matriks kunci tidak dapat dibalik.
                 </p>
               </div>
             </div>
-            <div className="font-mono text-xs bg-[#111418] p-2.5 rounded border border-rose-900/60 text-neutral-300">
+            <div className="font-mono text-xs bg-[#111418] p-2.5 rounded border border-rose-900/60 text-neutral-300 overflow-x-auto">
               d = Det(K, 3) mod 26 = {trace.detKMod26} ⟹ JIKA GCD({trace.detKMod26}, 26) != 1: CETAK &quot;Kunci tidak valid (tidak koprima dengan 26)&quot; ⟹ BERHENTI
             </div>
           </div>
@@ -194,7 +194,7 @@ export const TabHillCipher: React.FC = () => {
           badgeType={trace.isValidKey ? "success" : "warning"}
         >
           <div className="space-y-3 text-xs">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3">
               <div className="p-3 rounded bg-[#111418] border border-[#262c36] space-y-1">
                 <span className="text-neutral-400 font-mono text-[10px]">Determinan Matriks K:</span>
                 <div className="text-base font-bold font-mono text-white">
@@ -238,17 +238,17 @@ export const TabHillCipher: React.FC = () => {
             <StepCard
               stepNumber="2"
               title="Langkah 2: Menentukan Matriks Kofaktor C"
-              formula="C[i][j] = (-1)^(i+j) · Det(Minor(K, 3, i, j))"
-              subtitle="Menghitung kofaktor setiap elemen pada kunci K (3x3)"
+              formula="Cᵢⱼ = (-1)ⁱ⁺ʲ · Det(Mᵢⱼ)"
+              subtitle="Menghitung kofaktor setiap elemen pada kunci K (3 × 3)"
             >
               <div className="space-y-3 text-xs">
-                <div className="flex flex-col sm:flex-row items-center gap-4">
-                  <div className="p-3 rounded bg-[#111418] border border-[#262c36] space-y-1.5">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-start gap-3.5 sm:gap-4">
+                  <div className="p-3 rounded bg-[#111418] border border-[#262c36] space-y-1.5 flex-shrink-0">
                     <span className="text-xs font-semibold text-neutral-300">Matriks Kofaktor C:</span>
                     <MatrixDisplay matrix={trace.cofactorMatrix} size="md" />
                   </div>
 
-                  <div className="flex-1 space-y-1.5 text-neutral-300">
+                  <div className="flex-1 space-y-1.5 text-neutral-300 min-w-0">
                     <div className="font-semibold text-neutral-200">Rincian Nilai Minor & Kofaktor:</div>
                     <ul className="space-y-1 font-mono text-[10px] text-neutral-400">
                       <li>• Baris 1: C₁₁ = +70, C₁₂ = -(-5) = 5, C₁₃ = +(-99) = -99</li>
@@ -268,7 +268,7 @@ export const TabHillCipher: React.FC = () => {
               subtitle="Transpos kofaktor dan normalisasi setiap elemen ke dalam [0, 25]"
             >
               <div className="space-y-3 text-xs">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div className="p-3 rounded bg-[#111418] border border-[#262c36] space-y-1.5">
                     <span className="text-xs font-semibold text-neutral-300">Matriks Adjoin Mentah adj(K) = Cᵀ:</span>
                     <MatrixDisplay matrix={trace.adjMatrix} size="md" />
@@ -295,8 +295,8 @@ export const TabHillCipher: React.FC = () => {
               badgeType="purple"
             >
               <div className="space-y-3 text-xs">
-                <div className="flex flex-col sm:flex-row items-center gap-4">
-                  <div className="p-3 rounded bg-[#111418] border border-[#262c36] space-y-1.5">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-start gap-3.5 sm:gap-4">
+                  <div className="p-3 rounded bg-[#111418] border border-[#262c36] space-y-1.5 flex-shrink-0">
                     <span className="text-xs font-bold text-neutral-200">Matriks K⁻¹ (mod 26):</span>
                     <MatrixDisplay matrix={trace.invKeyMatrix} size="md" />
                   </div>
@@ -327,26 +327,26 @@ export const TabHillCipher: React.FC = () => {
               badgeType="success"
             >
               <div className="space-y-3 text-xs">
-                <p className="text-neutral-300">
+                <p className="text-neutral-300 leading-relaxed">
                   Setiap blok 3 huruf diubah menjadi vektor kolom <code className="text-neutral-200 font-mono">c = [c₁, c₂, c₃]ᵀ</code>, dikalikan dengan <code className="text-neutral-200 font-mono">K⁻¹</code>, dan hasilnya dimodulo 26:
                 </p>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2.5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-3">
                   {trace.blocks.map((block) => (
                     <div
                       key={block.blockIndex}
                       className="p-3 rounded bg-[#111418] border border-[#262c36] space-y-2"
                     >
-                      <div className="flex items-center justify-between border-b border-[#262c36] pb-1.5">
+                      <div className="flex flex-wrap items-center justify-between border-b border-[#262c36] pb-1.5 gap-1.5">
                         <span className="font-bold text-neutral-300">
                           Blok #{block.blockIndex}
                         </span>
                         <div className="flex items-center gap-1.5 font-mono text-xs">
-                          <span className="text-neutral-300 font-bold px-1.5 py-0.2 rounded bg-[#181c22] border border-[#2a313d]">
+                          <span className="text-neutral-300 font-bold px-1.5 py-0.5 rounded bg-[#181c22] border border-[#2a313d]">
                             {block.cipherLetters}
                           </span>
                           <ArrowRight className="w-3 h-3 text-neutral-600" />
-                          <span className="text-emerald-400 font-bold px-1.5 py-0.2 rounded bg-[#1c2420] border border-emerald-900/60">
+                          <span className="text-emerald-400 font-bold px-1.5 py-0.5 rounded bg-[#1c2420] border border-emerald-900/60">
                             {block.plainLetters}
                           </span>
                         </div>

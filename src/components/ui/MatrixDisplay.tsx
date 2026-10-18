@@ -27,69 +27,75 @@ export const MatrixDisplay: React.FC<MatrixDisplayProps> = ({
   if (!matrix || matrix.length === 0) return null;
 
   const cellPadding =
-    size === "sm" ? "px-2 py-1 text-xs" : size === "lg" ? "px-3.5 py-2 text-sm" : "px-2.5 py-1 text-xs";
+    size === "sm"
+      ? "px-1.5 sm:px-2 py-0.5 sm:py-1 text-[11px] sm:text-xs"
+      : size === "lg"
+      ? "px-2.5 sm:px-3.5 py-1.5 sm:py-2 text-xs sm:text-sm"
+      : "px-2 sm:px-2.5 py-1 text-xs";
 
   return (
-    <div className="inline-block space-y-1">
+    <div className="max-w-full space-y-1">
       {(label || subLabel) && (
-        <div className="flex items-center justify-between text-xs mb-1 gap-2">
+        <div className="flex flex-wrap items-center justify-between text-xs mb-1 gap-1.5">
           {label && <span className="font-semibold text-neutral-300">{label}</span>}
           {subLabel && <span className="text-[10px] text-neutral-500 font-mono">{subLabel}</span>}
         </div>
       )}
 
-      <div className="matrix-bracket bg-[#111418] border border-[#262c36] inline-block">
-        <table className="border-collapse">
-          <tbody>
-            {matrix.map((row, r) => (
-              <tr key={r}>
-                {(row as (number | Fraction)[]).map((cell, c) => {
-                  const isCellHighlighted =
-                    (highlightCell && highlightCell.r === r && highlightCell.c === c) ||
-                    highlightRow === r ||
-                    highlightCol === c;
+      <div className="max-w-full overflow-x-auto py-0.5">
+        <div className="matrix-bracket bg-[#111418] border border-[#262c36] inline-block min-w-fit">
+          <table className="border-collapse">
+            <tbody>
+              {matrix.map((row, r) => (
+                <tr key={r}>
+                  {(row as (number | Fraction)[]).map((cell, c) => {
+                    const isCellHighlighted =
+                      (highlightCell && highlightCell.r === r && highlightCell.c === c) ||
+                      highlightRow === r ||
+                      highlightCol === c;
 
-                  let cellContent: React.ReactNode = "";
-                  if (isFraction || (typeof cell === "object" && cell !== null && "formatted" in cell)) {
-                    const frac = cell as Fraction;
-                    cellContent = (
-                      <span className="font-mono font-medium">
-                        {frac.denominator === 1 ? (
-                          frac.numerator
-                        ) : (
-                          <span className="inline-flex items-center gap-0.5">
-                            <span className="text-amber-300">{frac.numerator}</span>
-                            <span className="text-neutral-500">/</span>
-                            <span className="text-neutral-300">{frac.denominator}</span>
-                          </span>
-                        )}
-                      </span>
-                    );
-                  } else {
-                    cellContent = (
-                      <span className="font-mono font-medium">
-                        {typeof cell === "number" ? cell : String(cell)}
-                      </span>
-                    );
-                  }
+                    let cellContent: React.ReactNode = "";
+                    if (isFraction || (typeof cell === "object" && cell !== null && "formatted" in cell)) {
+                      const frac = cell as Fraction;
+                      cellContent = (
+                        <span className="font-mono font-medium">
+                          {frac.denominator === 1 ? (
+                            frac.numerator
+                          ) : (
+                            <span className="inline-flex items-center gap-0.5">
+                              <span className="text-amber-300">{frac.numerator}</span>
+                              <span className="text-neutral-500">/</span>
+                              <span className="text-neutral-300">{frac.denominator}</span>
+                            </span>
+                          )}
+                        </span>
+                      );
+                    } else {
+                      cellContent = (
+                        <span className="font-mono font-medium">
+                          {typeof cell === "number" ? cell : String(cell)}
+                        </span>
+                      );
+                    }
 
-                  return (
-                    <td
-                      key={c}
-                      className={`text-center font-mono transition-colors ${cellPadding} ${
-                        isCellHighlighted
-                          ? "bg-[#252c38] text-white border border-neutral-500"
-                          : "text-neutral-200"
-                      }`}
-                    >
-                      {cellContent}
-                    </td>
-                  );
-                })}
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                    return (
+                      <td
+                        key={c}
+                        className={`text-center font-mono transition-colors ${cellPadding} ${
+                          isCellHighlighted
+                            ? "bg-[#252c38] text-white border border-neutral-500"
+                            : "text-neutral-200"
+                        }`}
+                      >
+                        {cellContent}
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

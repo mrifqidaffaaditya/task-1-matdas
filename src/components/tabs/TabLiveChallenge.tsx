@@ -103,9 +103,9 @@ export const TabLiveChallenge: React.FC = () => {
   }, [matrixA, vectorB, dimension]);
 
   const stepNames = [
-    "Determinan Matriks A",
-    "Matriks Minor M_ij",
-    "Matriks Kofaktor C_ij",
+    "Determinan det(A)",
+    "Determinan Minor Mᵢⱼ",
+    "Matriks Kofaktor Cᵢⱼ",
     "Matriks Adjoin adj(A)",
     "Matriks Invers A⁻¹",
     "Vektor Solusi x",
@@ -114,23 +114,23 @@ export const TabLiveChallenge: React.FC = () => {
   return (
     <div className="space-y-4">
       {/* Header Banner */}
-      <div className="p-4 rounded bg-[#15191f] border border-[#262c36]">
+      <div className="p-3.5 sm:p-4 rounded bg-[#15191f] border border-[#262c36]">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
           <div>
-            <div className="flex items-center gap-1.5 text-neutral-400 text-xs font-semibold uppercase tracking-wider mb-1">
+            <div className="flex items-center gap-1.5 text-neutral-400 text-[11px] sm:text-xs font-semibold uppercase tracking-wider mb-1">
               <Dices className="w-3.5 h-3.5 text-neutral-400" />
               <span>Simulasi Ujian Lisan & Rubrik Penilaian (25 Menit)</span>
             </div>
-            <h2 className="text-base font-bold text-white tracking-tight">
+            <h2 className="text-sm sm:text-base font-bold text-white tracking-tight">
               Mode &quot;Live Challenge&quot; Dosen (Real-Time Arena)
             </h2>
-            <p className="text-xs text-neutral-400 mt-0.5">
-              Dirancang untuk menguji matriks acak secara interaktif dengan kontrol buka-tutup bertahap (*reveal mode*) saat menghitung di papan tulis.
+            <p className="text-xs text-neutral-400 mt-0.5 leading-relaxed">
+              Dirancang untuk menguji matriks acak secara interaktif dengan kontrol buka-tutup bertahap (<em>reveal mode</em>) saat menghitung di papan tulis.
             </p>
           </div>
 
           {/* 25-Minute Session Timer */}
-          <div className="flex items-center gap-2.5 bg-[#111418] p-2 rounded border border-[#262c36]">
+          <div className="flex items-center gap-2.5 bg-[#111418] p-2 rounded border border-[#262c36] self-start md:self-auto">
             <Clock className="w-4 h-4 text-neutral-400" />
             <div className="text-center font-mono">
               <div className="text-base font-bold text-white">{formatTimer(timerSeconds)}</div>
@@ -160,7 +160,7 @@ export const TabLiveChallenge: React.FC = () => {
 
         {/* Action Controls Toolbar */}
         <div className="mt-3 pt-3 border-t border-[#262c36] flex flex-wrap items-center justify-between gap-2.5">
-          <div className="flex items-center gap-1.5">
+          <div className="flex flex-wrap items-center gap-1.5">
             <span className="text-xs text-neutral-400">Dimensi:</span>
             {[3, 4].map((n) => (
               <button
@@ -178,7 +178,7 @@ export const TabLiveChallenge: React.FC = () => {
 
             <button
               onClick={handleGenerateRandomMatrix}
-              className="flex items-center gap-1 px-2.5 py-1 rounded bg-[#111418] text-neutral-200 hover:text-white border border-[#262c36] text-xs font-medium transition-colors ml-1.5"
+              className="flex items-center gap-1 px-2.5 py-1 rounded bg-[#111418] text-neutral-200 hover:text-white border border-[#262c36] text-xs font-medium transition-colors ml-1"
             >
               <Sparkles className="w-3 h-3 text-amber-400" />
               Acak Matriks
@@ -186,7 +186,7 @@ export const TabLiveChallenge: React.FC = () => {
           </div>
 
           {/* Reveal Controls */}
-          <div className="flex items-center gap-1">
+          <div className="flex flex-wrap items-center gap-1">
             <button
               onClick={() => setRevealStep((prev) => Math.min(stepNames.length, prev + 1))}
               disabled={revealStep >= stepNames.length}
@@ -214,8 +214,8 @@ export const TabLiveChallenge: React.FC = () => {
       </div>
 
       {/* Interactive Input Grids */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
-        <div className="lg:col-span-3 bg-[#15191f] p-4 rounded border border-[#262c36]">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-3.5 sm:gap-4">
+        <div className="lg:col-span-3 bg-[#15191f] p-3.5 sm:p-4 rounded border border-[#262c36]">
           <MatrixInput
             label="Matriks Soal Tantangan Dosen A"
             subLabel="Ubah elemen langsung di grid"
@@ -223,10 +223,10 @@ export const TabLiveChallenge: React.FC = () => {
             onChange={setMatrixA}
           />
         </div>
-        <div className="lg:col-span-1 bg-[#15191f] p-4 rounded border border-[#262c36]">
+        <div className="lg:col-span-1 bg-[#15191f] p-3.5 sm:p-4 rounded border border-[#262c36]">
           <VectorInput
-            label="Vektor b"
-            subLabel="Target SPL"
+            label="Vektor Target b"
+            subLabel="Sistem A · x = b"
             vector={vectorB}
             onChange={setVectorB}
           />
@@ -262,7 +262,7 @@ export const TabLiveChallenge: React.FC = () => {
         <div
           className={`border rounded transition-colors ${
             revealStep >= 1
-              ? "bg-[#15191f] border-[#262c36] p-4"
+              ? "bg-[#15191f] border-[#262c36] p-3.5 sm:p-4"
               : "bg-[#111418] border-[#262c36] p-3 border-dashed"
           }`}
         >
@@ -271,7 +271,7 @@ export const TabLiveChallenge: React.FC = () => {
               <span className="w-5 h-5 rounded bg-[#1e232b] text-neutral-300 flex items-center justify-center font-mono text-xs font-bold border border-[#2a313d]">
                 1
               </span>
-              <span className="text-xs font-bold text-white">Langkah 1: Determinan Matriks A</span>
+              <span className="text-xs font-bold text-white">Langkah 1: Determinan Matriks A (d = det(A))</span>
             </div>
             {revealStep < 1 ? (
               <button
@@ -287,7 +287,7 @@ export const TabLiveChallenge: React.FC = () => {
 
           {revealStep >= 1 && (
             <div className="mt-3 pt-3 border-t border-[#262c36] space-y-2.5 text-xs">
-              <div className="flex items-center justify-between p-2.5 rounded bg-[#111418] border border-[#262c36]">
+              <div className="flex flex-wrap items-center justify-between p-2.5 rounded bg-[#111418] border border-[#262c36] gap-2">
                 <span className="text-neutral-400 font-mono">Nilai Determinan det(A):</span>
                 <span
                   className={`text-base font-bold font-mono ${
@@ -311,7 +311,7 @@ export const TabLiveChallenge: React.FC = () => {
           <div
             className={`border rounded transition-colors ${
               revealStep >= 2
-                ? "bg-[#15191f] border-[#262c36] p-4"
+                ? "bg-[#15191f] border-[#262c36] p-3.5 sm:p-4"
                 : "bg-[#111418] border-[#262c36] p-3 border-dashed"
             }`}
           >
@@ -320,7 +320,7 @@ export const TabLiveChallenge: React.FC = () => {
                 <span className="w-5 h-5 rounded bg-[#1e232b] text-neutral-300 flex items-center justify-center font-mono text-xs font-bold border border-[#2a313d]">
                   2
                 </span>
-                <span className="text-xs font-bold text-white">Langkah 2: Determinan Minor M_ij</span>
+                <span className="text-xs font-bold text-white">Langkah 2: Determinan Minor Mᵢⱼ</span>
               </div>
               {revealStep < 2 ? (
                 <button
@@ -336,14 +336,14 @@ export const TabLiveChallenge: React.FC = () => {
 
             {revealStep >= 2 && (
               <div className="mt-3 pt-3 border-t border-[#262c36] space-y-2.5 text-xs">
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-1.5">
                   {trace.minors.flatMap((row) =>
                     row.map((m) => (
                       <div
                         key={`${m.row}-${m.col}`}
                         className="p-1.5 rounded bg-[#111418] border border-[#262c36] font-mono text-[10px] flex justify-between"
                       >
-                        <span className="text-neutral-400">M_{m.row}{m.col}:</span>
+                        <span className="text-neutral-400">M₍{m.row}{m.col}₎:</span>
                         <span className="font-bold text-white">{m.detMinor}</span>
                       </div>
                     ))
@@ -359,7 +359,7 @@ export const TabLiveChallenge: React.FC = () => {
           <div
             className={`border rounded transition-colors ${
               revealStep >= 3
-                ? "bg-[#15191f] border-[#262c36] p-4"
+                ? "bg-[#15191f] border-[#262c36] p-3.5 sm:p-4"
                 : "bg-[#111418] border-[#262c36] p-3 border-dashed"
             }`}
           >
@@ -368,7 +368,7 @@ export const TabLiveChallenge: React.FC = () => {
                 <span className="w-5 h-5 rounded bg-[#1e232b] text-neutral-300 flex items-center justify-center font-mono text-xs font-bold border border-[#2a313d]">
                   3
                 </span>
-                <span className="text-xs font-bold text-white">Langkah 3: Matriks Kofaktor C_ij</span>
+                <span className="text-xs font-bold text-white">Langkah 3: Matriks Kofaktor Cᵢⱼ = (-1)ⁱ⁺ʲ · Det(Mᵢⱼ)</span>
               </div>
               {revealStep < 3 ? (
                 <button
@@ -395,7 +395,7 @@ export const TabLiveChallenge: React.FC = () => {
           <div
             className={`border rounded transition-colors ${
               revealStep >= 4
-                ? "bg-[#15191f] border-[#262c36] p-4"
+                ? "bg-[#15191f] border-[#262c36] p-3.5 sm:p-4"
                 : "bg-[#111418] border-[#262c36] p-3 border-dashed"
             }`}
           >
@@ -420,9 +420,11 @@ export const TabLiveChallenge: React.FC = () => {
 
             {revealStep >= 4 && (
               <div className="mt-3 pt-3 border-t border-[#262c36] space-y-2.5 text-xs">
-                <div className="flex flex-col sm:flex-row items-center gap-4">
-                  <MatrixDisplay matrix={trace.adjMatrix} size="md" />
-                  <div className="p-2.5 rounded bg-[#111418] border border-[#262c36] font-mono text-neutral-300 text-xs">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-start gap-3.5 sm:gap-4">
+                  <div className="flex-shrink-0">
+                    <MatrixDisplay matrix={trace.adjMatrix} size="md" />
+                  </div>
+                  <div className="p-2.5 rounded bg-[#111418] border border-[#262c36] font-mono text-neutral-300 text-xs overflow-x-auto flex-1">
                     adj(A) · b = [{trace.adjTimesB.join(", ")}]ᵀ
                   </div>
                 </div>
@@ -436,7 +438,7 @@ export const TabLiveChallenge: React.FC = () => {
           <div
             className={`border rounded transition-colors ${
               revealStep >= 5
-                ? "bg-[#15191f] border-[#262c36] p-4"
+                ? "bg-[#15191f] border-[#262c36] p-3.5 sm:p-4"
                 : "bg-[#111418] border-[#262c36] p-3 border-dashed"
             }`}
           >
@@ -472,7 +474,7 @@ export const TabLiveChallenge: React.FC = () => {
           <div
             className={`border rounded transition-colors ${
               revealStep >= 6
-                ? "bg-[#15191f] border-[#262c36] p-4"
+                ? "bg-[#15191f] border-[#262c36] p-3.5 sm:p-4"
                 : "bg-[#111418] border-[#262c36] p-3 border-dashed"
             }`}
           >
@@ -503,8 +505,8 @@ export const TabLiveChallenge: React.FC = () => {
                       key={idx}
                       className="p-3 rounded bg-[#111418] border border-[#2a313d] text-center"
                     >
-                      <div className="text-[10px] text-neutral-400 font-mono">x_{idx + 1}</div>
-                      <div className="text-xl font-bold font-mono text-emerald-400 mt-0.5">
+                      <div className="text-[10px] text-neutral-400 font-mono">x₍{idx + 1}₎</div>
+                      <div className="text-lg sm:text-xl font-bold font-mono text-emerald-400 mt-0.5">
                         {Number.isInteger(val) ? val : val.toFixed(4)}
                       </div>
                       <div className="text-[10px] text-amber-300 font-mono mt-0.5">
@@ -514,8 +516,8 @@ export const TabLiveChallenge: React.FC = () => {
                   ))}
                 </div>
 
-                <div className="p-2.5 rounded bg-[#1c2420] border border-emerald-900 text-emerald-300 flex items-center gap-1.5 font-mono">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                <div className="p-2.5 rounded bg-[#1c2420] border border-emerald-900 text-emerald-300 flex items-center gap-1.5 font-mono text-xs">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
                   <span>Verifikasi Residual: r = A · x - b ≈ 0 ({trace.isVerified ? "Cocok 100%" : "Periksa Pembulatan"})</span>
                 </div>
               </div>

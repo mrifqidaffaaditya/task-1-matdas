@@ -24,7 +24,7 @@ export default function Home() {
       />
 
       {/* Main Dynamic Workspace Area */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 py-6">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-4 py-4 sm:py-6">
         {activeTab === "spl-adjoin" && <TabSPLAdjoin />}
         {activeTab === "hill-cipher" && <TabHillCipher />}
         {activeTab === "live-challenge" && <TabLiveChallenge />}

@@ -59,31 +59,32 @@ export const Navbar: React.FC<NavbarProps> = ({
   return (
     <header className="border-b border-[#262c36] bg-[#15191f]">
       {/* Top Banner / Student Identity Bar */}
-      <div className="border-b border-[#262c36] bg-[#111418] px-4 py-2 text-xs">
-        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
-          <div className="flex items-center gap-3">
+      <div className="border-b border-[#262c36] bg-[#111418] px-3 sm:px-4 py-2 text-xs">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2.5 text-[11px] sm:text-xs">
             <span className="flex items-center gap-1.5 font-semibold text-neutral-300">
-              <GraduationCap className="w-4 h-4 text-neutral-400" />
+              <GraduationCap className="w-3.5 h-3.5 text-neutral-400" />
               Proyek Evaluasi Algoritma
             </span>
-            <span className="text-[#3c4554]">|</span>
+            <span className="text-[#3c4554] hidden sm:inline">|</span>
             <span className="text-neutral-400">
-              Mata Kuliah: <strong className="text-neutral-200">Matematika Dasar / Aljabar Linier</strong>
+              Matematika Dasar / Aljabar Linier
             </span>
-            <span className="hidden sm:inline text-[#3c4554]">•</span>
-            <span className="hidden sm:inline text-neutral-400">Semester Ganjil 2026/2027</span>
+            <span className="text-[#3c4554] hidden md:inline">•</span>
+            <span className="text-neutral-500 hidden md:inline">Semester Ganjil 2026/2027</span>
           </div>
 
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2 bg-[#181c22] border border-[#2a313d] px-2.5 py-1 rounded text-neutral-300 text-xs font-mono">
-              <span className="w-1.5 h-1.5 bg-emerald-400"></span>
-              <span><strong>M. Rifqi Daffa Aditya</strong> (NIM: 2604140016)</span>
-              <span className="text-[#3c4554]">|</span>
-              <span className="text-neutral-400 font-sans">Sistem Informasi</span>
+          <div className="flex items-center justify-between sm:justify-end gap-2 w-full sm:w-auto">
+            <div className="flex items-center gap-1.5 sm:gap-2 bg-[#181c22] border border-[#2a313d] px-2 py-0.5 sm:py-1 rounded text-neutral-300 text-[11px] sm:text-xs font-mono">
+              <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full flex-shrink-0"></span>
+              <span><strong>M. Rifqi Daffa Aditya</strong></span>
+              <span className="text-neutral-400 font-sans hidden xs:inline">(2604140016)</span>
+              <span className="text-[#3c4554] hidden md:inline">|</span>
+              <span className="text-neutral-400 font-sans hidden md:inline">Sistem Informasi</span>
             </div>
             <button
               onClick={onOpenAbout}
-              className="flex items-center gap-1 px-2.5 py-1 text-neutral-300 hover:text-white bg-[#1e232b] hover:bg-[#282f3a] border border-[#2a313d] rounded text-xs font-medium transition-colors"
+              className="flex items-center gap-1 px-2.5 py-1 text-neutral-300 hover:text-white bg-[#1e232b] hover:bg-[#282f3a] border border-[#2a313d] rounded text-[11px] sm:text-xs font-medium transition-colors flex-shrink-0"
               title="Informasi Penulis & Proyek"
             >
               <Info className="w-3.5 h-3.5 text-neutral-400" />
@@ -94,16 +95,16 @@ export const Navbar: React.FC<NavbarProps> = ({
       </div>
 
       {/* Main Nav */}
-      <div className="max-w-7xl mx-auto px-4 py-2.5 flex flex-col md:flex-row md:items-center justify-between gap-3">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 py-2.5 flex flex-col md:flex-row md:items-center justify-between gap-3">
         {/* Logo and Title */}
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded bg-[#202630] border border-[#303846] flex items-center justify-center text-neutral-200">
+          <div className="w-8 h-8 rounded bg-[#202630] border border-[#303846] flex items-center justify-center text-neutral-200 flex-shrink-0">
             <Binary className="w-4 h-4" />
           </div>
           <div>
-            <h1 className="text-sm font-bold text-white tracking-tight flex items-center gap-2">
+            <h1 className="text-sm font-bold text-white tracking-tight flex items-center gap-2 flex-wrap">
               Adjoin SPL & Hill Cipher Engine
-              <span className="text-[10px] uppercase font-mono px-1.5 py-0.2 rounded bg-[#1c2420] text-emerald-400 border border-emerald-800/60">
+              <span className="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded bg-[#1c2420] text-emerald-400 border border-emerald-800/60">
                 Zero Math Libs
               </span>
             </h1>
@@ -114,7 +115,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
 
         {/* Tab Navigation Buttons */}
-        <nav className="flex items-center gap-1 overflow-x-auto pb-1 md:pb-0 scrollbar-none">
+        <nav className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0 scrollbar-none -mx-3 px-3 sm:-mx-4 sm:px-4 md:mx-0 md:px-0">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;

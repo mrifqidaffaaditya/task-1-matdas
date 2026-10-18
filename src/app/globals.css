@@ -62,3 +62,8 @@ pre, code {
 ::-webkit-scrollbar-thumb:hover {
   background: #3c4554;
 }
+
+/* Smooth momentum scrolling for mobile touch devices */
+.overflow-x-auto {
+  -webkit-overflow-scrolling: touch;
+}

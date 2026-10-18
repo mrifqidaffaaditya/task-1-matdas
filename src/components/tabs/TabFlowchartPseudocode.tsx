@@ -35,23 +35,23 @@ export const TabFlowchartPseudocode: React.FC = () => {
   return (
     <div className="space-y-4">
       {/* Tab Header Banner */}
-      <div className="p-4 rounded bg-[#15191f] border border-[#262c36]">
+      <div className="p-3.5 sm:p-4 rounded bg-[#15191f] border border-[#262c36]">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
           <div>
-            <div className="flex items-center gap-1.5 text-neutral-400 text-xs font-semibold uppercase tracking-wider mb-1">
+            <div className="flex items-center gap-1.5 text-neutral-400 text-[11px] sm:text-xs font-semibold uppercase tracking-wider mb-1">
               <FileCode2 className="w-3.5 h-3.5 text-neutral-400" />
               <span>Dokumentasi Formal 8 Modul Laporan Resmi</span>
             </div>
-            <h2 className="text-base font-bold text-white tracking-tight">
+            <h2 className="text-sm sm:text-base font-bold text-white tracking-tight">
               Flowchart & Pseudocode Formal (8 Modul)
             </h2>
-            <p className="text-xs text-neutral-400 mt-0.5">
-              Menampilkan teks pseudocode asli penulis secara verbatim beserta visualisasi alur komputasi dan frekuensi eksekusi panggilan fungsi (*call counters*).
+            <p className="text-xs text-neutral-400 mt-0.5 leading-relaxed">
+              Menampilkan teks pseudocode asli penulis secara verbatim beserta visualisasi alur komputasi dan frekuensi eksekusi panggilan fungsi (<em>call counters</em>).
             </p>
           </div>
 
           {/* Filter Pills */}
-          <div className="flex items-center gap-1 bg-[#111418] p-1 rounded border border-[#262c36] text-xs">
+          <div className="flex flex-wrap items-center gap-1 bg-[#111418] p-1 rounded border border-[#262c36] text-xs self-start md:self-auto">
             <button
               onClick={() => setFilter("all")}
               className={`px-2.5 py-1 rounded transition-colors ${
@@ -66,7 +66,7 @@ export const TabFlowchartPseudocode: React.FC = () => {
                 filter === "spl" ? "bg-[#252c38] text-white font-medium border border-neutral-600" : "text-neutral-400 hover:text-white"
               }`}
             >
-              SPL Adjoin (1-6)
+              SPL Adjoin (1–6)
             </button>
             <button
               onClick={() => setFilter("hill")}
@@ -74,14 +74,14 @@ export const TabFlowchartPseudocode: React.FC = () => {
                 filter === "hill" ? "bg-[#252c38] text-white font-medium border border-neutral-600" : "text-neutral-400 hover:text-white"
               }`}
             >
-              Hill Cipher (7-8)
+              Hill Cipher (7–8)
             </button>
           </div>
         </div>
       </div>
 
       {/* LIVE CALL COUNTER METRICS */}
-      <div className="p-4 rounded bg-[#15191f] border border-[#262c36] space-y-3">
+      <div className="p-3.5 sm:p-4 rounded bg-[#15191f] border border-[#262c36] space-y-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1.5 text-xs font-bold text-neutral-200">
             <Activity className="w-3.5 h-3.5 text-emerald-400" />
@@ -245,24 +245,24 @@ export const TabFlowchartPseudocode: React.FC = () => {
               key={mod.id}
               className="border border-[#262c36] rounded bg-[#15191f] overflow-hidden"
             >
-              <div className="p-3 bg-[#111418] border-b border-[#262c36] flex flex-wrap items-center justify-between gap-2">
-                <div className="flex items-center gap-2">
-                  <span className="w-5 h-5 rounded bg-[#1e232b] text-neutral-300 flex items-center justify-center font-mono font-bold text-xs border border-[#2a313d]">
+              <div className="p-3 sm:p-3.5 bg-[#111418] border-b border-[#262c36] flex flex-wrap items-center justify-between gap-2.5">
+                <div className="flex items-center gap-2.5">
+                  <span className="w-5 h-5 rounded bg-[#1e232b] text-neutral-300 flex items-center justify-center font-mono font-bold text-xs border border-[#2a313d] flex-shrink-0">
                     {mod.number}
                   </span>
                   <div>
-                    <h4 className="text-xs font-bold text-white tracking-tight">{mod.title}</h4>
-                    <p className="text-[11px] text-neutral-400 mt-0.5">{mod.description}</p>
+                    <h4 className="text-xs sm:text-sm font-bold text-white tracking-tight">{mod.title}</h4>
+                    <p className="text-[11px] text-neutral-400 mt-0.5 leading-normal">{mod.description}</p>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-[#181c22] border border-[#262c36] text-neutral-300">
+                  <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-[#181c22] border border-[#262c36] text-neutral-300">
                     Kompleksitas: <strong className="text-neutral-200">{mod.complexity}</strong>
                   </span>
                   <button
                     onClick={() => handleCopyCode(mod.id, mod.code)}
-                    className="flex items-center gap-1 px-2 py-0.5 text-neutral-300 hover:text-white bg-[#1e232b] hover:bg-[#282f3a] rounded text-xs transition-colors border border-[#2a313d]"
+                    className="flex items-center gap-1 px-2 py-1 text-neutral-300 hover:text-white bg-[#1e232b] hover:bg-[#282f3a] rounded text-xs transition-colors border border-[#2a313d]"
                   >
                     {copiedId === mod.id ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
                     <span>{copiedId === mod.id ? "Tersalin" : "Salin"}</span>
@@ -270,7 +270,7 @@ export const TabFlowchartPseudocode: React.FC = () => {
                 </div>
               </div>
 
-              <div className="p-3 bg-[#111418] font-mono text-xs overflow-x-auto text-neutral-300 leading-relaxed border-t border-[#262c36]">
+              <div className="p-3 sm:p-3.5 bg-[#111418] font-mono text-[11px] sm:text-xs overflow-x-auto text-neutral-300 leading-relaxed border-t border-[#262c36]">
                 <pre>{mod.code}</pre>
               </div>
             </div>

@@ -21,47 +21,47 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/70 backdrop-blur-xs">
       <div className="relative w-full max-w-2xl bg-[#15191f] border border-[#2a313d] rounded-md overflow-hidden max-h-[90vh] flex flex-col">
         {/* Modal Header */}
-        <div className="flex items-center justify-between p-4 border-b border-[#262c36] bg-[#111418]">
+        <div className="flex items-center justify-between p-3.5 sm:p-4 border-b border-[#262c36] bg-[#111418]">
           <div className="flex items-center gap-2.5">
             <div className="p-1.5 rounded bg-[#1e232b] text-neutral-300 border border-[#2a313d]">
               <Award className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="text-sm font-bold text-white">
+              <h3 className="text-xs sm:text-sm font-bold text-white">
                 Tentang Penulis & Proyek Evaluasi
               </h3>
-              <p className="text-xs text-neutral-400">
+              <p className="text-[11px] text-neutral-400">
                 Aljabar Linier & Matematika Dasar Terapan
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1 text-neutral-400 hover:text-white hover:bg-[#1e232b] rounded transition-colors"
+            className="p-1.5 text-neutral-400 hover:text-white hover:bg-[#1e232b] rounded transition-colors"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
 
         {/* Modal Body */}
-        <div className="p-5 overflow-y-auto space-y-4 text-xs">
+        <div className="p-4 sm:p-5 overflow-y-auto space-y-3.5 sm:space-y-4 text-xs">
           {/* Identity Card */}
-          <div className="p-4 rounded bg-[#111418] border border-[#2a313d]">
-            <div className="flex items-start gap-3.5">
-              <div className="w-10 h-10 rounded bg-[#202630] border border-[#303846] flex items-center justify-center text-neutral-200 font-bold font-mono text-sm">
+          <div className="p-3.5 sm:p-4 rounded bg-[#111418] border border-[#2a313d]">
+            <div className="flex items-start gap-3">
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded bg-[#202630] border border-[#303846] flex items-center justify-center text-neutral-200 font-bold font-mono text-xs sm:text-sm flex-shrink-0">
                 DA
               </div>
-              <div className="space-y-1">
-                <div className="text-[11px] font-semibold uppercase tracking-wider text-neutral-400">
+              <div className="space-y-1 flex-1 min-w-0">
+                <div className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-neutral-400">
                   Identitas Mahasiswa
                 </div>
-                <h4 className="text-base font-bold text-white">
+                <h4 className="text-sm sm:text-base font-bold text-white">
                   M. Rifqi Daffa Aditya
                 </h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1 text-xs text-neutral-300 pt-1">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1.5 text-xs text-neutral-300 pt-1">
                   <div>
                     <span className="text-neutral-500">NIM:</span>{" "}
                     <strong className="text-neutral-200 font-mono">2604140016</strong>
@@ -86,7 +86,7 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
           {/* Academic Rigor Badges */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
             <div className="p-3 rounded bg-[#111418] border border-[#262c36] flex items-start gap-2.5">
-              <div className="p-1 rounded bg-[#1c2420] text-emerald-400 border border-emerald-900/50 mt-0.5">
+              <div className="p-1 rounded bg-[#1c2420] text-emerald-400 border border-emerald-900/50 mt-0.5 flex-shrink-0">
                 <ShieldCheck className="w-3.5 h-3.5" />
               </div>
               <div>
@@ -100,7 +100,7 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
             </div>
 
             <div className="p-3 rounded bg-[#111418] border border-[#262c36] flex items-start gap-2.5">
-              <div className="p-1 rounded bg-[#1e232b] text-neutral-300 border border-[#2a313d] mt-0.5">
+              <div className="p-1 rounded bg-[#1e232b] text-neutral-300 border border-[#2a313d] mt-0.5 flex-shrink-0">
                 <Code2 className="w-3.5 h-3.5" />
               </div>
               <div>
@@ -114,7 +114,7 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
             </div>
 
             <div className="p-3 rounded bg-[#111418] border border-[#262c36] flex items-start gap-2.5">
-              <div className="p-1 rounded bg-[#252219] text-amber-400 border border-amber-900/50 mt-0.5">
+              <div className="p-1 rounded bg-[#252219] text-amber-400 border border-amber-900/50 mt-0.5 flex-shrink-0">
                 <Sparkles className="w-3.5 h-3.5" />
               </div>
               <div>
@@ -128,7 +128,7 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
             </div>
 
             <div className="p-3 rounded bg-[#111418] border border-[#262c36] flex items-start gap-2.5">
-              <div className="p-1 rounded bg-[#211e28] text-purple-400 border border-purple-900/50 mt-0.5">
+              <div className="p-1 rounded bg-[#211e28] text-purple-400 border border-purple-900/50 mt-0.5 flex-shrink-0">
                 <Cpu className="w-3.5 h-3.5" />
               </div>
               <div>
@@ -149,7 +149,7 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
               Ruang Lingkup Proyek
             </div>
             <p className="text-neutral-400 leading-relaxed">
-              Aplikasi ini dikembangkan untuk keperluan evaluasi akhir mata kuliah Matematika Dasar / Aljabar Linier. Mendemonstrasikan penyelesaian SPL menggunakan metode matriks adjoin berukuran 2x2, 3x3, dan 4x4, serta studi kasus Topik A yakni dekripsi Hill Cipher 3x3 pada pesan sandi <code className="text-neutral-200 font-mono">GWMOPEBYOKCVYEK</code> menjadi <code className="text-emerald-400 font-mono">SISTEMINFORMASI</code>.
+              Aplikasi ini dikembangkan untuk keperluan evaluasi akhir mata kuliah Matematika Dasar / Aljabar Linier. Mendemonstrasikan penyelesaian SPL menggunakan metode matriks adjoin berukuran 2 × 2, 3 × 3, dan 4 × 4, serta studi kasus Topik A yakni dekripsi Hill Cipher 3 × 3 pada pesan sandi <code className="text-neutral-200 font-mono">GWMOPEBYOKCVYEK</code> menjadi <code className="text-emerald-400 font-mono">SISTEMINFORMASI</code>.
             </p>
           </div>
         </div>
