@@ -79,10 +79,10 @@ export const TabHillCipher: React.FC = () => {
               <span>Studi Kasus Sistem Informasi — Topik A (Modul 7 – 8)</span>
             </div>
             <h2 className="text-sm sm:text-base font-bold text-white tracking-tight">
-              Dekripsi Hill Cipher Matriks 3 × 3 dalam Gelanggang ℤ₂₆
+              Dekripsi Hill Cipher Matriks 3 × 3 dalam Gelanggang Z<sub>26</sub> (Modulo 26)
             </h2>
             <p className="text-xs text-neutral-400 mt-0.5 leading-relaxed">
-              Penerapan invers matriks adjoin modulo 26: K⁻¹ ≡ det(K)⁻¹ · adj(K) (mod 26) dengan eksekusi kode JavaScript langsung di setiap langkah.
+              Penerapan invers matriks adjoin modulo 26: K<sup>-1</sup> = det(K)<sup>-1</sup> · adj(K) (mod 26) dengan eksekusi kode JavaScript langsung di setiap langkah.
             </p>
           </div>
 
@@ -144,7 +144,7 @@ export const TabHillCipher: React.FC = () => {
           {/* Quick Alphabet Reference Strip */}
           <div className="p-2.5 rounded bg-[#111418] border border-[#262c36] text-[10px] font-mono text-neutral-400">
             <span className="text-neutral-300 font-semibold block mb-1.5">
-              Pemetaan Huruf ke Angka (ℤ₂₆):
+              Pemetaan Huruf ke Angka (Z<sub>26</sub> / Modulo 26):
             </span>
             <div className="flex flex-wrap gap-1 text-[9px] text-neutral-300">
               {["A:0", "B:1", "C:2", "E:4", "G:6", "I:8", "K:10", "M:12", "O:14", "P:15", "R:17", "S:18", "T:19", "W:22", "Y:24", "Z:25"].map(
@@ -199,12 +199,12 @@ export const TabHillCipher: React.FC = () => {
                   &quot;Kunci tidak valid (tidak koprima dengan 26)&quot;
                 </h3>
                 <p className="text-xs text-rose-300/90 mt-0.5 leading-relaxed">
-                  Determinan d = {trace.detKMod26} tidak saling prima (koprima) dengan 26 karena GCD({trace.detKMod26}, 26) = {trace.gcdVal} ≠ 1. Invers modular d⁻¹ tidak ada dalam ℤ₂₆, sehingga matriks kunci tidak dapat dibalik.
+                  Determinan d = {trace.detKMod26} tidak saling prima (koprima) dengan 26 karena GCD({trace.detKMod26}, 26) = {trace.gcdVal} ≠ 1. Invers modular d<sup>-1</sup> tidak ada dalam Modulo 26 (Z<sub>26</sub>), sehingga matriks kunci tidak dapat dibalik.
                 </p>
               </div>
             </div>
             <div className="font-mono text-xs bg-[#111418] p-2.5 rounded border border-rose-900/60 text-neutral-300 overflow-x-auto">
-              d = Det(K, 3) mod 26 = {trace.detKMod26} ⟹ JIKA GCD({trace.detKMod26}, 26) != 1: CETAK &quot;Kunci tidak valid (tidak koprima dengan 26)&quot; ⟹ BERHENTI
+              d = Det(K, 3) mod 26 = {trace.detKMod26} → JIKA GCD({trace.detKMod26}, 26) != 1: CETAK &quot;Kunci tidak valid (tidak koprima dengan 26)&quot; → BERHENTI
             </div>
           </div>
         )}
@@ -213,8 +213,8 @@ export const TabHillCipher: React.FC = () => {
         <StepCard
           stepNumber="1"
           title="Langkah 1: Determinan Modulo 26 & Invers Modular Determinan"
-          formula="d = Det(K, 3) mod 26; d · d⁻¹ ≡ 1 (mod 26)"
-          badge={trace.isValidKey ? `d = ${trace.detKMod26}, d⁻¹ = ${trace.detInverse}` : "Kunci Tidak Valid"}
+          formula={<span>d = Det(K, 3) mod 26; d · d<sup>-1</sup> = 1 (mod 26)</span>}
+          badge={trace.isValidKey ? <span>d = {trace.detKMod26}, d<sup>-1</sup> = {trace.detInverse}</span> : "Kunci Tidak Valid"}
           badgeType={trace.isValidKey ? "success" : "warning"}
         >
           <div className="space-y-3 text-xs">
@@ -240,9 +240,11 @@ export const TabHillCipher: React.FC = () => {
               </div>
 
               <div className="p-3 rounded bg-[#111418] border border-[#262c36] space-y-1">
-                <span className="text-neutral-400 font-mono text-[10px]">Invers Modular d⁻¹ (Modul 7):</span>
+                <span className="text-neutral-400 font-mono text-[10px]">
+                  Invers Modular d<sup>-1</sup> (Modul 7):
+                </span>
                 <div className="text-base font-bold font-mono text-amber-400">
-                  d⁻¹ = {trace.detInverse}
+                  d<sup>-1</sup> = {trace.detInverse}
                 </div>
                 <div className="text-neutral-400 pt-1 border-t border-[#262c36] font-mono text-[10px]">
                   ({trace.detKMod26} × {trace.detInverse}) = {trace.detKMod26 * (trace.detInverse || 0)} ≡ 1 (mod 26)
@@ -251,7 +253,7 @@ export const TabHillCipher: React.FC = () => {
             </div>
 
             <p className="text-neutral-400 leading-relaxed text-[11px]">
-              * Rincian hitungan manual: det(K) = 6(70) - 24(-5) + 1(-99) = 420 + 120 - 99 = 441. Maka d = 441 mod 26 = 25. Pengujian loop InversModular(25, 26): untuk x = 25 diperoleh (25 × 25) = 625 = 24 × 26 + 1 ≡ 1 (mod 26), sehingga invers modular determinan d⁻¹ adalah <strong>25</strong>.
+              * Rincian hitungan manual: det(K) = 6(70) - 24(-5) + 1(-99) = 420 + 120 - 99 = 441. Maka d = 441 mod 26 = 25. Pengujian loop InversModular(25, 26): untuk x = 25 diperoleh (25 × 25) = 625 = 24 × 26 + 1 ≡ 1 (mod 26), sehingga invers modular determinan d<sup>-1</sup> adalah <strong>25</strong>.
             </p>
 
             {/* RUNNABLE CODE RUNNER FOR STEP 1 */}
@@ -309,14 +311,16 @@ export const TabHillCipher: React.FC = () => {
             {/* Langkah 3: Matriks Adjoin adj(K) & Reduksi Modulo 26 */}
             <StepCard
               stepNumber="3"
-              title="Langkah 3: Matriks Adjoin adj(K) = Cᵀ & Reduksi Modulo 26"
-              formula="adj(K) = Cᵀ; adj₂₆[i][j] = adj[i][j] mod 26"
+              title={<span>Langkah 3: Matriks Adjoin adj(K) = C<sup>T</sup> &amp; Reduksi Modulo 26</span>}
+              formula={<span>adj(K) = C<sup>T</sup>; adj_26[i][j] = adj[i][j] mod 26</span>}
               subtitle="Transpos kofaktor dan normalisasi setiap elemen ke dalam himpunan bilangan bulat positif [0, 25]"
             >
               <div className="space-y-3 text-xs">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div className="p-3 rounded bg-[#111418] border border-[#262c36] space-y-1.5">
-                    <span className="text-xs font-semibold text-neutral-300">Matriks Adjoin Mentah adj(K) = Cᵀ:</span>
+                    <span className="text-xs font-semibold text-neutral-300">
+                      Matriks Adjoin Mentah adj(K) = C<sup>T</sup>:
+                    </span>
                     <MatrixDisplay matrix={trace.adjMatrix} size="md" />
                   </div>
 
@@ -332,7 +336,7 @@ export const TabHillCipher: React.FC = () => {
                 {/* RUNNABLE CODE RUNNER FOR STEP 3 */}
                 <CodeRunner
                   code={step3Code}
-                  title="Kode JavaScript Langkah 3: Matriks Adjoin & Reduksi Modulo 26"
+                  title={<span>Kode JavaScript Langkah 3: Matriks Adjoin &amp; Reduksi Modulo 26</span>}
                   subtitle="Mentranspos kofaktor dan mereduksi seluruh elemen ke dalam [0..25]"
                   badge="Modul 4"
                 />
@@ -342,8 +346,8 @@ export const TabHillCipher: React.FC = () => {
             {/* Langkah 4: Matriks Kunci Invers K^-1 */}
             <StepCard
               stepNumber="4"
-              title="Langkah 4: Pembentukan Matriks Kunci Invers K⁻¹ (mod 26)"
-              formula="K⁻¹ ≡ (d⁻¹ · adj(K)) mod 26"
+              title={<span>Langkah 4: Pembentukan Matriks Kunci Invers K<sup>-1</sup> (mod 26)</span>}
+              formula={<span>K<sup>-1</sup> = (d<sup>-1</sup> · adj(K)) mod 26</span>}
               subtitle="Mengalikan invers determinan dengan adjoin lalu mereduksi modulo 26"
               badge="Matriks Kunci Invers"
               badgeType="purple"
@@ -351,14 +355,18 @@ export const TabHillCipher: React.FC = () => {
               <div className="space-y-3 text-xs">
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-start gap-3.5 sm:gap-4">
                   <div className="p-3 rounded bg-[#111418] border border-[#262c36] space-y-1.5 flex-shrink-0">
-                    <span className="text-xs font-bold text-neutral-200">Matriks K⁻¹ (mod 26):</span>
+                    <span className="text-xs font-bold text-neutral-200">
+                      Matriks K<sup>-1</sup> (mod 26):
+                    </span>
                     <MatrixDisplay matrix={trace.invKeyMatrix} size="md" />
                   </div>
 
                   <div className="p-3.5 rounded bg-[#111418] border border-[#262c36] flex-1 space-y-1.5 text-neutral-300">
-                    <span className="font-semibold text-neutral-200">Perhitungan Perkalian Elemen K⁻¹:</span>
+                    <span className="font-semibold text-neutral-200">
+                      Perhitungan Perkalian Elemen K<sup>-1</sup>:
+                    </span>
                     <p className="text-[10px] text-neutral-400 leading-relaxed font-mono">
-                      K⁻¹[i][j] = (d⁻¹ × adj[i][j]) mod 26 = (25 × adj[i][j]) mod 26
+                      K^-1[i][j] = (d^-1 × adj[i][j]) mod 26 = (25 × adj[i][j]) mod 26
                       <br />
                       • Baris 1: [(25×18) mod 26 = 8, (25×21) mod 26 = 5, (25×16) mod 26 = 10]
                       <br />
@@ -372,7 +380,7 @@ export const TabHillCipher: React.FC = () => {
                 {/* RUNNABLE CODE RUNNER FOR STEP 4 */}
                 <CodeRunner
                   code={step4Code}
-                  title="Kode JavaScript Langkah 4: Matriks Kunci Invers K⁻¹"
+                  title={<span>Kode JavaScript Langkah 4: Matriks Kunci Invers K<sup>-1</sup></span>}
                   subtitle="Menghitung K_inv[i][j] = (d_inv * adj[i][j]) mod 26"
                   badge="Modul 8 (Tahap Kunci)"
                 />
@@ -383,14 +391,14 @@ export const TabHillCipher: React.FC = () => {
             <StepCard
               stepNumber="5"
               title="Langkah 5: Dekripsi Teks Sandi Per Blok (Tiap 3 Huruf)"
-              formula="p = (K⁻¹ · c) mod 26; Plainteks += Huruf(p[i])"
+              formula={<span>p = (K<sup>-1</sup> · c) mod 26; Plainteks += Huruf(p[i])</span>}
               subtitle="Transformasi perkalian matriks-vektor modulo 26 untuk setiap triplet sandi"
               badge={`${trace.blocks.length} Blok Diproses`}
               badgeType="success"
             >
               <div className="space-y-3 text-xs">
                 <p className="text-neutral-300 leading-relaxed">
-                  Setiap blok 3 huruf diubah menjadi vektor kolom <code className="text-neutral-200 font-mono">c = [c₁, c₂, c₃]ᵀ</code>, dikalikan dengan matriks kunci invers <code className="text-neutral-200 font-mono">K⁻¹</code>, dan hasilnya dimodulo 26:
+                  Setiap blok 3 huruf diubah menjadi vektor kolom <code className="text-neutral-200 font-mono">c = [c[1], c[2], c[3]]^T</code>, dikalikan dengan matriks kunci invers <code className="text-neutral-200 font-mono">K<sup>-1</sup></code>, dan hasilnya dimodulo 26:
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-3">
@@ -416,13 +424,13 @@ export const TabHillCipher: React.FC = () => {
 
                       <div className="space-y-0.5 font-mono text-[10px] text-neutral-400">
                         <div>
-                          Vektor sandi c: [{block.cipherVector.join(", ")}]ᵀ
+                          Vektor sandi c: [{block.cipherVector.join(", ")}]^T
                         </div>
                         <div className="text-neutral-500">
-                          Hasil kali K⁻¹ · c: [{block.rawProduct.join(", ")}]ᵀ
+                          Hasil kali K^-1 · c: [{block.rawProduct.join(", ")}]^T
                         </div>
                         <div className="text-neutral-200 font-bold">
-                          Modulo 26: [{block.plainVector.join(", ")}]ᵀ
+                          Modulo 26: [{block.plainVector.join(", ")}]^T
                         </div>
                       </div>
 

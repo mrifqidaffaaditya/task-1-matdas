@@ -78,7 +78,7 @@ export const TabSPLAdjoin: React.FC = () => {
               <span>Modul 1 – 6 Algoritma Utama</span>
             </div>
             <h2 className="text-sm sm:text-base font-bold text-white tracking-tight">
-              Simulasi SPL Berbasis Metode Matriks Adjoin: x = A⁻¹ · b
+              Simulasi SPL Berbasis Metode Matriks Adjoin: x = A<sup>-1</sup> · b
             </h2>
             <p className="text-xs text-neutral-400 mt-0.5 leading-relaxed">
               Menghitung solusi eksak sistem persamaan linier dengan penelusuran minor, kofaktor, adjoin, invers analitik, dan kode JavaScript eksekutabel di setiap langkah.
@@ -178,7 +178,7 @@ export const TabSPLAdjoin: React.FC = () => {
               </div>
             </div>
             <div className="font-mono text-xs bg-[#111418] p-2.5 rounded border border-rose-900/60 text-neutral-300">
-              d = Det(A, {dimension}) = 0 ⟹ JIKA d == 0: CETAK &quot;Matriks singular (det = 0): metode adjoin tidak dapat dipakai&quot; ⟹ BERHENTI
+              d = Det(A, {dimension}) = 0 → JIKA d == 0: CETAK &quot;Matriks singular (det = 0): metode adjoin tidak dapat dipakai&quot; → BERHENTI
             </div>
           </div>
         )}
@@ -323,7 +323,7 @@ export const TabSPLAdjoin: React.FC = () => {
             <StepCard
               stepNumber="3"
               title="Menentukan Matriks Adjoin adj(A)"
-              formula="adj(A) = Cᵀ (Transpos Matriks Kofaktor)"
+              formula={<span>adj(A) = C<sup>T</sup> (Transpos Matriks Kofaktor)</span>}
               subtitle="Menukar baris menjadi kolom: adj[j][i] = C[i][j]"
             >
               <div className="space-y-3 text-xs">
@@ -333,7 +333,9 @@ export const TabSPLAdjoin: React.FC = () => {
 
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-start gap-3.5 sm:gap-4">
                   <div className="p-3 rounded bg-[#111418] border border-[#262c36] space-y-1.5 flex-shrink-0">
-                    <span className="text-xs font-semibold text-neutral-300">Matriks Adjoin adj(A) = Cᵀ:</span>
+                    <span className="text-xs font-semibold text-neutral-300">
+                      Matriks Adjoin adj(A) = C<sup>T</sup>:
+                    </span>
                     <MatrixDisplay matrix={trace.adjMatrix} size="md" />
                   </div>
 
@@ -356,7 +358,7 @@ export const TabSPLAdjoin: React.FC = () => {
                       })}
                     </div>
                     <div className="font-mono text-xs bg-[#181c22] p-2 rounded border border-[#2e3542] text-emerald-400 font-bold overflow-x-auto">
-                      Vektor adj(A) · b = [{trace.adjTimesB.join(", ")}]ᵀ
+                      Vektor adj(A) · b = [{trace.adjTimesB.join(", ")}]^T
                     </div>
                   </div>
                 </div>
@@ -364,7 +366,7 @@ export const TabSPLAdjoin: React.FC = () => {
                 {/* RUNNABLE CODE RUNNER FOR STEP 3 */}
                 <CodeRunner
                   code={step3Code}
-                  title="Kode JavaScript Langkah 3: Matriks Adjoin & Perkalian adj(A) · b"
+                  title={<span>Kode JavaScript Langkah 3: Matriks Adjoin &amp; Perkalian adj(A) · b</span>}
                   subtitle="Menjalankan fungsi Adjoin(C, n) serta menghitung dot product dengan vektor b"
                   badge="Modul 4"
                 />
@@ -374,8 +376,8 @@ export const TabSPLAdjoin: React.FC = () => {
             {/* Step 4: Tahap 1 Solusi - Matriks Invers A^-1 */}
             <StepCard
               stepNumber="4"
-              title="Tahap 1 Solusi: Menentukan Matriks Invers A⁻¹"
-              formula="A⁻¹ = (1/d) · adj(A)"
+              title={<span>Tahap 1 Solusi: Menentukan Matriks Invers A<sup>-1</sup></span>}
+              formula={<span>A<sup>-1</sup> = (1/d) · adj(A)</span>}
               subtitle="Membagi setiap elemen matriks adjoin dengan nilai determinan d"
             >
               <div className="space-y-3 text-xs">
@@ -409,7 +411,7 @@ export const TabSPLAdjoin: React.FC = () => {
                 {/* RUNNABLE CODE RUNNER FOR STEP 4 */}
                 <CodeRunner
                   code={step4Code}
-                  title="Kode JavaScript Langkah 4: Matriks Invers A⁻¹"
+                  title={<span>Kode JavaScript Langkah 4: Matriks Invers A<sup>-1</sup></span>}
                   subtitle="Menghitung pembagian elemen A_inv[i][j] = adj[i][j] / d"
                   badge="Modul 5 (Tahap 1)"
                 />
@@ -420,7 +422,7 @@ export const TabSPLAdjoin: React.FC = () => {
             <StepCard
               stepNumber="5"
               title="Tahap 2 Solusi: Menentukan Vektor Solusi x"
-              formula="x = A⁻¹ · b = (1/d) · (adj(A) · b)"
+              formula={<span>x = A<sup>-1</sup> · b = (1/d) · (adj(A) · b)</span>}
               subtitle="Mengalikan matriks invers dengan vektor konstanta b"
               badge="Solusi Akhir SPL"
               badgeType="success"
@@ -471,7 +473,7 @@ export const TabSPLAdjoin: React.FC = () => {
                     {dimension === 4 && JSON.stringify(trace.x) === JSON.stringify([1, -1, 2, 1]) && (
                       <p className="text-xs text-emerald-400 pt-1 flex items-center gap-1.5 font-mono">
                         <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
-                        Sesuai 100% hasil laporan: x = [1, -1, 2, 1]ᵀ
+                        Sesuai 100% hasil laporan: x = [1, -1, 2, 1]^T
                       </p>
                     )}
                   </div>

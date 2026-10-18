@@ -14,9 +14,9 @@ import {
 
 interface CodeRunnerProps {
   code: string;
-  title?: string;
-  subtitle?: string;
-  badge?: string;
+  title?: React.ReactNode;
+  subtitle?: React.ReactNode;
+  badge?: React.ReactNode;
   defaultOpen?: boolean;
   variant?: "step" | "full";
 }

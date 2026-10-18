@@ -86,7 +86,7 @@ export const TabComplexityAnalysis: React.FC = () => {
               <div className="font-bold text-neutral-300">Rumus Gabungan Waktu:</div>
               <div>T(n) = O(n!) + O(n × n!) + O(n²) + O(n²)</div>
               <div className="text-emerald-400 font-bold pt-0.5">
-                ⟹ Suku Dominan Tertinggi: T(n) = O(n × n!)
+                → Suku Dominan Tertinggi: T(n) = O(n × n!)
               </div>
             </div>
           </div>
@@ -126,7 +126,7 @@ export const TabComplexityAnalysis: React.FC = () => {
               <div className="font-bold text-neutral-300">Rumus Gabungan Ruang:</div>
               <div>S(n) = O(n²) [Matriks Utama] + O(n³) [Tumpukan Rekursi]</div>
               <div className="text-emerald-400 font-bold pt-0.5">
-                ⟹ Suku Dominan Tertinggi: S(n) = O(n³)
+                → Suku Dominan Tertinggi: S(n) = O(n³)
               </div>
             </div>
           </div>
@@ -171,7 +171,7 @@ export const TabComplexityAnalysis: React.FC = () => {
                 <th className="py-2 px-2.5">Ukuran n</th>
                 <th className="py-2 px-2.5">n! (Faktorial)</th>
                 <th className="py-2 px-2.5 text-neutral-200">Waktu Adjoin: n × n!</th>
-                <th className="py-2 px-2.5 text-emerald-400">Waktu Gauss: ~ ⅔ n³</th>
+                <th className="py-2 px-2.5 text-emerald-400">Waktu Gauss: ~ (2/3) · n³</th>
                 <th className="py-2 px-2.5 text-amber-300">Rasio (Adjoin / Gauss)</th>
                 <th className="py-2 px-2.5 text-neutral-400">Ruang S(n): n³</th>
               </tr>

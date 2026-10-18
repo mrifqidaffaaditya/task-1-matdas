@@ -5,12 +5,12 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 
 interface StepCardProps {
   stepNumber: number | string;
-  title: string;
-  formula?: string;
-  subtitle?: string;
+  title: React.ReactNode;
+  formula?: React.ReactNode;
+  subtitle?: React.ReactNode;
   children: React.ReactNode;
   defaultOpen?: boolean;
-  badge?: string;
+  badge?: React.ReactNode;
   badgeType?: "info" | "success" | "warning" | "purple";
 }
 

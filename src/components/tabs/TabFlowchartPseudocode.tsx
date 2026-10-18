@@ -158,10 +158,10 @@ export const TabFlowchartPseudocode: React.FC = () => {
             </div>
             <div className="grid grid-cols-2 gap-2 text-[10px]">
               <div className="p-1.5 rounded bg-[#201518] border border-rose-900/60 text-rose-300 text-center">
-                YA ⟹ CETAK &quot;Matriks Singular&quot; ⟹ [BERHENTI]
+                YA → CETAK &quot;Matriks Singular&quot; → [BERHENTI]
               </div>
               <div className="p-1.5 rounded bg-[#1c2420] border border-emerald-900/60 text-emerald-300 text-center">
-                TIDAK ⟹ Lanjut ke Modul 3
+                TIDAK → Lanjut ke Modul 3
               </div>
             </div>
             <div className="flex justify-center text-neutral-600"><ArrowDown className="w-3.5 h-3.5" /></div>
@@ -204,10 +204,10 @@ export const TabFlowchartPseudocode: React.FC = () => {
             </div>
             <div className="grid grid-cols-2 gap-2 text-[10px]">
               <div className="p-1.5 rounded bg-[#201518] border border-rose-900/60 text-rose-300 text-center">
-                TIDAK ⟹ &quot;Kunci Tak Valid&quot; ⟹ [STOP]
+                TIDAK → &quot;Kunci Tak Valid&quot; → [STOP]
               </div>
               <div className="p-1.5 rounded bg-[#1c2420] border border-emerald-900/60 text-emerald-300 text-center">
-                YA ⟹ Lanjut Cari Invers Modular
+                YA → Lanjut Cari Invers Modular
               </div>
             </div>
             <div className="flex justify-center text-neutral-600"><ArrowDown className="w-3.5 h-3.5" /></div>
@@ -220,7 +220,7 @@ export const TabFlowchartPseudocode: React.FC = () => {
             </div>
             <div className="flex justify-center text-neutral-600"><ArrowDown className="w-3.5 h-3.5" /></div>
             <div className="p-2 rounded bg-[#111418] border border-[#262c36] text-center text-neutral-300">
-              Perulangan Tiap Blok: p = (K_inv * c) mod 26 ⟹ Huruf(p)
+              Perulangan Tiap Blok: p = (K_inv * c) mod 26 → Huruf(p)
             </div>
             <div className="flex justify-center text-neutral-600"><ArrowDown className="w-3.5 h-3.5" /></div>
             <div className="p-2 rounded bg-[#1c2420] border border-emerald-900/60 text-emerald-300 text-center font-bold">

@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.3.1] - 2026-10-18
+
+### Fixed & Enhanced
+- **Total Elimination of Unrendered Unicode Glyphs (`⁻`, `ᵀ`, `ℤ₂₆`, `⅔`, `⟹`):**
+  - Resolved missing glyph / tofu rendering on mobile Android and Windows system fonts:
+    - Replaced unrendered superscript minus `⁻` (`\u207B`) in `A⁻¹`, `K⁻¹`, and `d⁻¹` with standard HTML `<sup>-1</sup>` in JSX and `A^-1` / `K^-1` in plain text.
+    - Replaced phonetic modifier `ᵀ` (`\u1D40`) in `Cᵀ` and transpose vectors `[...]ᵀ` with HTML `<sup>T</sup>` in JSX and `^T` in plain text.
+    - Replaced letterlike symbol `ℤ₂₆` with universal standard `Z`<sub>26</sub>` (Modulo 26)`.
+    - Replaced vulgar fraction `⅔` (`\u2154`) with `(2/3)`.
+    - Replaced supplemental arrow `⟹` (`\u27F9`) with standard arrow `→`.
+  - Updated `StepCardProps` and `CodeRunnerProps` to accept `React.ReactNode` for `title`, `formula`, `subtitle`, and `badge` to support clean HTML tags (`<sup>`, `<sub>`) natively.
+
+---
+
 ## [1.3.0] - 2026-10-18
 
 ### Added & Enhanced

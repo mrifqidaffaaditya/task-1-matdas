@@ -107,7 +107,7 @@ export const TabLiveChallenge: React.FC = () => {
     "Determinan Minor M[i][j]",
     "Matriks Kofaktor C[i][j]",
     "Matriks Adjoin adj(A)",
-    "Matriks Invers A⁻¹",
+    "Matriks Invers A^-1",
     "Vektor Solusi x",
   ];
 
@@ -404,7 +404,9 @@ export const TabLiveChallenge: React.FC = () => {
                 <span className="w-5 h-5 rounded bg-[#1e232b] text-neutral-300 flex items-center justify-center font-mono text-xs font-bold border border-[#2a313d]">
                   4
                 </span>
-                <span className="text-xs font-bold text-white">Langkah 4: Matriks Adjoin adj(A) = Cᵀ</span>
+                <span className="text-xs font-bold text-white">
+                  Langkah 4: Matriks Adjoin adj(A) = C<sup>T</sup>
+                </span>
               </div>
               {revealStep < 4 ? (
                 <button
@@ -425,7 +427,7 @@ export const TabLiveChallenge: React.FC = () => {
                     <MatrixDisplay matrix={trace.adjMatrix} size="md" />
                   </div>
                   <div className="p-2.5 rounded bg-[#111418] border border-[#262c36] font-mono text-neutral-300 text-xs overflow-x-auto flex-1">
-                    adj(A) · b = [{trace.adjTimesB.join(", ")}]ᵀ
+                    adj(A) · b = [{trace.adjTimesB.join(", ")}]^T
                   </div>
                 </div>
               </div>
@@ -447,7 +449,9 @@ export const TabLiveChallenge: React.FC = () => {
                 <span className="w-5 h-5 rounded bg-[#1e232b] text-neutral-300 flex items-center justify-center font-mono text-xs font-bold border border-[#2a313d]">
                   5
                 </span>
-                <span className="text-xs font-bold text-white">Langkah 5: Matriks Invers A⁻¹ = (1/d) · adj(A)</span>
+                <span className="text-xs font-bold text-white">
+                  Langkah 5: Matriks Invers A<sup>-1</sup> = (1/d) · adj(A)
+                </span>
               </div>
               {revealStep < 5 ? (
                 <button
@@ -483,7 +487,9 @@ export const TabLiveChallenge: React.FC = () => {
                 <span className="w-5 h-5 rounded bg-[#1c2420] text-emerald-400 flex items-center justify-center font-mono text-xs font-bold border border-emerald-900/60">
                   6
                 </span>
-                <span className="text-xs font-bold text-white">Langkah 6: Vektor Solusi x = A⁻¹ · b</span>
+                <span className="text-xs font-bold text-white">
+                  Langkah 6: Vektor Solusi x = A<sup>-1</sup> · b
+                </span>
               </div>
               {revealStep < 6 ? (
                 <button
