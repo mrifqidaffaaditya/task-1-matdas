@@ -10,12 +10,13 @@ import {
   HillCipherBlockTrace,
   HillCipherTraceResult,
 } from "./types";
-import { det, kofaktor, adjoin, createEmptyStats } from "./matrix";
+import { Det, Kofaktor, Adjoin, createEmptyStats } from "./matrix";
 import { gcd } from "./fractions";
 
 /**
- * Mathematical Modulo (Positive remainder)
- * Handles negative dividends: ((a % m) + m) % m
+ * Mathematical Modulo (Positive remainder guard)
+ * Ensures correct modular arithmetic for negative dividends: ((a % m) + m) % m
+ * e.g., mod(-343, 26) = 21, mod(-47, 26) = 5, mod(-99, 26) = 5.
  */
 export function mod(a: number, m: number): number {
   return ((a % m) + m) % m;
@@ -41,10 +42,15 @@ export function numToChar(n: number): string {
 }
 
 /**
- * MODUL 7: FUNGSI InversModular(a, m)
- * Mencari balikan perkalian modular x in [1, m-1] sedemikian hingga (a * x) mod m == 1
+ * MODUL 7: Studi Kasus Topik A (Bagian 1): FUNGSI InversModular(a, m)
+ * FUNGSI InversModular(a, m):
+ *     a = a MOD m
+ *     UNTUK x = 1 SAMPAI m - 1:
+ *         JIKA (a * x) MOD m == 1:
+ *             KEMBALIKAN x
+ *     KEMBALIKAN TIDAK_ADA
  */
-export function inversModular(a: number, m: number): number | null {
+export function InversModular(a: number, m: number): number | null {
   a = mod(a, m);
   for (let x = 1; x <= m - 1; x++) {
     if (mod(a * x, m) === 1) {
@@ -55,10 +61,35 @@ export function inversModular(a: number, m: number): number | null {
 }
 
 /**
- * MODUL 8: ALGORITMA DekripsiHill
- * Mendekripsi teks sandi menggunakan matriks kunci 3x3 dengan pelacakan lengkap per blok.
+ * MODUL 8: Studi Kasus Topik A (Bagian 2): ALGORITMA DekripsiHill
+ * ALGORITMA DekripsiHill:
+ *     BACA K (matriks 3x3), teks_sandi (panjang kelipatan 3)
+ *     // 1. Hitung determinan modulo 26 dan cek validitas kunci
+ *     d = Det(K, 3) MOD 26
+ *     JIKA GCD(d, 26) != 1:
+ *         CETAK "Kunci tidak valid (tidak koprima dengan 26)"
+ *         BERHENTI
+ *     // 2. Hitung invers determinan dan matriks adjoin
+ *     d_inv = InversModular(d, 26)
+ *     C = Kofaktor(K, 3)
+ *     adj = Adjoin(C, 3)
+ *     // 3. Bentuk matriks kunci invers K_inv = (d_inv * adj) mod 26
+ *     K_inv = matriks baru ukuran 3 x 3
+ *     UNTUK i = 1 SAMPAI 3:
+ *         UNTUK j = 1 SAMPAI 3:
+ *             K_inv[i][j] = (d_inv * adj[i][j]) MOD 26
+ *     // 4. Dekripsi teks sandi per blok (tiap 3 huruf)
+ *     plainteks = ""
+ *     UNTUK tiap blok c = (c[1], c[2], c[3]) pada teks_sandi:
+ *         UNTUK i = 1 SAMPAI 3:
+ *             total = 0
+ *             UNTUK k = 1 SAMPAI 3:
+ *                 total = total + (K_inv[i][k] * c[k])
+ *             p[i] = total MOD 26
+ *         plainteks = plainteks + Huruf(p[i])
+ *     CETAK plainteks
  */
-export function dekripsiHill(
+export function DekripsiHill(
   K: number[][],
   rawCiphertext: string
 ): HillCipherTraceResult {
@@ -67,12 +98,13 @@ export function dekripsiHill(
   // Bersihkan teks sandi: hanya huruf latin, kapital
   const cleanCipher = rawCiphertext.toUpperCase().replace(/[^A-Z]/g, "");
 
-  // 1. Hitung determinan matriks kunci
-  const rawDet = det(K, 3, stats);
+  // 1. Hitung determinan modulo 26 dan cek validitas kunci
+  const rawDet = Det(K, 3, stats);
   const d = mod(rawDet, 26);
   const gcdVal = gcd(d, 26);
   const isValidKey = gcdVal === 1;
 
+  // JIKA GCD(d, 26) != 1: CETAK "Kunci tidak valid (tidak koprima dengan 26)" BERHENTI
   if (!isValidKey) {
     return {
       K,
@@ -81,6 +113,7 @@ export function dekripsiHill(
       detKMod26: d,
       gcdVal,
       isValidKey: false,
+      errorMessage: "Kunci tidak valid (tidak koprima dengan 26)",
       detInverse: null,
       cofactorMatrix: [],
       adjMatrix: [],
@@ -93,11 +126,11 @@ export function dekripsiHill(
   }
 
   // 2. Hitung invers determinan dan matriks adjoin
-  const d_inv = inversModular(d, 26)!;
-  const C = kofaktor(K, 3, stats);
-  const adj = adjoin(C, 3, stats);
+  const d_inv = InversModular(d, 26)!;
+  const C = Kofaktor(K, 3, stats);
+  const adj = Adjoin(C, 3, stats);
 
-  // Reduksi adjoin mod 26 untuk representasi analitik
+  // Reduksi adjoin mod 26 untuk representasi analitik laporan
   const adjMatrixMod26: number[][] = adj.map((row) =>
     row.map((val) => mod(val, 26))
   );
@@ -174,3 +207,7 @@ export function dekripsiHill(
     stats,
   };
 }
+
+// Backward compatible aliases
+export const inversModular = InversModular;
+export const dekripsiHill = DekripsiHill;

@@ -27,8 +27,16 @@ This system is an academic web application designed to demonstrate, trace, and e
    - Project must compile with `tsc --noEmit` and build with `npm run build` under strict TypeScript configuration without `any` workarounds.
 3. **Immutability:**
    - Matrix functions must treat inputs as immutable 2D arrays (`number[][]`) and return fresh matrices without side effects on input data.
-4. **Preservation of Academic Logic:**
-   - The TypeScript implementation must directly correspond to the author's 8 formal pseudocode modules.
+4. **Preservation of Academic Logic & Exact Naming:**
+   - The TypeScript implementation must directly correspond to the author's 8 formal pseudocode modules:
+     - `Minor(A, n, p, q)`
+     - `Det(A, n)` (with skip-zero check `JIKA A[1][j] != 0`)
+     - `Kofaktor(A, n)`
+     - `Adjoin(C, n)`
+     - `Solusi(adj, d, b, n)` (Tahap 1 $A^{-1} = \frac{1}{d}\text{adj}$ & Tahap 2 $x = A^{-1}b$)
+     - `SPL_Adjoin(A, b, n)` with error `"Matriks singular (det = 0): metode adjoin tidak dapat dipakai"`
+     - `InversModular(a, m)`
+     - `DekripsiHill(K, teks_sandi)` with error `"Kunci tidak valid (tidak koprima dengan 26)"`
 
 ---
 
@@ -68,86 +76,135 @@ This ensures exact correspondence with the manual paper trace.
 
 ---
 
-## 5. Algorithmic Trace Data Structures
+## 5. Authoritative 8 Pseudocode Modules Reference
 
-To support both computational resolution and granular UI tracing, algorithms return structured execution trace objects:
+```text
+// Modul 1: Menentukan matriks minor
+FUNGSI Minor(A, n, p, q):
+    M = matriks baru ukuran (n - 1) x (n - 1)
+    r = 0
+    UNTUK i = 1 SAMPAI n:
+        JIKA i != p:
+            r = r + 1
+            c = 0
+            UNTUK j = 1 SAMPAI n:
+                JIKA j != q:
+                    c = c + 1
+                    M[r][c] = A[i][j]
+    KEMBALIKAN M
 
-```typescript
-export interface MinorTrace {
-  row: number; // 1-based
-  col: number; // 1-based
-  subMatrix: number[][];
-  detMinor: number;
-}
+// Modul 2: Menentukan Determinan
+FUNGSI Det(A, n):
+    JIKA n == 1:
+        KEMBALIKAN A[1][1]
+    JIKA n == 2:
+        KEMBALIKAN (A[1][1] * A[2][2]) - (A[1][2] * A[2][1])
+    hasil = 0
+    UNTUK j = 1 SAMPAI n:
+        JIKA A[1][j] != 0:
+            M = Minor(A, n, 1, j)
+            tanda = (-1) ^ (1 + j)
+            hasil = hasil + (tanda * A[1][j] * Det(M, n - 1))
+    KEMBALIKAN hasil
 
-export interface CofactorTrace {
-  row: number; // 1-based
-  col: number; // 1-based
-  sign: number; // +1 or -1
-  minorDet: number;
-  cofactorValue: number;
-}
+// Modul 3: Menentukan Kofaktor
+FUNGSI Kofaktor(A, n):
+    C = matriks baru ukuran n x n
+    UNTUK i = 1 SAMPAI n:
+        UNTUK j = 1 SAMPAI n:
+            M = Minor(A, n, i, j)
+            tanda = (-1) ^ (i + j)
+            C[i][j] = tanda * Det(M, n - 1)
+    KEMBALIKAN C
 
-export interface SPLTrace {
-  n: number;
-  A: number[][];
-  b: number[];
-  detA: number;
-  detExpansionRow1: {
-    col: number; // 1-based
-    element: number;
-    sign: number;
-    minorDet: number;
-    term: number;
-  }[];
-  isSingular: boolean;
-  cofactorMatrix: number[][];
-  adjMatrix: number[][];
-  adjTimesB: number[];
-  // Tahap 1: A_inv = (1/d) * adj
-  invMatrixDecimal: number[][];
-  invMatrixFraction: { numerator: number; denominator: number }[][];
-  // Tahap 2: x = A_inv * b
-  x: number[];
-  xFraction: { numerator: number; denominator: number }[];
-  verificationResidual: number[]; // A * x - b
-}
+// Modul 4: Menentukan Adjoin
+FUNGSI Adjoin(C, n):
+    adj = matriks baru ukuran n x n
+    UNTUK i = 1 SAMPAI n:
+        UNTUK j = 1 SAMPAI n:
+            adj[j][i] = C[i][j]
+    KEMBALIKAN adj
+
+// Modul 5: Menentukan Solusi
+FUNGSI Solusi(adj, d, b, n):
+    A_inv = matriks baru ukuran n x n
+    x = vektor baru ukuran n
+    // Tahap 1: Hitung matriks invers
+    A_inv = (1 / d) * adj
+    UNTUK i = 1 SAMPAI n:
+        UNTUK j = 1 SAMPAI n:
+            A_inv[i][j] = adj[i][j] / d
+    // Tahap 2: Kalikan matriks A_inv dengan vektor b
+    UNTUK i = 1 SAMPAI n:
+        total = 0
+        UNTUK k = 1 SAMPAI n:
+            total = total + (A_inv[i][k] * b[k])
+        x[i] = total
+    KEMBALIKAN x
+
+// Modul 6: Contoh program utama (SPL_Adjoin)
+ALGORITMA SPL_Adjoin:
+    BACA n, A, b
+    d = Det(A, n)
+    JIKA d == 0:
+        CETAK "Matriks singular (det = 0): metode adjoin tidak dapat dipakai"
+        BERHENTI
+    C = Kofaktor(A, n)
+    adj = Adjoin(C, n)
+    x = Solusi(adj, d, b, n)
+    CETAK x
+
+// Modul 7: Studi Kasus Topik A (Bagian 1): FUNGSI InversModular(a, m)
+FUNGSI InversModular(a, m):
+    a = a MOD m
+    UNTUK x = 1 SAMPAI m - 1:
+        JIKA (a * x) MOD m == 1:
+            KEMBALIKAN x
+    KEMBALIKAN TIDAK_ADA
+
+// Modul 8: Studi Kasus Topik A (Bagian 2): ALGORITMA DekripsiHill
+ALGORITMA DekripsiHill:
+    BACA K (matriks 3x3), teks_sandi (panjang kelipatan 3)
+    // 1. Hitung determinan modulo 26 dan cek validitas kunci
+    d = Det(K, 3) MOD 26
+    JIKA GCD(d, 26) != 1:
+        CETAK "Kunci tidak valid (tidak koprima dengan 26)"
+        BERHENTI
+    // 2. Hitung invers determinan dan matriks adjoin
+    d_inv = InversModular(d, 26)
+    C = Kofaktor(K, 3)
+    adj = Adjoin(C, 3)
+    // 3. Bentuk matriks kunci invers K_inv = (d_inv * adj) mod 26
+    K_inv = matriks baru ukuran 3 x 3
+    UNTUK i = 1 SAMPAI 3:
+        UNTUK j = 1 SAMPAI 3:
+            K_inv[i][j] = (d_inv * adj[i][j]) MOD 26
+    // 4. Dekripsi teks sandi per blok (tiap 3 huruf)
+    plainteks = ""
+    UNTUK tiap blok c = (c[1], c[2], c[3]) pada teks_sandi:
+        UNTUK i = 1 SAMPAI 3:
+            total = 0
+            UNTUK k = 1 SAMPAI 3:
+                total = total + (K_inv[i][k] * c[k])
+            p[i] = total MOD 26
+        plainteks = plainteks + Huruf(p[i])
+    CETAK plainteks
 ```
 
 ---
 
-## 6. Directory Structure
+## 6. Asymptotic Complexity Derivation
 
-```
-├── AGENT.md
-├── PRD.md
-├── CHANGELOG.md
-├── README.md
-├── package.json
-├── src/
-│   ├── app/
-│   │   ├── layout.tsx
-│   │   └── page.tsx
-│   ├── components/
-│   │   ├── Navbar.tsx
-│   │   ├── Footer.tsx
-│   │   ├── AboutModal.tsx
-│   │   ├── tabs/
-│   │   │   ├── TabSPLAdjoin.tsx
-│   │   │   ├── TabHillCipher.tsx
-│   │   │   ├── TabLiveChallenge.tsx
-│   │   │   ├── TabFlowchartPseudocode.tsx
-│   │   │   └── TabComplexityAnalysis.tsx
-│   │   └── ui/
-│   │       ├── MatrixInput.tsx
-│   │       ├── MatrixDisplay.tsx
-│   │       ├── VectorInput.tsx
-│   │       └── StepCard.tsx
-│   └── lib/
-│       ├── algorithms/
-│       │   ├── matrix.ts        // Modules 1-6 (Minor, Det, Cofactor, Adjoin, Solusi, SPL)
-│       │   ├── hillCipher.ts    // Modules 7-8 (InversModular, DekripsiHill)
-│       │   ├── fractions.ts     // Exact fraction arithmetic for display
-│       │   └── stats.ts         // Call execution counter & complexity tables
-│       └── presets.ts           // Official presets (4x4 report, Hill Cipher 3x3, Singular)
-```
+### Kompleksitas Waktu $T(n) = O(n \times n!)$:
+- **Fungsi Minor:** 2 nested loops ($1 \dots n$) $\implies n \times n = n^2 \implies O(n^2)$.
+- **Modul Determinan (Det):** Recursive calls from $n, (n-1), \dots, 2 \implies n \times (n-1) \times \dots \times 1 \implies O(n!)$.
+- **Modul Kofaktor (Kofaktor):** 2 nested loops ($n^2$) calling `Det` of size $(n-1)$ which takes $(n-1)! \implies n^2 \times (n-1)! = n \times n! \implies O(n \times n!)$.
+- **Modul Transpose (Adjoin) & Solusi (Solusi):** 2 nested loops ($1 \dots n$) $\implies O(n^2)$ each.
+- **Penurunan Rumus Waktu $T(n)$:**
+  $$T(n) = O(n!) + O(n \times n!) + O(n^2) + O(n^2) \implies T(n) = O(n \times n!)$$
+
+### Kompleksitas Ruang $S(n) = O(n^3)$:
+- **Matriks Utama:** Menyimpan `A`, `C`, `adj`, dan `A_inv` berukuran $n \times n = n^2 \implies O(n^2)$.
+- **Matriks Rekursi (Det):** Recursive determinant creates a stack of `Minor` matrices of depth $n$, each roughly $n^2 \implies n \times n^2 = n^3 \implies O(n^3)$.
+- **Penurunan Rumus Ruang $S(n)$:**
+  $$S(n) = O(n^2) + O(n^3) \implies S(n) = O(n^3)$$

@@ -31,10 +31,22 @@ export function createEmptyStats(): ExecutionStats {
 
 /**
  * MODUL 1: Menentukan matriks minor
- * Menghapus baris p dan kolom q dari matriks A berukuran n x n.
+ * FUNGSI Minor(A, n, p, q):
+ *     M = matriks baru ukuran (n - 1) x (n - 1)
+ *     r = 0
+ *     UNTUK i = 1 SAMPAI n:
+ *         JIKA i != p:
+ *             r = r + 1
+ *             c = 0
+ *             UNTUK j = 1 SAMPAI n:
+ *                 JIKA j != q:
+ *                     c = c + 1
+ *                     M[r][c] = A[i][j]
+ *     KEMBALIKAN M
+ *
  * Catatan indeks: p dan q adalah 1-based (1..n) sesuai pseudocode laporan.
  */
-export function minor(
+export function Minor(
   A: number[][],
   n: number,
   p: number,
@@ -65,9 +77,20 @@ export function minor(
 
 /**
  * MODUL 2: Menentukan Determinan
- * Ekspansi kofaktor sepanjang baris pertama (Laplace expansion) dengan basis rekursi n=1 dan n=2.
+ * FUNGSI Det(A, n):
+ *     JIKA n == 1:
+ *         KEMBALIKAN A[1][1]
+ *     JIKA n == 2:
+ *         KEMBALIKAN (A[1][1] * A[2][2]) - (A[1][2] * A[2][1])
+ *     hasil = 0
+ *     UNTUK j = 1 SAMPAI n:
+ *         JIKA A[1][j] != 0:
+ *             M = Minor(A, n, 1, j)
+ *             tanda = (-1) ^ (1 + j)
+ *             hasil = hasil + (tanda * A[1][j] * Det(M, n - 1))
+ *     KEMBALIKAN hasil
  */
-export function det(A: number[][], n: number, stats?: ExecutionStats): number {
+export function Det(A: number[][], n: number, stats?: ExecutionStats): number {
   if (stats) stats.detCalls++;
 
   // JIKA n == 1: KEMBALIKAN A[1][1]
@@ -86,10 +109,11 @@ export function det(A: number[][], n: number, stats?: ExecutionStats): number {
 
   let hasil = 0;
   for (let j = 1; j <= n; j++) {
+    // JIKA A[1][j] != 0 (Skip-Zero Optimization sesuai Flowchart & Pseudocode)
     if (A[0][j - 1] !== 0) {
-      const M = minor(A, n, 1, j, stats);
+      const M = Minor(A, n, 1, j, stats);
       const tanda = (1 + j) % 2 === 0 ? 1 : -1;
-      const subDet = det(M, n - 1, stats);
+      const subDet = Det(M, n - 1, stats);
       if (stats) {
         stats.multiplications += 2;
         stats.additions += 1;
@@ -103,9 +127,16 @@ export function det(A: number[][], n: number, stats?: ExecutionStats): number {
 
 /**
  * MODUL 3: Menentukan Kofaktor
- * Menghitung matriks kofaktor C di mana C[i][j] = (-1)^(i+j) * Det(Minor(A, n, i, j), n - 1)
+ * FUNGSI Kofaktor(A, n):
+ *     C = matriks baru ukuran n x n
+ *     UNTUK i = 1 SAMPAI n:
+ *         UNTUK j = 1 SAMPAI n:
+ *             M = Minor(A, n, i, j)
+ *             tanda = (-1) ^ (i + j)
+ *             C[i][j] = tanda * Det(M, n - 1)
+ *     KEMBALIKAN C
  */
-export function kofaktor(A: number[][], n: number, stats?: ExecutionStats): number[][] {
+export function Kofaktor(A: number[][], n: number, stats?: ExecutionStats): number[][] {
   if (stats) stats.kofaktorCalls++;
 
   // C = matriks baru ukuran n x n
@@ -113,9 +144,9 @@ export function kofaktor(A: number[][], n: number, stats?: ExecutionStats): numb
 
   for (let i = 1; i <= n; i++) {
     for (let j = 1; j <= n; j++) {
-      const M = minor(A, n, i, j, stats);
+      const M = Minor(A, n, i, j, stats);
       const tanda = (i + j) % 2 === 0 ? 1 : -1;
-      const detMinor = det(M, n - 1, stats);
+      const detMinor = Det(M, n - 1, stats);
       if (stats) stats.multiplications++;
       C[i - 1][j - 1] = tanda * detMinor;
     }
@@ -126,9 +157,14 @@ export function kofaktor(A: number[][], n: number, stats?: ExecutionStats): numb
 
 /**
  * MODUL 4: Menentukan Adjoin
- * adj = transpos dari matriks kofaktor C
+ * FUNGSI Adjoin(C, n):
+ *     adj = matriks baru ukuran n x n
+ *     UNTUK i = 1 SAMPAI n:
+ *         UNTUK j = 1 SAMPAI n:
+ *             adj[j][i] = C[i][j]
+ *     KEMBALIKAN adj
  */
-export function adjoin(C: number[][], n: number, stats?: ExecutionStats): number[][] {
+export function Adjoin(C: number[][], n: number, stats?: ExecutionStats): number[][] {
   if (stats) stats.adjoinCalls++;
 
   // adj = matriks baru ukuran n x n
@@ -145,10 +181,23 @@ export function adjoin(C: number[][], n: number, stats?: ExecutionStats): number
 
 /**
  * MODUL 5: Menentukan Solusi
- * Tahap 1: Hitung matriks invers A_inv = (1 / d) * adj
- * Tahap 2: Kalikan matriks A_inv dengan vektor b
+ * FUNGSI Solusi(adj, d, b, n):
+ *     A_inv = matriks baru ukuran n x n
+ *     x = vektor baru ukuran n
+ *     // Tahap 1: Hitung matriks invers
+ *     A_inv = (1 / d) * adj
+ *     UNTUK i = 1 SAMPAI n:
+ *         UNTUK j = 1 SAMPAI n:
+ *             A_inv[i][j] = adj[i][j] / d
+ *     // Tahap 2: Kalikan matriks A_inv dengan vektor b
+ *     UNTUK i = 1 SAMPAI n:
+ *         total = 0
+ *         UNTUK k = 1 SAMPAI n:
+ *             total = total + (A_inv[i][k] * b[k])
+ *         x[i] = total
+ *     KEMBALIKAN x
  */
-export function solusi(
+export function Solusi(
   adj: number[][],
   d: number,
   b: number[],
@@ -160,11 +209,11 @@ export function solusi(
   const A_inv: number[][] = Array.from({ length: n }, () => new Array(n).fill(0));
   const x: number[] = new Array(n).fill(0);
 
-  // Tahap 1: Hitung matriks invers
+  // Tahap 1: Hitung matriks invers A_inv = (1 / d) * adj
   for (let i = 1; i <= n; i++) {
     for (let j = 1; j <= n; j++) {
       A_inv[i - 1][j - 1] = adj[i - 1][j - 1] / d;
-      if (stats) stats.multiplications++; // Division counted as arithmetic multiplication
+      if (stats) stats.multiplications++;
     }
   }
 
@@ -185,21 +234,31 @@ export function solusi(
 }
 
 /**
- * MODUL 6: ALGORITMA SPL_Adjoin dengan pelacakan langkah lengkap untuk UI akademik
+ * MODUL 6: ALGORITMA SPL_Adjoin
+ * ALGORITMA SPL_Adjoin:
+ *     BACA n, A, b
+ *     d = Det(A, n)
+ *     JIKA d == 0:
+ *         CETAK "Matriks singular (det = 0): metode adjoin tidak dapat dipakai"
+ *         BERHENTI
+ *     C = Kofaktor(A, n)
+ *     adj = Adjoin(C, n)
+ *     x = Solusi(adj, d, b, n)
+ *     CETAK x
  */
-export function solveSPLAdjoin(
+export function SPL_Adjoin(
   A: number[][],
   b: number[],
   n: number
 ): SPLTraceResult {
   const stats = createEmptyStats();
 
-  // 1. Hitung determinan dan catat ekspansi baris pertama
+  // 1. Catat ekspansi baris pertama untuk visualisasi tracing UI
   const detExpansionRow1: DeterminantExpansionTerm[] = [];
   for (let j = 1; j <= n; j++) {
-    const M = minor(A, n, 1, j);
+    const M = Minor(A, n, 1, j);
     const sign = (1 + j) % 2 === 0 ? 1 : -1;
-    const subDet = det(M, n - 1);
+    const subDet = Det(M, n - 1);
     const element = A[0][j - 1];
     const termValue = sign * element * subDet;
     detExpansionRow1.push({
@@ -209,13 +268,15 @@ export function solveSPLAdjoin(
       minorDet: subDet,
       subMatrix: M,
       termValue,
+      skippedDueToZero: element === 0,
     });
   }
 
-  const d = det(A, n, stats);
+  // Hitung determinan d = Det(A, n)
+  const d = Det(A, n, stats);
   const isSingular = Math.abs(d) < 1e-9;
 
-  // Jika singular, buat hasil berhenti sesuai algoritma
+  // JIKA d == 0: CETAK "Matriks singular (det = 0): metode adjoin tidak dapat dipakai" BERHENTI
   if (isSingular) {
     return {
       n,
@@ -224,6 +285,7 @@ export function solveSPLAdjoin(
       detA: 0,
       detExpansionRow1,
       isSingular: true,
+      errorMessage: "Matriks singular (det = 0): metode adjoin tidak dapat dipakai",
       minors: [],
       cofactorMatrix: [],
       cofactorSteps: [],
@@ -239,15 +301,15 @@ export function solveSPLAdjoin(
     };
   }
 
-  // 2. Kofaktor dan rincian langkah minor
+  // 2. Kofaktor: C = Kofaktor(A, n)
   const minors: MinorStep[][] = [];
   const cofactorSteps: CofactorStep[][] = [];
   for (let i = 1; i <= n; i++) {
     const minorRow: MinorStep[] = [];
     const cofRow: CofactorStep[] = [];
     for (let j = 1; j <= n; j++) {
-      const M = minor(A, n, i, j);
-      const minorDet = det(M, n - 1);
+      const M = Minor(A, n, i, j);
+      const minorDet = Det(M, n - 1);
       const sign = (i + j) % 2 === 0 ? 1 : -1;
       const cofactorValue = sign * minorDet;
 
@@ -258,12 +320,12 @@ export function solveSPLAdjoin(
     cofactorSteps.push(cofRow);
   }
 
-  const C = kofaktor(A, n, stats);
+  const C = Kofaktor(A, n, stats);
 
-  // 3. Adjoin = C^T
-  const adj = adjoin(C, n, stats);
+  // 3. Adjoin: adj = Adjoin(C, n)
+  const adj = Adjoin(C, n, stats);
 
-  // 4. Hitung adj(A) * b (vektor perantara kertas kerja manual)
+  // 4. Hitung adj(A) * b (Vektor perantara analitik pada kertas kerja laporan manual)
   const adjTimesB: number[] = new Array(n).fill(0);
   for (let i = 0; i < n; i++) {
     let sum = 0;
@@ -273,17 +335,17 @@ export function solveSPLAdjoin(
     adjTimesB[i] = Math.round(sum);
   }
 
-  // 5. Solusi Tahap 1 & Tahap 2
-  const { A_inv, x } = solusi(adj, d, b, n, stats);
+  // 5. Solusi: x = Solusi(adj, d, b, n)
+  const { A_inv, x } = Solusi(adj, d, b, n, stats);
 
-  // 6. Bentuk pecahan eksak untuk tampilan bebas error rounding
+  // 6. Representasi pecahan eksak (Tahap 1 A_inv = (1/d)*adj dan Tahap 2 x)
   const invMatrixFraction = adj.map((row) =>
     row.map((val) => createFraction(val, d))
   );
 
   const xFraction = adjTimesB.map((val) => createFraction(val, d));
 
-  // 7. Verifikasi A * x = b dan residual
+  // 7. Verifikasi otomatis A * x = b dan residual
   const residual: number[] = new Array(n).fill(0);
   let isVerified = true;
   for (let i = 0; i < n; i++) {
@@ -318,3 +380,11 @@ export function solveSPLAdjoin(
     stats,
   };
 }
+
+// Backward compatible aliases
+export const minor = Minor;
+export const det = Det;
+export const kofaktor = Kofaktor;
+export const adjoin = Adjoin;
+export const solusi = Solusi;
+export const solveSPLAdjoin = SPL_Adjoin;

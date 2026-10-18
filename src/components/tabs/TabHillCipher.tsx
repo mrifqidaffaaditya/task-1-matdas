@@ -171,16 +171,16 @@ export const TabHillCipher: React.FC = () => {
             <div className="flex items-center gap-2.5">
               <AlertOctagon className="w-5 h-5 text-rose-400 flex-shrink-0" />
               <div>
-                <h3 className="text-sm font-bold text-rose-100">
-                  Kunci Tidak Valid: gcd(det(K) mod 26, 26) = {trace.gcdVal} ≠ 1
+                <h3 className="text-sm font-bold text-rose-100 font-mono">
+                  &quot;Kunci tidak valid (tidak koprima dengan 26)&quot;
                 </h3>
                 <p className="text-xs text-rose-300/90 mt-0.5">
-                  Determinan d = {trace.detKMod26} tidak saling prima (koprima) dengan 26. Invers modular d⁻¹ tidak ada dalam Z₂₆, sehingga matriks kunci tidak dapat dibalik.
+                  Determinan d = {trace.detKMod26} tidak saling prima (koprima) dengan 26 karena gcd({trace.detKMod26}, 26) = {trace.gcdVal} ≠ 1. Invers modular d⁻¹ tidak ada dalam Z₂₆, sehingga matriks kunci tidak dapat dibalik.
                 </p>
               </div>
             </div>
             <div className="font-mono text-xs bg-[#111418] p-2.5 rounded border border-rose-900/60 text-neutral-300">
-              d = Det(K, 3) mod 26 = {trace.detKMod26} ⟹ GCD({trace.detKMod26}, 26) = {trace.gcdVal} ≠ 1 ⟹ BERHENTI
+              d = Det(K, 3) mod 26 = {trace.detKMod26} ⟹ JIKA GCD({trace.detKMod26}, 26) != 1: CETAK &quot;Kunci tidak valid (tidak koprima dengan 26)&quot; ⟹ BERHENTI
             </div>
           </div>
         )}

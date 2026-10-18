@@ -7,6 +7,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.1.0] - 2026-10-18
+
+### Changed & Refactored
+- **Strict Pseudocode 8-Module Alignment (`src/lib/algorithms/`):**
+  - Standardized exact function names matching the author's formal academic report:
+    - `Minor(A, n, p, q)` — Module 1
+    - `Det(A, n)` — Module 2, with strict skip-zero optimization (`JIKA A[1][j] != 0`) on Row 1 before invoking `Minor`.
+    - `Kofaktor(A, n)` — Module 3
+    - `Adjoin(C, n)` — Module 4
+    - `Solusi(adj, d, b, n)` — Module 5, computing both Tahap 1 ($A^{-1} = \frac{1}{d}\text{adj}$) and Tahap 2 ($x = A^{-1}b$).
+    - `SPL_Adjoin(A, b, n)` — Module 6, with exact error string: `"Matriks singular (det = 0): metode adjoin tidak dapat dipakai"`.
+    - `InversModular(a, m)` — Module 7
+    - `DekripsiHill(K, teks_sandi)` — Module 8, with exact error string: `"Kunci tidak valid (tidak koprima dengan 26)"`.
+  - Maintained backward-compatible aliases for existing callers.
+- **Positive Modulo Arithmetic Guard:**
+  - Guaranteed all modular computations use `((val % m) + m) % m` to handle negative dividends correctly (e.g., `-343 MOD 26 = 21`, `-47 MOD 26 = 5`, `-99 MOD 26 = 5`).
+- **Two-Stage Solusi & Intermediate Tracing:**
+  - UI displays both Tahap 1 ($A^{-1} = \frac{1}{d}\text{adj}$ in fraction & decimal) and Tahap 2 ($x = A^{-1}b$), alongside the manual paper tracing intermediate vector $\text{adj}(A) \cdot b = [-72, 72, -144, -72]^T$ and $x = \frac{1}{\det(A)}(\text{adj}(A) \cdot b) = [1, -1, 2, 1]^T$.
+- **Design Style Refactoring (Flat & Neutral):**
+  - Removed all background gradients, glowing box-shadows, and large rounded corners (`rounded-2xl`, `rounded-full`).
+  - Switched to a flat, neutral, high-contrast academic dashboard style (`rounded`, `rounded-sm`, flat solid backgrounds `#111418`, `#15191f`, and `#181c22`).
+- **Comprehensive Verification Suite (`verify.ts`):**
+  - Added automated test cases for modulo positive guard, 4x4 SPL preset, singular matrix detection, 3x3 Hill Cipher decryption, and invalid key rejection.
+
+---
+
 ## [1.0.0] - 2026-10-17
 
 ### Added

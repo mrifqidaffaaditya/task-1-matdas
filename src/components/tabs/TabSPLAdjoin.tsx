@@ -149,8 +149,8 @@ export const TabSPLAdjoin: React.FC = () => {
             <div className="flex items-center gap-2.5">
               <AlertTriangle className="w-5 h-5 text-rose-400 flex-shrink-0" />
               <div>
-                <h3 className="text-sm font-bold text-rose-100">
-                  Matriks Singular (det = 0): Metode Adjoin Tidak Dapat Dipakai!
+                <h3 className="text-sm font-bold text-rose-100 font-mono">
+                  &quot;Matriks singular (det = 0): metode adjoin tidak dapat dipakai&quot;
                 </h3>
                 <p className="text-xs text-rose-300/90 mt-0.5">
                   Sesuai Modul 6 pseudocode, jika determinan d == 0 maka sistem berhenti karena pembagian dengan determinan bernilai tak terdefinisi (1 / 0).
@@ -158,7 +158,7 @@ export const TabSPLAdjoin: React.FC = () => {
               </div>
             </div>
             <div className="font-mono text-xs bg-[#111418] p-2.5 rounded border border-rose-900/60 text-neutral-300">
-              d = Det(A, {dimension}) = 0 ⟹ BERHENTI (Tidak ada solusi unik)
+              d = Det(A, {dimension}) = 0 ⟹ JIKA d == 0: CETAK &quot;Matriks singular (det = 0): metode adjoin tidak dapat dipakai&quot; ⟹ BERHENTI
             </div>
           </div>
         )}

@@ -42,6 +42,7 @@ export interface DeterminantExpansionTerm {
   minorDet: number;
   subMatrix: number[][];
   termValue: number;
+  skippedDueToZero?: boolean;
 }
 
 export interface SPLTraceResult {
@@ -51,11 +52,12 @@ export interface SPLTraceResult {
   detA: number;
   detExpansionRow1: DeterminantExpansionTerm[];
   isSingular: boolean;
+  errorMessage?: string; // "Matriks singular (det = 0): metode adjoin tidak dapat dipakai"
   minors: MinorStep[][]; // n x n
   cofactorMatrix: number[][];
   cofactorSteps: CofactorStep[][]; // n x n
   adjMatrix: number[][];
-  adjTimesB: number[]; // adj(A) * b
+  adjTimesB: number[]; // adj(A) * b (manual paper intermediate vector)
   invMatrixDecimal: number[][];
   invMatrixFraction: Fraction[][];
   x: number[];
@@ -81,6 +83,7 @@ export interface HillCipherTraceResult {
   detKMod26: number;
   gcdVal: number;
   isValidKey: boolean;
+  errorMessage?: string; // "Kunci tidak valid (tidak koprima dengan 26)"
   detInverse: number | null;
   cofactorMatrix: number[][];
   adjMatrix: number[][];
