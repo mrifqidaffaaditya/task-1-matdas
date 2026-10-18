@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.3.0] - 2026-10-18
+
+### Added & Enhanced
+- **Interactive JavaScript Code Execution at Every Step (`CodeRunner`):**
+  - Integrated live client-side JavaScript execution (`CodeRunner.tsx`) inside each computational step for both SPL Adjoin (Steps 1–6) and Hill Cipher Decryption (Steps 1–5).
+  - Pre-populated with current matrix $A$, vector $b$, dimension $n$, or key matrix $K$ and ciphertext inputs in real time.
+  - Interactive controls: "Jalankan Kode" (runs directly in browser, measuring execution time in ms), "Salin Kode" (copies to clipboard for Node.js / DevTools), and live console log terminal output viewer.
+- **Full Standalone Script Runners at Simulation Bottom:**
+  - Placed complete, zero-dependency, self-contained scripts at the bottom of both simulation tabs (`SPL_Adjoin` Modul 1–6 and `DekripsiHill` Modul 7–8).
+  - Can be executed directly with 1 click in the UI or copied to run in terminal / Node.js.
+- **Crystal Clear Step-by-Step Educational Tracing:**
+  - **SPL Adjoin:** Detailed arithmetic breakdown for Laplace expansion terms, full cofactor cell evaluations, explicit row-by-column calculations for $\text{adj}(A) \cdot b$, exact fraction & decimal $A^{-1}$, and explicit division for each solution variable $x[i] = (\text{adj}(A) \cdot b)[i] / d$.
+  - **Hill Cipher:** Step-by-step modular inverse search loop, positive modulo reduction for every cell of $\text{adj}(K)$, explicit row multiplications for $K^{-1}$, and per-block matrix-vector multiplication with character mappings.
+- **Fixed Notation Rendering & Typography Casing:**
+  - Removed all exotic Unicode combining marks (e.g. `₍`, `₎`, `ⱼ`, `₌`, `ⁿ`, `ⁱ`, `ʲ`) that caused broken rendering / tofu glyphs on mobile screens.
+  - Standardized on universal mathematical array notation matching report pseudocode (`A[i][j]`, `x[1]..x[n]`, `M[i][j]`, `C[i][j]`, `(-1)^(i+j)`).
+  - Harmonized Indonesian capitalization rules across all headings, badges, tabs, and technical descriptions.
+
+---
+
 ## [1.2.0] - 2026-10-18
 
 ### Changed & Improved

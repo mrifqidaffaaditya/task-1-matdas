@@ -7,13 +7,24 @@ import {
   AlertTriangle,
   CheckCircle2,
   RotateCcw,
+  Terminal,
 } from "lucide-react";
 import { MatrixInput } from "../ui/MatrixInput";
 import { VectorInput } from "../ui/VectorInput";
 import { MatrixDisplay } from "../ui/MatrixDisplay";
 import { StepCard } from "../ui/StepCard";
+import { CodeRunner } from "../ui/CodeRunner";
 import { solveSPLAdjoin } from "@/lib/algorithms/matrix";
 import { SPL_PRESETS, SPLPreset } from "@/lib/presets";
+import {
+  generateSPLStep1Code,
+  generateSPLStep2Code,
+  generateSPLStep3Code,
+  generateSPLStep4Code,
+  generateSPLStep5Code,
+  generateSPLStep6Code,
+  generateSPLFullScript,
+} from "@/lib/algorithms/codeGenerator";
 
 export const TabSPLAdjoin: React.FC = () => {
   const [dimension, setDimension] = useState<number>(4);
@@ -47,6 +58,15 @@ export const TabSPLAdjoin: React.FC = () => {
     return solveSPLAdjoin(matrixA, vectorB, dimension);
   }, [matrixA, vectorB, dimension]);
 
+  // Generate runnable JavaScript code snippets for each step & full script
+  const step1Code = useMemo(() => generateSPLStep1Code(matrixA, dimension), [matrixA, dimension]);
+  const step2Code = useMemo(() => generateSPLStep2Code(matrixA, dimension), [matrixA, dimension]);
+  const step3Code = useMemo(() => generateSPLStep3Code(matrixA, vectorB, dimension), [matrixA, vectorB, dimension]);
+  const step4Code = useMemo(() => generateSPLStep4Code(matrixA, dimension), [matrixA, dimension]);
+  const step5Code = useMemo(() => generateSPLStep5Code(matrixA, vectorB, dimension), [matrixA, vectorB, dimension]);
+  const step6Code = useMemo(() => generateSPLStep6Code(matrixA, vectorB, trace.x, dimension), [matrixA, vectorB, trace.x, dimension]);
+  const fullScript = useMemo(() => generateSPLFullScript(matrixA, vectorB, dimension), [matrixA, vectorB, dimension]);
+
   return (
     <div className="space-y-4">
       {/* Tab Header Banner */}
@@ -58,10 +78,10 @@ export const TabSPLAdjoin: React.FC = () => {
               <span>Modul 1 – 6 Algoritma Utama</span>
             </div>
             <h2 className="text-sm sm:text-base font-bold text-white tracking-tight">
-              Simulasi SPL Berbasis Metode Matriks Adjoin (x = A⁻¹ · b)
+              Simulasi SPL Berbasis Metode Matriks Adjoin: x = A⁻¹ · b
             </h2>
             <p className="text-xs text-neutral-400 mt-0.5 leading-relaxed">
-              Menghitung solusi eksak sistem persamaan linier dengan penelusuran minor, kofaktor, adjoin, dan invers analitik.
+              Menghitung solusi eksak sistem persamaan linier dengan penelusuran minor, kofaktor, adjoin, invers analitik, dan kode JavaScript eksekutabel di setiap langkah.
             </p>
           </div>
 
@@ -142,7 +162,7 @@ export const TabSPLAdjoin: React.FC = () => {
       </div>
 
       {/* COMPUTATIONAL STEP-BY-STEP TRACE */}
-      <div className="space-y-3">
+      <div className="space-y-3.5">
         {/* Singular Matrix Alert Branch (Modul 6) */}
         {trace.isSingular && (
           <div className="p-4 rounded bg-[#201518] border border-rose-900 text-rose-200 space-y-2">
@@ -172,39 +192,45 @@ export const TabSPLAdjoin: React.FC = () => {
           badgeType={trace.isSingular ? "warning" : "info"}
         >
           <div className="space-y-3 text-xs">
-            <p className="text-neutral-300 leading-relaxed">
-              Determinan dihitung melalui ekspansi kofaktor sepanjang baris pertama:
-              <br />
-              <code className="text-neutral-200 font-mono text-[11px] sm:text-xs">
-                det(A) = ∑ⱼ₌₁ⁿ [ (-1)¹⁺ʲ · A[1][j] · Det(Minor(A, n, 1, j)) ]
-              </code>
-            </p>
+            <div className="space-y-1">
+              <p className="text-neutral-300 leading-relaxed">
+                Determinan dihitung melalui ekspansi kofaktor sepanjang baris pertama (Modul 1 &amp; 2):
+              </p>
+              <div className="p-2 rounded bg-[#111418] border border-[#262c36] font-mono text-[11px] text-neutral-200">
+                Det(A, n) = ∑ (j = 1 s.d. n) [ (-1)^(1+j) · A[1][j] · Det(Minor(A, n, 1, j)) ]
+              </div>
+            </div>
 
+            {/* Grid of Columns Expansion */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
               {trace.detExpansionRow1.map((term) => (
                 <div
                   key={term.col}
                   className="p-2.5 rounded bg-[#111418] border border-[#262c36] space-y-1.5"
                 >
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between border-b border-[#262c36] pb-1">
                     <span className="font-mono font-bold text-neutral-200">
-                      Kolom {term.col} (A[1][{term.col}] = {term.element})
+                      Kolom j = {term.col} (A[1][{term.col}] = {term.element})
                     </span>
-                    <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-[#1e232b] text-neutral-300">
+                    <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-[#1e232b] text-neutral-300">
                       Tanda: {term.sign > 0 ? "+1" : "-1"}
                     </span>
                   </div>
 
                   <div className="space-y-1">
-                    <div className="text-[10px] text-neutral-400">Sub-matriks Minor M₁₍{term.col}₎:</div>
+                    <div className="text-[10px] text-neutral-400 font-mono">
+                      Sub-matriks Minor M[1][{term.col}]:
+                    </div>
                     <MatrixDisplay matrix={term.subMatrix} size="sm" />
                   </div>
 
-                  <div className="pt-1.5 border-t border-[#262c36] font-mono text-neutral-300">
-                    <div>det(M₁₍{term.col}₎) = <strong className="text-white">{term.minorDet}</strong></div>
-                    <div className="text-neutral-300 mt-0.5">
+                  <div className="pt-1.5 border-t border-[#262c36] font-mono text-neutral-300 space-y-0.5">
+                    <div>
+                      Det(M[1][{term.col}]) = <strong className="text-white">{term.minorDet}</strong>
+                    </div>
+                    <div className="text-[10px] text-neutral-400">
                       Suku = ({term.sign > 0 ? "+1" : "-1"}) × {term.element} × {term.minorDet} ={" "}
-                      <strong className="text-white">{term.termValue}</strong>
+                      <strong className="text-white font-mono">{term.termValue}</strong>
                     </div>
                   </div>
                 </div>
@@ -214,7 +240,7 @@ export const TabSPLAdjoin: React.FC = () => {
             {/* Determinant Summation Result */}
             <div className="p-3 rounded bg-[#111418] border border-[#262c36] flex flex-wrap items-center justify-between gap-2.5">
               <div className="font-mono text-neutral-200 text-xs sm:text-sm">
-                det(A) ={" "}
+                d = Det(A, {dimension}) ={" "}
                 {trace.detExpansionRow1
                   .map((t) => `${t.termValue < 0 ? `- ${Math.abs(t.termValue)}` : `+ ${t.termValue}`}`)
                   .join(" ")
@@ -224,10 +250,18 @@ export const TabSPLAdjoin: React.FC = () => {
                   {trace.detA}
                 </strong>
               </div>
-              <span className="text-[11px] text-neutral-400">
-                {dimension === 4 && trace.detA === -72 && "(Sesuai eksak laporan manual tracing: det = -72)"}
+              <span className="text-[11px] text-neutral-400 font-mono">
+                {dimension === 4 && trace.detA === -72 && "(Sesuai eksak laporan manual: d = -72)"}
               </span>
             </div>
+
+            {/* RUNNABLE CODE RUNNER FOR STEP 1 */}
+            <CodeRunner
+              code={step1Code}
+              title="Kode JavaScript Langkah 1: Minor & Determinan"
+              subtitle="Menjalankan fungsi Minor(A, n, p, q) dan Det(A, n) secara langsung"
+              badge="Modul 1 & 2"
+            />
           </div>
         </StepCard>
 
@@ -237,12 +271,12 @@ export const TabSPLAdjoin: React.FC = () => {
             <StepCard
               stepNumber="2"
               title="Menentukan Matriks Kofaktor C"
-              formula="Cᵢⱼ = (-1)ⁱ⁺ʲ · Det(Mᵢⱼ)"
-              subtitle="Menghitung kofaktor setiap elemen berdasarkan minor sub-matriks (n-1) × (n-1)"
+              formula="C[i][j] = (-1)^(i+j) · Det(Minor(A, n, i, j))"
+              subtitle="Menghitung kofaktor setiap elemen berdasarkan minor sub-matriks ukuran (n-1) × (n-1)"
             >
               <div className="space-y-3 text-xs">
                 <p className="text-neutral-300 leading-relaxed">
-                  Matriks kofaktor berukuran {dimension} × {dimension} yang diperoleh dari perkalian tanda selang-seling <code className="text-neutral-200 font-mono">(-1)ⁱ⁺ʲ</code> dengan determinan minor masing-masing:
+                  Matriks kofaktor berukuran {dimension} × {dimension} yang diperoleh dari perkalian tanda selang-seling <code className="text-neutral-200 font-mono">(-1)^(i+j)</code> dengan determinan minor masing-masing sel:
                 </p>
 
                 <div className="flex flex-col lg:flex-row items-stretch lg:items-start gap-3.5 sm:gap-4">
@@ -252,8 +286,10 @@ export const TabSPLAdjoin: React.FC = () => {
                   </div>
 
                   <div className="flex-1 space-y-1.5 min-w-0">
-                    <div className="text-xs font-semibold text-neutral-300">Rincian Nilai Kofaktor Tiap Sel:</div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 max-h-48 overflow-y-auto pr-1">
+                    <div className="text-xs font-semibold text-neutral-300">
+                      Rincian Nilai Kofaktor C[i][j] (Seluruh Sel {dimension} × {dimension}):
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 max-h-52 overflow-y-auto pr-1">
                       {trace.cofactorSteps.flatMap((row) =>
                         row.map((step) => (
                           <div
@@ -261,7 +297,7 @@ export const TabSPLAdjoin: React.FC = () => {
                             className="p-1.5 rounded bg-[#111418] border border-[#262c36] font-mono text-[10px] flex items-center justify-between"
                           >
                             <span className="text-neutral-400">
-                              C[{step.row}][{step.col}] = ({step.sign > 0 ? "+" : "-"}1) × {step.minorDet}
+                              C[{step.row}][{step.col}] = ({step.sign > 0 ? "+1" : "-1"}) × {step.minorDet}
                             </span>
                             <span className="font-bold text-white">
                               = {step.cofactorValue}
@@ -272,6 +308,14 @@ export const TabSPLAdjoin: React.FC = () => {
                     </div>
                   </div>
                 </div>
+
+                {/* RUNNABLE CODE RUNNER FOR STEP 2 */}
+                <CodeRunner
+                  code={step2Code}
+                  title="Kode JavaScript Langkah 2: Matriks Kofaktor"
+                  subtitle="Menjalankan fungsi Kofaktor(A, n) dan menampilkan rincian tiap sel C[i][j]"
+                  badge="Modul 3"
+                />
               </div>
             </StepCard>
 
@@ -284,7 +328,7 @@ export const TabSPLAdjoin: React.FC = () => {
             >
               <div className="space-y-3 text-xs">
                 <p className="text-neutral-300 leading-relaxed">
-                  Adjoin diperoleh dengan mentranspos matriks kofaktor C. Baris ke-i dari kofaktor menjadi kolom ke-i dari matriks adjoin:
+                  Adjoin diperoleh dengan mentranspos matriks kofaktor C. Baris ke-i dari kofaktor menjadi kolom ke-i dari matriks adjoin (<code className="text-neutral-200 font-mono">adj[j][i] = C[i][j]</code>):
                 </p>
 
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-start gap-3.5 sm:gap-4">
@@ -295,28 +339,42 @@ export const TabSPLAdjoin: React.FC = () => {
 
                   <div className="p-3.5 rounded bg-[#111418] border border-[#262c36] flex-1 space-y-2">
                     <span className="text-xs font-semibold text-neutral-200">
-                      Perkalian Perantara Kertas Kerja Laporan: adj(A) · b
+                      Perkalian Perantara Kertas Kerja: adj(A) · b
                     </span>
                     <p className="text-neutral-400 text-xs">
                       Mengalikan matriks adjoin bulat dengan vektor b menghasilkan vektor kelipatan determinan:
                     </p>
-                    <div className="font-mono text-xs bg-[#181c22] p-2.5 rounded border border-[#2e3542] text-emerald-400 font-bold overflow-x-auto">
-                      adj(A) · b = [{trace.adjTimesB.join(", ")}]ᵀ
+                    <div className="space-y-1 font-mono text-[11px] text-neutral-300 bg-[#0d1014] p-2 rounded border border-[#262c36]">
+                      {trace.adjMatrix.map((row, i) => {
+                        const terms = row.map((c, k) => `(${c} × ${vectorB[k]})`).join(" + ");
+                        return (
+                          <div key={i} className="flex justify-between items-center">
+                            <span className="text-neutral-400">Baris {i + 1}: {terms}</span>
+                            <span className="text-emerald-400 font-bold">= {trace.adjTimesB[i]}</span>
+                          </div>
+                        );
+                      })}
                     </div>
-                    {dimension === 4 && trace.detA === -72 && (
-                      <p className="text-[11px] text-neutral-400">
-                        Sesuai hitungan manual: [-72, 72, -144, -72]ᵀ
-                      </p>
-                    )}
+                    <div className="font-mono text-xs bg-[#181c22] p-2 rounded border border-[#2e3542] text-emerald-400 font-bold overflow-x-auto">
+                      Vektor adj(A) · b = [{trace.adjTimesB.join(", ")}]ᵀ
+                    </div>
                   </div>
                 </div>
+
+                {/* RUNNABLE CODE RUNNER FOR STEP 3 */}
+                <CodeRunner
+                  code={step3Code}
+                  title="Kode JavaScript Langkah 3: Matriks Adjoin & Perkalian adj(A) · b"
+                  subtitle="Menjalankan fungsi Adjoin(C, n) serta menghitung dot product dengan vektor b"
+                  badge="Modul 4"
+                />
               </div>
             </StepCard>
 
             {/* Step 4: Tahap 1 Solusi - Matriks Invers A^-1 */}
             <StepCard
               stepNumber="4"
-              title="Tahap 1: Menentukan Matriks Invers A⁻¹"
+              title="Tahap 1 Solusi: Menentukan Matriks Invers A⁻¹"
               formula="A⁻¹ = (1/d) · adj(A)"
               subtitle="Membagi setiap elemen matriks adjoin dengan nilai determinan d"
             >
@@ -329,7 +387,7 @@ export const TabSPLAdjoin: React.FC = () => {
                   <div className="p-3 rounded bg-[#111418] border border-[#262c36] space-y-1.5 overflow-hidden">
                     <div className="flex items-center justify-between">
                       <span className="text-xs font-semibold text-amber-300">Bentuk Pecahan Eksak:</span>
-                      <span className="text-[10px] text-neutral-500 font-mono">Tanpa pembulatan</span>
+                      <span className="text-[10px] text-neutral-500 font-mono">Tanpa pembulatan analitik</span>
                     </div>
                     <MatrixDisplay matrix={trace.invMatrixFraction} isFraction size="sm" />
                   </div>
@@ -337,7 +395,7 @@ export const TabSPLAdjoin: React.FC = () => {
                   <div className="p-3 rounded bg-[#111418] border border-[#262c36] space-y-1.5 overflow-hidden">
                     <div className="flex items-center justify-between">
                       <span className="text-xs font-semibold text-neutral-300">Bentuk Desimal:</span>
-                      <span className="text-[10px] text-neutral-500 font-mono">Presisi komputasi</span>
+                      <span className="text-[10px] text-neutral-500 font-mono">Presisi floating point</span>
                     </div>
                     <MatrixDisplay
                       matrix={trace.invMatrixDecimal.map((r) =>
@@ -347,29 +405,44 @@ export const TabSPLAdjoin: React.FC = () => {
                     />
                   </div>
                 </div>
+
+                {/* RUNNABLE CODE RUNNER FOR STEP 4 */}
+                <CodeRunner
+                  code={step4Code}
+                  title="Kode JavaScript Langkah 4: Matriks Invers A⁻¹"
+                  subtitle="Menghitung pembagian elemen A_inv[i][j] = adj[i][j] / d"
+                  badge="Modul 5 (Tahap 1)"
+                />
               </div>
             </StepCard>
 
             {/* Step 5: Tahap 2 Solusi - Vektor Solusi x */}
             <StepCard
               stepNumber="5"
-              title="Tahap 2: Menentukan Vektor Solusi x"
-              formula="x = A⁻¹ · b = (1/det(A)) · (adj(A) · b)"
+              title="Tahap 2 Solusi: Menentukan Vektor Solusi x"
+              formula="x = A⁻¹ · b = (1/d) · (adj(A) · b)"
               subtitle="Mengalikan matriks invers dengan vektor konstanta b"
               badge="Solusi Akhir SPL"
               badgeType="success"
             >
               <div className="space-y-3 text-xs">
+                <p className="text-neutral-300 leading-relaxed">
+                  Perhitungan komponen solusi akhir diperoleh dari <code className="text-neutral-200 font-mono">x[i] = (adj(A) · b)[i] / d</code>:
+                </p>
+
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3 items-stretch">
                   <div className="p-3 rounded bg-[#111418] border border-[#262c36] space-y-1.5">
-                    <span className="text-xs font-semibold text-neutral-300">Vektor Pecahan:</span>
-                    <div className="space-y-1 font-mono">
+                    <span className="text-xs font-semibold text-neutral-300">Rincian Pembagian Pecahan:</span>
+                    <div className="space-y-1.5 font-mono">
                       {trace.xFraction.map((frac, idx) => (
                         <div
                           key={idx}
                           className="flex items-center justify-between p-1.5 rounded bg-[#181c22] border border-[#262c36]"
                         >
-                          <span className="text-neutral-400">x₍{idx + 1}₎ =</span>
+                          <span className="text-neutral-400">x[{idx + 1}] =</span>
+                          <span className="text-[11px] text-neutral-300">
+                            {trace.adjTimesB[idx]} / {trace.detA} =
+                          </span>
                           <span className="font-bold text-amber-300 font-mono">
                             {frac.formatted}
                           </span>
@@ -388,7 +461,7 @@ export const TabSPLAdjoin: React.FC = () => {
                           key={idx}
                           className="p-2.5 rounded bg-[#181c22] border border-[#2a313d] text-center"
                         >
-                          <div className="text-[10px] text-neutral-400 font-mono">Variabel x₍{idx + 1}₎</div>
+                          <div className="text-[10px] text-neutral-400 font-mono">Variabel x[{idx + 1}]</div>
                           <div className="text-base sm:text-lg font-bold font-mono text-emerald-400 mt-0.5">
                             {Number.isInteger(val) ? val : val.toFixed(4)}
                           </div>
@@ -403,6 +476,14 @@ export const TabSPLAdjoin: React.FC = () => {
                     )}
                   </div>
                 </div>
+
+                {/* RUNNABLE CODE RUNNER FOR STEP 5 */}
+                <CodeRunner
+                  code={step5Code}
+                  title="Kode JavaScript Langkah 5: Vektor Solusi x"
+                  subtitle="Menjalankan fungsi Solusi(adj, d, b, n) untuk menghitung vektor x"
+                  badge="Modul 5 (Tahap 2)"
+                />
               </div>
             </StepCard>
 
@@ -415,7 +496,7 @@ export const TabSPLAdjoin: React.FC = () => {
               badge={trace.isVerified ? "Terverifikasi Valid" : "Galat Terdeteksi"}
               badgeType={trace.isVerified ? "success" : "warning"}
             >
-              <div className="space-y-2 text-xs">
+              <div className="space-y-3 text-xs">
                 <div className="overflow-x-auto -mx-1">
                   <table className="w-full text-left font-mono border-collapse min-w-[500px]">
                     <thead>
@@ -469,10 +550,47 @@ export const TabSPLAdjoin: React.FC = () => {
                     </tbody>
                   </table>
                 </div>
+
+                {/* RUNNABLE CODE RUNNER FOR STEP 6 */}
+                <CodeRunner
+                  code={step6Code}
+                  title="Kode JavaScript Langkah 6: Verifikasi A · x = b"
+                  subtitle="Menghitung residual evaluasi baris demi baris secara otomatis"
+                  badge="Verifikasi"
+                />
               </div>
             </StepCard>
           </>
         )}
+      </div>
+
+      {/* FULL STANDALONE SCRIPT RUNNER AT BOTTOM */}
+      <div className="pt-2">
+        <div className="p-3.5 sm:p-4 rounded bg-[#11151b] border border-emerald-900/60 space-y-3">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#262c36] pb-2.5">
+            <div>
+              <div className="flex items-center gap-1.5 text-emerald-400 text-xs font-bold font-mono">
+                <Terminal className="w-4 h-4 text-emerald-400" />
+                <span>Program Lengkap: SPL Metode Matriks Adjoin (Modul 1 – 6)</span>
+              </div>
+              <p className="text-[11px] text-neutral-400 mt-0.5">
+                Script JavaScript utuh dan mandiri. Klik &quot;Jalankan Kode&quot; untuk mengeksekusi seluruh 6 modul sekaligus dengan input matriks A dan vektor b saat ini.
+              </p>
+            </div>
+            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#18231c] text-emerald-300 border border-emerald-800 self-start sm:self-auto">
+              Mandiri (Zero-Dependency)
+            </span>
+          </div>
+
+          <CodeRunner
+            code={fullScript}
+            title="Program Utama Lengkap: SPL_Adjoin(A, b, n)"
+            subtitle="Memuat seluruh implementasi fungsi Minor, Det, Kofaktor, Adjoin, Solusi, dan SPL_Adjoin"
+            badge="Full Script Modul 1-6"
+            variant="full"
+            defaultOpen={true}
+          />
+        </div>
       </div>
     </div>
   );

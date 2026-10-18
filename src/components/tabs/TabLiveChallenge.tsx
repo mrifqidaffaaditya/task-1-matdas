@@ -103,9 +103,9 @@ export const TabLiveChallenge: React.FC = () => {
   }, [matrixA, vectorB, dimension]);
 
   const stepNames = [
-    "Determinan det(A)",
-    "Determinan Minor Mᵢⱼ",
-    "Matriks Kofaktor Cᵢⱼ",
+    "Determinan Det(A)",
+    "Determinan Minor M[i][j]",
+    "Matriks Kofaktor C[i][j]",
     "Matriks Adjoin adj(A)",
     "Matriks Invers A⁻¹",
     "Vektor Solusi x",
@@ -320,7 +320,7 @@ export const TabLiveChallenge: React.FC = () => {
                 <span className="w-5 h-5 rounded bg-[#1e232b] text-neutral-300 flex items-center justify-center font-mono text-xs font-bold border border-[#2a313d]">
                   2
                 </span>
-                <span className="text-xs font-bold text-white">Langkah 2: Determinan Minor Mᵢⱼ</span>
+                <span className="text-xs font-bold text-white">Langkah 2: Determinan Minor M[i][j]</span>
               </div>
               {revealStep < 2 ? (
                 <button
@@ -343,7 +343,7 @@ export const TabLiveChallenge: React.FC = () => {
                         key={`${m.row}-${m.col}`}
                         className="p-1.5 rounded bg-[#111418] border border-[#262c36] font-mono text-[10px] flex justify-between"
                       >
-                        <span className="text-neutral-400">M₍{m.row}{m.col}₎:</span>
+                        <span className="text-neutral-400">M[{m.row}][{m.col}]:</span>
                         <span className="font-bold text-white">{m.detMinor}</span>
                       </div>
                     ))
@@ -368,7 +368,7 @@ export const TabLiveChallenge: React.FC = () => {
                 <span className="w-5 h-5 rounded bg-[#1e232b] text-neutral-300 flex items-center justify-center font-mono text-xs font-bold border border-[#2a313d]">
                   3
                 </span>
-                <span className="text-xs font-bold text-white">Langkah 3: Matriks Kofaktor Cᵢⱼ = (-1)ⁱ⁺ʲ · Det(Mᵢⱼ)</span>
+                <span className="text-xs font-bold text-white">Langkah 3: Matriks Kofaktor C[i][j] = (-1)^(i+j) · Det(M[i][j])</span>
               </div>
               {revealStep < 3 ? (
                 <button
@@ -505,7 +505,7 @@ export const TabLiveChallenge: React.FC = () => {
                       key={idx}
                       className="p-3 rounded bg-[#111418] border border-[#2a313d] text-center"
                     >
-                      <div className="text-[10px] text-neutral-400 font-mono">x₍{idx + 1}₎</div>
+                      <div className="text-[10px] text-neutral-400 font-mono">x[{idx + 1}]</div>
                       <div className="text-lg sm:text-xl font-bold font-mono text-emerald-400 mt-0.5">
                         {Number.isInteger(val) ? val : val.toFixed(4)}
                       </div>
